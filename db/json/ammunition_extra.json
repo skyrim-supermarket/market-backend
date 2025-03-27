@@ -1,0 +1,191 @@
+[
+    {
+      "id": "00034182",
+      "damage": 10,
+      "notes": "Carried by skeleton and draugr archers.",
+      "speed": 3600,
+      "gravity": 0.35
+    },
+    {
+      "id": "FExxx822",
+      "damage": 26,
+      "notes": "Can be forged using the Dragon Smithing perk.",
+      "speed": 3600,
+      "gravity": 0.35
+    },
+    {
+      "id": "0010b0a7",
+      "damage": 24,
+      "notes": "100 Bound Arrows are acquired when casting the Bound Bow or the Bound Quiver spell, but will disappear once the spell's duration ends. If you have Mystic Binding, Bound Quiver will give Mystic Bound Arrows, which have 32 base damage.",
+      "speed": 3600,
+      "gravity": 0.35
+    },
+    {
+      "id": "FExxx82F",
+      "damage": 10,
+      "notes": "Can be forged using corkbulb root or purchased from Khajiit caravans. Have a 25% chance to paralyze the target for 4 seconds.",
+      "speed": 3600,
+      "gravity": 0.35
+    },
+    {
+      "id": "000139c0",
+      "damage": 24,
+      "notes": "Can be forged using the Daedric Smithing perk.",
+      "speed": 3600,
+      "gravity": 0.35
+    },
+    {
+      "id": "xx0176f4",
+      "damage": 25,
+      "notes": "Can be forged using the Dragon Smithing perk.",
+      "speed": 3600,
+      "gravity": 0.35
+    },
+    {
+      "id": "000139bc",
+      "damage": 14,
+      "notes": "Can be forged using the Dwarven Smithing perk.",
+      "speed": 3600,
+      "gravity": 0.35
+    },
+    {
+      "id": "0007b932",
+      "damage": 20,
+      "notes": "Fired from Dwarven Spheres; not obtainable by the player. An arrow can be found in a display case in the Dwemer Museum of Understone Keep.",
+      "speed": 3600,
+      "gravity": 0.35
+    },
+    {
+      "id": "000139bf",
+      "damage": 20,
+      "notes": "Can be forged using the Ebony Smithing perk.",
+      "speed": 3600,
+      "gravity": 0.35
+    },
+    {
+      "id": "000139bd",
+      "damage": 16,
+      "notes": "Can be forged using the Elven Smithing perk.",
+      "speed": 3600,
+      "gravity": 0.35
+    },
+    {
+      "id": "00038341",
+      "damage": 7,
+      "notes": "Carried by Falmer archers.",
+      "speed": 3600,
+      "gravity": 0.35
+    },
+    {
+      "id": "FExxx802",
+      "damage": 8,
+      "notes": "Can be forged at any level, without the need of any perks.",
+      "speed": 3600,
+      "gravity": 0.35
+    },
+    {
+      "id": "000cee9e",
+      "damage": 7,
+      "notes": "Carried by Forsworn archers.",
+      "speed": 3600,
+      "gravity": 0.35
+    },
+    {
+      "id": "000139be",
+      "damage": 18,
+      "notes": "Can be forged using the Glass Smithing perk.",
+      "speed": 3600,
+      "gravity": 0.35
+    },
+    {
+      "id": "FExxx803",
+      "damage": 8,
+      "notes": "Can be forged at any level, without the need of any perks.",
+      "speed": 3600,
+      "gravity": 0.35
+    },
+    {
+      "id": "0001397d",
+      "damage": 8,
+      "notes": "Can be forged at any level, without the need of any perks.",
+      "speed": 3600,
+      "gravity": 0.35
+    },
+    {
+      "id": "FExxx804",
+      "damage": 8,
+      "notes": "Can be forged at any level, without the need of any perks.",
+      "speed": 3600,
+      "gravity": 0.35
+    },
+    {
+      "id": "000eafdf",
+      "damage": 24,
+      "notes": "Cannot be obtained without unofficial patch.",
+      "speed": 3600,
+      "gravity": 0.35
+    },
+    {
+      "id": "xx02623b",
+      "damage": 14,
+      "notes": "Can be forged using the Advanced Armors perk.",
+      "speed": 3600,
+      "gravity": 0.35
+    },
+    {
+      "id": "000139bb",
+      "damage": 12,
+      "notes": "Can be forged using the Orcish Smithing perk.",
+      "speed": 3600,
+      "gravity": 0.35
+    },
+    {
+      "id": "000cab52",
+      "damage": 0,
+      "notes": "Available from Angi; the only type of arrow that can be used for Angi's archery practice.",
+      "speed": 3600,
+      "gravity": 0.35
+    },
+    {
+      "id": "000e738a",
+      "damage": 4,
+      "notes": "Only found on a few draugr occupying Geirmund's Hall and Reachwater Rock.",
+      "speed": 3600,
+      "gravity": 0.35
+    },
+    {
+      "id": "FExxx801",
+      "damage": 10,
+      "notes": "Can be crafted upon picking up the Soul Stealer Arrows in Kagrumez. Visiting Kagrumez is not necessary for Soul Stealer Arrows to appear in merchant inventories.",
+      "speed": 3600,
+      "gravity": 0.35
+    },
+    {
+      "id": "0001397f",
+      "damage": 10,
+      "notes": "Can be forged using the Steel Smithing perk.",
+      "speed": 3600,
+      "gravity": 0.35
+    },
+    {
+      "id": "xx026239",
+      "damage": 20,
+      "notes": "Can be forged with the Ebony Smithing perk after completing A New Source of Stalhrim.",
+      "speed": 3600,
+      "gravity": 0.35
+    },
+    {
+      "id": "FExxx800",
+      "damage": 111,
+      "notes": "Can be crafted upon picking up Telekinesis Arrows Research Notes in The Arcanaeum. Controlled via the Telekinesis Arrows spell.",
+      "speed": 3600,
+      "gravity": 0.35
+    },
+    {
+      "id": "xx017720",
+      "damage": 10,
+      "notes": "Used by Rieklings as spears; can be picked off the ground or off of dead Rieklings. They are equipped as arrows by the player and can only be used with bows (cannot be thrown individually). Riekling spears behave a little differently to most arrows as they have a much deeper firing arc, meaning that they are not very effective at long range.",
+      "speed": 2000,
+      "gravity": 1.3
+    }
+]
