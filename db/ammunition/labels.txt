@@ -1,0 +1,1 @@
+name, id, image, price_gold, weight, stock, magical, damage, description, speed, gravity, has_discount, standard_discount, special_discount, category, created_at, updated_at

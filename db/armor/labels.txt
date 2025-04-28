@@ -1,0 +1,2 @@
+# primeiro light, depois heavy, depois creation club light, depois creation club heavy
+name, id, image, price_gold, weight, stock, magical, craft, protection, heavy, has_discount, standard_discount, special_discount, category, created_at, updated_at
