@@ -4,4 +4,4 @@ Implementação de um sistema de supermercado cujos produtos oferecidos são os 
 
 # Diagrama UML
 
-![uml](https://github.com/user-attachments/assets/9a9d34e4-830e-43a0-ab41-259eb3fccf2d)
+![mac0350 drawio(2)](https://github.com/user-attachments/assets/db010f09-20f9-4049-9177-54cb50b451d7)
