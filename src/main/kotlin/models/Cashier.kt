@@ -10,8 +10,8 @@ data class Cashier (
     override var password: String,
     override val createdAt: String,
     override var updatedAt: String,
-    var totalCommissions: Long,
+    override var totalCommissions: Long,
     var section: Long
-) : Account() {
+) : Employee() {
 
 }

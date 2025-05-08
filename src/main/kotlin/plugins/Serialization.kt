@@ -1,4 +1,4 @@
-package com.mac350
+package com.mac350.plugins
 
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm

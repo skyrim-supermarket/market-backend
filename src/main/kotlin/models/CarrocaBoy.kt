@@ -10,7 +10,7 @@ data class CarrocaBoy (
     override var password: String,
     override val createdAt: String,
     override var updatedAt: String,
-    var totalCommissions: Long,
-) : Account() {
+    override var totalCommissions: Long,
+) : Employee() {
 
 }

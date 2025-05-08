@@ -1,4 +1,4 @@
-package com.mac350
+package com.mac350.plugins
 
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
@@ -16,13 +16,6 @@ import io.ktor.server.routing.*
 
 fun Application.configureRouting() {
     routing {
-        singlePageApplication {
-            useResources = true
-            filesPath = "../market-frontend"
-            defaultPage = "index.html"
-        ignoreFiles { it.endsWith(".txt") }
-        }
-
         /*get("/") {
             call.respondText("Hello World!")
         }*/
