@@ -12,8 +12,8 @@ fun main(args: Array<String>) {
 fun Application.module() {
     val repository = FakeClientRepo()
 
-    configureSerialization(repository)
+    configureSerialization()
     configureHTTP()
     configureSecurity()
-    configureRouting()
+    configureRouting(repository)
 }
