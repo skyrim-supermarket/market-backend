@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 sealed class Account {
     abstract val id: Long
-    abstract var name: String
+    abstract var username: String
     abstract var email: String
     abstract var password: String
     abstract val createdAt: String
