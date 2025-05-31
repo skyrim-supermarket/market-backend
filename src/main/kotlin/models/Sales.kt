@@ -9,6 +9,7 @@ data class Sales (
     val idEmployee: Long,
     var totalPriceGold: Long,
     var totalQuantity: Long,
+    var finished: Boolean,
     var status: String,
     val createdAt: String,
     var updatedAt: String

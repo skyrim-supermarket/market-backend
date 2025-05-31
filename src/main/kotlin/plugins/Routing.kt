@@ -24,67 +24,6 @@ fun Application.configureRouting(repository: ClientRepo) {
                 val clients = repository.allClients()
                 call.respond(clients)
             }
-
-            get("/specialClients/{vip}") {
-                val param = call.parameters["vip"]
-                if (param == null) {
-                    call.respond(HttpStatusCode.BadRequest)
-                    return@get
-                }
-                var vip = false
-                if(param=="false") vip = true
-                try {
-                    val specialClients = repository.specialClients(vip)
-
-                    if (specialClients.isEmpty()) {
-                        call.respond(HttpStatusCode.NotFound)
-                        return@get
-                    }
-                    call.respond(specialClients)
-                } catch (ex: IllegalArgumentException) {
-                    call.respond(HttpStatusCode.BadRequest)
-                }
-
-            }
-
-            get("/byEmail/{email}") {
-                val email = call.parameters["email"]
-                if (email == null) {
-                    call.respond(HttpStatusCode.BadRequest)
-                    return@get
-                }
-                val client = repository.clientByEmail(email)
-                if (client == null) {
-                    call.respond(HttpStatusCode.NotFound)
-                    return@get
-                }
-                call.respond(email)
-            }
-
-            post {
-                try {
-                    val client = call.receive<Client>()
-                    repository.addClient(client)
-                    call.respond(HttpStatusCode.NoContent)
-                } catch (ex: IllegalStateException) {
-                    call.respond(HttpStatusCode.BadRequest)
-                } catch (ex: JsonConvertException) {
-                    call.respond(HttpStatusCode.BadRequest)
-                }
-            }
-
-            delete("/{email}") {
-                val email = call.parameters["email"]
-                if (email == null) {
-                    call.respond(HttpStatusCode.BadRequest)
-                    return@delete
-                }
-                if (repository.removeClient(email)) {
-                    call.respond(HttpStatusCode.NoContent)
-                } else {
-                    call.respond(HttpStatusCode.NotFound)
-                }
-            }
         }
     }
 }

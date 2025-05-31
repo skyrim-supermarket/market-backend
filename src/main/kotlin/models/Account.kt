@@ -8,6 +8,7 @@ sealed class Account {
     abstract var username: String
     abstract var email: String
     abstract var password: String
+    abstract val type: String
     abstract val createdAt: String
     abstract var updatedAt: String
 }
