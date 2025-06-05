@@ -11,8 +11,8 @@ data class Cashier (
     override val type: String,
     override val createdAt: String,
     override var updatedAt: String,
-    override var totalCommissions: Long,
+    var totalCommissions: Long,
     var section: Long
-) : Employee() {
+) : Account() {
 
 }

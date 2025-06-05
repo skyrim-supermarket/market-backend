@@ -3,11 +3,10 @@ package com.mac350.tables
 import com.mac350.models.Client
 import org.jetbrains.exposed.dao.*
 import org.jetbrains.exposed.dao.id.EntityID
-import org.jetbrains.exposed.dao.id.IdTable
 import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.ReferenceOption
 
-object ClientT : IntIdTable("Client") {
+object ClientT : IntIdTable("Clients") {
     val account = reference("id", AccountT, onDelete = ReferenceOption.CASCADE)
     val isSpecialClient = bool("isSpecialClient")
     val lastRun = varchar("lastRun", 255)

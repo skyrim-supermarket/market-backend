@@ -39,15 +39,14 @@ fun Application.configureDatabases() {
 
     transaction {
         SchemaUtils.create(AccountT)
-        /*SchemaUtils.create(AdminT)
+        SchemaUtils.create(AdminT)
         SchemaUtils.create(CarrocaBoyT)
-        SchemaUtils.create(CashierT)*/
+        SchemaUtils.create(CashierT)
         SchemaUtils.create(ClientT)
-        /*SchemaUtils.create(EmployeeT)
         SchemaUtils.create(ProductT)
         SchemaUtils.create(SaleProductT)
-        SchemaUtils.create(SalesT)
-
+        SchemaUtils.create(SaleT)
+        /*
         SchemaUtils.create(AmmunitionT)
         SchemaUtils.create(ArmorT)
         SchemaUtils.create(BooksT)
