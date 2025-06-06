@@ -7,7 +7,7 @@ import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.ReferenceOption
 
 object CashierT : IntIdTable("Cashiers") {
-    val account = reference("id", AccountT, onDelete = ReferenceOption.CASCADE)
+    val account = reference("account_id", AccountT, onDelete = ReferenceOption.CASCADE)
     val totalComissions = long("totalComissions")
     val section = long("section")
 }
@@ -28,6 +28,7 @@ fun daoToCashier(dao: CashierDAO): Cashier = Cashier(
     type = dao.account.type,
     createdAt = dao.account.createdAt,
     updatedAt = dao.account.updatedAt,
+    lastRun = dao.account.lastRun,
     totalCommissions = dao.totalComissions,
     section = dao.section
 )

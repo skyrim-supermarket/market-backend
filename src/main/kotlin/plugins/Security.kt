@@ -11,6 +11,7 @@ import io.ktor.server.plugins.contentnegotiation.*
 import io.ktor.server.plugins.cors.routing.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import java.util.Date
 
 fun Application.configureSecurity() {
     // Please read the jwt property from the config file if you are using EngineMain
@@ -33,4 +34,14 @@ fun Application.configureSecurity() {
             }
         }
     }
+}
+
+fun generateToken(email: String, type: String): String {
+    return JWT.create()
+        .withAudience("jwt-audience")
+        .withIssuer("ktor.io")
+        .withClaim("email", email)
+        .withClaim("type", type)
+        .withExpiresAt(Date(System.currentTimeMillis() + 3600000)) // 1 hora
+        .sign(Algorithm.HMAC256("secret"))
 }

@@ -19,45 +19,45 @@ import kotlinx.coroutines.Dispatchers
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 
-suspend fun <T> suspendTransaction(block: Transaction.() -> T): T =
-    newSuspendedTransaction(Dispatchers.IO, statement = block)
+object Databases {
 
-fun Application.configureDatabases() {
-    val config = HikariConfig().apply {
-        jdbcUrl = "jdbc:postgresql://localhost:5432/test"
-        driverClassName = "org.postgresql.Driver"
-        username = "postgres"
-        password = ""
-        maximumPoolSize = 10
-        isAutoCommit = false
-        transactionIsolation = "TRANSACTION_REPEATABLE_READ"
-        validate()
-    }
+    fun init() {
+        val config = HikariConfig().apply {
+            jdbcUrl = "jdbc:postgresql://localhost:5432/test"
+            driverClassName = "org.postgresql.Driver"
+            username = "postgres"
+            password = "root"
+            maximumPoolSize = 10
+            isAutoCommit = false
+            transactionIsolation = "TRANSACTION_REPEATABLE_READ"
+            validate()
+        }
 
-    val dataSource = HikariDataSource(config)
-    Database.connect(dataSource)
+        val dataSource = HikariDataSource(config)
+        Database.connect(dataSource)
 
-    transaction {
-        SchemaUtils.create(AccountT)
-        SchemaUtils.create(AdminT)
-        SchemaUtils.create(CarrocaBoyT)
-        SchemaUtils.create(CashierT)
-        SchemaUtils.create(ClientT)
-        SchemaUtils.create(ProductT)
-        SchemaUtils.create(SaleProductT)
-        SchemaUtils.create(SaleT)
-        /*
-        SchemaUtils.create(AmmunitionT)
-        SchemaUtils.create(ArmorT)
-        SchemaUtils.create(BooksT)
-        SchemaUtils.create(ClothingT)
-        SchemaUtils.create(FoodT)
-        SchemaUtils.create(IngredientsT)
-        SchemaUtils.create(MiscellaneousT)
-        SchemaUtils.create(OresT)
-        SchemaUtils.create(PotionsT)
-        SchemaUtils.create(SoulGemsT)
-        SchemaUtils.create(WeaponsT)*/
+        transaction {
+            SchemaUtils.create(AccountT)
+            SchemaUtils.create(AdminT)
+            SchemaUtils.create(CarrocaBoyT)
+            SchemaUtils.create(CashierT)
+            SchemaUtils.create(ClientT)
+            SchemaUtils.create(ProductT)
+            SchemaUtils.create(SaleProductT)
+            SchemaUtils.create(SaleT)
+            /*
+            SchemaUtils.create(AmmunitionT)
+            SchemaUtils.create(ArmorT)
+            SchemaUtils.create(BooksT)
+            SchemaUtils.create(ClothingT)
+            SchemaUtils.create(FoodT)
+            SchemaUtils.create(IngredientsT)
+            SchemaUtils.create(MiscellaneousT)
+            SchemaUtils.create(OresT)
+            SchemaUtils.create(PotionsT)
+            SchemaUtils.create(SoulGemsT)
+            SchemaUtils.create(WeaponsT)*/
 
+        }
     }
 }

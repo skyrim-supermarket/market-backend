@@ -12,6 +12,7 @@ object AccountT : IntIdTable("Accounts") {
     val type = varchar("type", 255)
     val createdAt = varchar("createdAt", 255)
     val updatedAt = varchar("updatedAt", 255)
+    val lastRun = varchar("lastRun", 255)
 }
 
 class AccountDAO(id: EntityID<Int>) : IntEntity(id) {
@@ -23,4 +24,5 @@ class AccountDAO(id: EntityID<Int>) : IntEntity(id) {
     var type by AccountT.type
     var createdAt by AccountT.createdAt
     var updatedAt by AccountT.updatedAt
+    var lastRun by AccountT.lastRun
 }

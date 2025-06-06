@@ -10,11 +10,9 @@ fun main(args: Array<String>) {
 }
 
 fun Application.module() {
-    val repository = FakeClientRepo()
-
+    Databases.init()
     configureSerialization()
     configureHTTP()
     configureSecurity()
-    configureRouting(repository)
-    configureDatabases()
+    configureRouting()
 }

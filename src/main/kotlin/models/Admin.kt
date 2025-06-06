@@ -10,7 +10,8 @@ data class Admin (
     override var password: String,
     override val type: String,
     override val createdAt: String,
-    override var updatedAt: String
+    override var updatedAt: String,
+    override var lastRun: String
 ) : Account() {
 
 }

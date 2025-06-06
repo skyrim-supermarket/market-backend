@@ -11,11 +11,9 @@ data class Client(
     override val type: String,
     override val createdAt: String,
     override var updatedAt: String,
+    override var lastRun: String,
     var isSpecialClient: Boolean,
-    var lastRun: String,
-    var address: String
+    var address: String?
 ) : Account() {
-    fun changeSpecialClient() {
-        this.isSpecialClient = !isSpecialClient
-    }
+
 }

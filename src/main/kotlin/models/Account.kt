@@ -11,4 +11,19 @@ sealed class Account {
     abstract val type: String
     abstract val createdAt: String
     abstract var updatedAt: String
+    abstract var lastRun: String
 }
+
+@Serializable
+data class Login (
+    val email: String,
+    val password: String
+)
+
+@Serializable
+data class Register (
+    val username: String,
+    val email: String,
+    val password: String,
+    val address: String
+)

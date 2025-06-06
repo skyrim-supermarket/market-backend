@@ -7,7 +7,7 @@ import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.ReferenceOption
 
 object AdminT : IntIdTable("Admins") {
-    val account = reference("id", AccountT, onDelete = ReferenceOption.CASCADE)
+    val account = reference("account_id", AccountT, onDelete = ReferenceOption.CASCADE)
 }
 
 class AdminDAO(id: EntityID<Int>) : IntEntity(id) {
@@ -23,5 +23,6 @@ fun daoToAdmin(dao: AdminDAO): Admin = Admin(
     password = dao.account.password,
     type = dao.account.type,
     createdAt = dao.account.createdAt,
-    updatedAt = dao.account.updatedAt
+    updatedAt = dao.account.updatedAt,
+    lastRun = dao.account.lastRun
 )

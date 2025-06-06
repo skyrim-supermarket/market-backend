@@ -10,8 +10,8 @@ import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.ReferenceOption
 
 object SaleProductT : IntIdTable("SaleProducts") {
-    val idProduct = reference("id", ProductT, onDelete = ReferenceOption.CASCADE)
-    val idSale = reference("id", SaleT, onDelete = ReferenceOption.CASCADE)
+    val idProduct = reference("product_id", ProductT, onDelete = ReferenceOption.CASCADE)
+    val idSale = reference("sale_id", SaleT, onDelete = ReferenceOption.CASCADE)
     val quantity = long("quantity")
 }
 
