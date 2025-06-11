@@ -9,6 +9,7 @@ sealed class Product {
     abstract var image: String
     abstract var priceGold: Long
     abstract var stock: Long
+    abstract var description: String
     abstract val createdAt: String
     abstract var updatedAt: String
     abstract var standardDiscount: Long

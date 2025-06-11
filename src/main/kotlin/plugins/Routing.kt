@@ -27,11 +27,67 @@ suspend fun <T> suspendTransaction(block: Transaction.() -> T): T =
 
 fun Application.configureRouting() {
     routing {
-        /*route("/clients") {
-            get {
-
+        get("/clients") {
+            val clients = suspendTransaction {
+                ClientDAO.all().map(::daoToClient)
             }
-        }*/
+
+            if(clients.isEmpty()) {
+                call.respond(HttpStatusCode.NotFound, "No client was found!")
+                return@get
+            } else {
+                call.respond(clients)
+                return@get
+            }
+        }
+
+        get("/clientByEmail/{email}") {
+            val email = call.parameters["email"]
+
+            if(email.isNullOrBlank()) {
+                call.respond(HttpStatusCode.BadRequest, "Invalid email!")
+                return@get
+            } else {
+                val client = suspendTransaction {
+                    val account = AccountDAO.find { AccountT.email eq email }.firstOrNull()
+                    account?.let { acc ->
+                        ClientDAO.find { ClientT.account eq acc.id }.firstOrNull()
+                    }
+                }
+
+                if (client == null) {
+                    call.respond(HttpStatusCode.NotFound, "This client doesn't exist!")
+                    return@get
+                } else {
+                    call.respond(daoToClient(client))
+                    return@get
+                }
+            }
+        }
+
+        get("/clientById/{id}") {
+            val id = call.parameters["id"]?.toIntOrNull()
+
+            if(id == null) {
+                call.respond(HttpStatusCode.BadRequest, "Invalid ID!")
+                return@get
+            } else {
+                val client = suspendTransaction {
+                    val account = AccountDAO.find { AccountT.id eq id }.firstOrNull()
+                    account?.let { acc ->
+                        ClientDAO.find { ClientT.account eq acc.id }.firstOrNull()
+                    }
+                }
+
+                if (client == null) {
+                    call.respond(HttpStatusCode.NotFound, "This client doesn't exist!")
+                    return@get
+                } else {
+                    call.respond(daoToClient(client))
+                    return@get
+                }
+            }
+        }
 
         post("/registerClient") {
             val register = call.receive<Register>()
@@ -49,10 +105,20 @@ fun Application.configureRouting() {
                         this.lastRun = date
                     }
 
-                    ClientDAO.new {
+                    val newClient = ClientDAO.new {
                         this.account = newAccount
                         this.isSpecialClient = false
                         this.address = register.address
+                    }
+
+                    SaleDAO.new {
+                        this.idClient = newAccount
+                        this.totalPriceGold = 0
+                        this.totalQuantity = 0
+                        this.finished = false
+                        this.status = "Carrinho"
+                        this.createdAt = date
+                        this.updatedAt = date
                     }
                 } else null
             }
