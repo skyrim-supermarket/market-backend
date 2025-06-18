@@ -19,12 +19,13 @@ class ApplicationTest {
             configureSecurity()
         }
 
-        val token = generateToken("seila@email.com")
+        val token = generateToken("seila@email.com", "admin")
         val date = Date(System.currentTimeMillis() + 3600000)
         val decoded = JWT.decode(token)
         val expires = decoded.expiresAt
         val email = decoded.getClaim("email").asString()
         assertEquals(email, "seila@email.com")
+        assertEquals(email, "admin")
         assertTrue(expires.time - date.time <= 1000)
     }
 

@@ -18,6 +18,7 @@ import org.jetbrains.exposed.sql.*
 import kotlinx.coroutines.Dispatchers
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
+import java.util.Date
 
 object Databases {
 
@@ -45,19 +46,35 @@ object Databases {
             SchemaUtils.create(ProductT)
             SchemaUtils.create(SaleProductT)
             SchemaUtils.create(SaleT)
-            /*
             SchemaUtils.create(AmmunitionT)
             SchemaUtils.create(ArmorT)
-            SchemaUtils.create(BooksT)
+            SchemaUtils.create(BookT)
             SchemaUtils.create(ClothingT)
             SchemaUtils.create(FoodT)
-            SchemaUtils.create(IngredientsT)
-            SchemaUtils.create(MiscellaneousT)
-            SchemaUtils.create(OresT)
-            SchemaUtils.create(PotionsT)
-            SchemaUtils.create(SoulGemsT)
-            SchemaUtils.create(WeaponsT)*/
+            SchemaUtils.create(IngredientT)
+            SchemaUtils.create(MiscellanyT)
+            SchemaUtils.create(OreT)
+            SchemaUtils.create(PotionT)
+            SchemaUtils.create(SoulGemT)
+            SchemaUtils.create(WeaponT)
 
         }
+        /*
+        transaction {
+            val account = AccountDAO.new {
+                val date = Date(System.currentTimeMillis()).toString()
+                this.username = "admin1"
+                this.email = "admin1@admin.br"
+                this.password = "123"
+                this.type = "admin"
+                this.createdAt = date
+                this.updatedAt = date
+                this.lastRun = date
+            }
+
+            AdminDAO.new {
+                this.account = account
+            }
+        }*/
     }
 }
