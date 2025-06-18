@@ -19,7 +19,7 @@ class SoulGemDAO(id: EntityID<Int>) : IntEntity(id) {
 fun daoToSoulGem(dao: SoulGemDAO): SoulGem = SoulGem(
     id = dao.product.id.value.toLong(),
     productName = dao.product.productName,
-    image = dao.product.image,
+    image = dao.product.image?.let { "http://localhost:8080$it" },
     priceGold = dao.product.priceGold,
     stock = dao.product.stock,
     description = dao.product.description,

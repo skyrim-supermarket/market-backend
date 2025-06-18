@@ -1,8 +1,11 @@
 package com.mac350.models
 
+import com.mac350.plugins.suspendTransaction
+import com.mac350.tables.ProductDAO
 import io.ktor.http.content.*
 import io.ktor.utils.io.*
 import kotlinx.serialization.Serializable
+import org.jetbrains.exposed.sql.CumeDist
 import java.util.Date
 
 @Serializable
@@ -45,9 +48,9 @@ data class AllProductsFilter (
 
 @Serializable
 data class ProductFilterTest (
-    val page: Int = 1,
-    val pageSize: Int = 42,
-    val type: String = ""
+    val type: String,
+    val page: Int,
+    val pageSize: Int
 )
 
 suspend fun parseMultiPart(multipart : MultiPartData): Pair<Map<String, String>, Map<String, ByteArray>> {
@@ -74,14 +77,23 @@ suspend fun parseMultiPart(multipart : MultiPartData): Pair<Map<String, String>,
     return fields to files
 }
 
-/*suspend fun createNewProduct(fields : Map<String, String>, files : Map<String, ByteArray>, type : String): void {
-    val productName = fields["productName"]
-    val priceGold = fields["priceGold"]
-    val description = fields["description"]
-    val standardDiscount = fields["standardDiscount"]
-    val specialDiscount = fields["specialDiscount"]
+suspend fun createNewProduct(productName: String, priceGold: Long, description: String, standardDiscount: Long, specialDiscount: Long): ProductDAO {
+    val date = Date(System.currentTimeMillis()).toString()
+    val newProduct = suspendTransaction {
+        ProductDAO.new {
+            this.productName = productName
+            this.image = null
+            this.priceGold = priceGold
+            this.stock = 0
+            this.description = description
+            this.type = "ammunition"
+            this.createdAt = date
+            this.updatedAt = date
+            this.standardDiscount = standardDiscount
+            this.specialDiscount = specialDiscount
+            this.hasDiscount = false
+        }
+    }
 
-    val imageBytes = files["image"]
-
-    if(productName == null || priceGold == null || description == null || standardDiscount == null || specialDiscount == null)
-}*/
+    return newProduct
+}

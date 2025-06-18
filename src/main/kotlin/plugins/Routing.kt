@@ -31,7 +31,10 @@ suspend fun <T> suspendTransaction(block: Transaction.() -> T): T =
 
 fun Application.configureRouting() {
     routing {
-        get("/products") {
+        static("/uploads") {
+            files("uploads")
+        }
+        post("/products") {
             val recv = call.receive<ProductFilterTest>()
             val type = recv.type
             val page = recv.page - 1
@@ -75,14 +78,16 @@ fun Application.configureRouting() {
 
             if (query == null) {
                 call.respond(HttpStatusCode.BadRequest, "Invalid parameter!")
-                return@get
+                return@post
             } else if (query.isEmpty()) {
-                call.respond(HttpStatusCode.NotFound, "No product was found!")
-                return@get
+                val count = 0
+                call.respond(mapOf("totalCount" to count, "query" to query))
+                return@post
             } else {
+                val totalCount = query.size
                 val pagedQuery = query.drop(page*pageSize).take(pageSize)
-                call.respond(mapOf("query" to pagedQuery))
-                return@get
+                call.respond(mapOf("totalCount" to totalCount, "query" to pagedQuery))
+                return@post
             }
         }
 
@@ -107,22 +112,7 @@ fun Application.configureRouting() {
                 return@post
             }
 
-            val date = Date(System.currentTimeMillis()).toString()
-            val newProduct = suspendTransaction {
-                ProductDAO.new {
-                    this.productName = productName
-                    this.image = null
-                    this.priceGold = priceGold.toLong()
-                    this.stock = 0
-                    this.description = description
-                    this.type = "ammunition"
-                    this.createdAt = date
-                    this.updatedAt = date
-                    this.standardDiscount = standardDiscount.toLong()
-                    this.specialDiscount = specialDiscount.toLong()
-                    this.hasDiscount = false
-                }
-            }
+            val newProduct = createNewProduct(productName, priceGold.toLong(), description, standardDiscount.toLong(), specialDiscount.toLong())
 
             suspendTransaction {
                 AmmunitionDAO.new {
