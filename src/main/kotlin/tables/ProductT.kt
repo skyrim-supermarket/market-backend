@@ -1,5 +1,7 @@
 package com.mac350.tables
 
+import com.mac350.models.Ammunition
+import com.mac350.models.ProductCardInfo
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
@@ -34,3 +36,12 @@ class ProductDAO(id: EntityID<Int>) : IntEntity(id) {
     var specialDiscount by ProductT.specialDiscount
     var hasDiscount by ProductT.hasDiscount
 }
+
+fun daoToCard(dao: ProductDAO): ProductCardInfo = ProductCardInfo(
+    id = dao.id.value.toLong(),
+    productName = dao.productName,
+    image = dao.image?.let { "http://localhost:8080$it" },
+    priceGold = dao.priceGold,
+    stock = dao.stock,
+    type = dao.type
+)

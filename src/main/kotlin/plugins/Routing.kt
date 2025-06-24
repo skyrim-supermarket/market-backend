@@ -36,62 +36,34 @@ fun Application.configureRouting() {
         }
         post("/products") {
             val recv = call.receive<ProductFilterTest>()
-            val type = recv.type
+            val type = recv.type.lowercase()
             val page = recv.page - 1
             val pageSize = recv.pageSize
 
             val query = suspendTransaction {
-                when (type.lowercase()) {
-                    "all products" -> {
-                        val ammo = AmmunitionDAO.all().map(::daoToAmmunition)
-                        val armor = ArmorDAO.all().map(::daoToArmor)
-                        val book = BookDAO.all().map(::daoToBook)
-                        val clothing = ClothingDAO.all().map(::daoToClothing)
-                        val food = FoodDAO.all().map(::daoToFood)
-                        val ingredient = IngredientDAO.all().map(::daoToIngredient)
-                        val miscellany = MiscellanyDAO.all().map(::daoToMiscellany)
-                        val ore = OreDAO.all().map(::daoToOre)
-                        val potion = PotionDAO.all().map(::daoToPotion)
-                        val soulgem = SoulGemDAO.all().map(::daoToSoulGem)
-                        val weapon = WeaponDAO.all().map(::daoToWeapon)
-
-                        (ammo + armor + book + clothing + food +
-                                ingredient + miscellany + ore + potion +
-                                soulgem + weapon).sortedBy { it.productName }
-
-                    }
-
-                    "ammunition" -> AmmunitionDAO.all().map(::daoToAmmunition)
-                    "armor" -> ArmorDAO.all().map(::daoToArmor)
-                    "books" -> BookDAO.all().map(::daoToBook)
-                    "clothing" -> ClothingDAO.all().map(::daoToClothing)
-                    "food" -> FoodDAO.all().map(::daoToFood)
-                    "ingredients" -> IngredientDAO.all().map(::daoToIngredient)
-                    "miscellaneous" -> MiscellanyDAO.all().map(::daoToMiscellany)
-                    "ores" -> OreDAO.all().map(::daoToOre)
-                    "potions" -> PotionDAO.all().map(::daoToPotion)
-                    "soul gems" -> SoulGemDAO.all().map(::daoToSoulGem)
-                    "weapons" -> WeaponDAO.all().map(::daoToWeapon)
-                    else -> null
+                if(type=="all products") {
+                    ProductDAO
+                        .all()
+                        .map(::daoToCard)
+                } else {
+                    ProductDAO.find { ProductT.type eq type }
+                        .map(::daoToCard)
                 }
             }
 
             if (query == null) {
                 call.respond(HttpStatusCode.BadRequest, "Invalid parameter!")
                 return@post
-            } else if (query.isEmpty()) {
-                val count = 0
-                call.respond(mapOf("totalCount" to count, "query" to query))
-                return@post
             } else {
                 val totalCount = query.size
                 val pagedQuery = query.drop(page*pageSize).take(pageSize)
-                call.respond(mapOf("totalCount" to totalCount, "query" to pagedQuery))
+                call.respond(HttpStatusCode.OK, mapOf("results" to QueryResults(pagedQuery, totalCount)))
                 return@post
             }
         }
 
         post("/newAmmunition") {
+            /*
             val (fields, files) = parseMultiPart(call.receiveMultipart())
             val productName = fields["productName"]
             val priceGold = fields["priceGold"]
@@ -104,7 +76,24 @@ fun Application.configureRouting() {
             val gravity = fields["gravity"]
             val category = fields["category"]
 
-            val imageBytes = files["image"]
+            val imageBytes = files["image"]*/
+
+            val recv = call.receive<AmmoInsertTest>()
+
+            print(recv)
+
+            val productName = recv.productName
+            val priceGold = recv.priceGold
+            val description = recv.description
+            val standardDiscount = recv.standardDiscount
+            val specialDiscount = recv.specialDiscount
+            val magical = recv.magical
+            val craft = recv.craft
+            val speed = recv.speed
+            val gravity = recv.gravity
+            val category = recv.category
+
+            val imageBytes = null
 
             if(productName == null || priceGold == null || description == null || standardDiscount == null || specialDiscount == null
                 || magical == null || craft == null || speed == null || gravity == null || category == null) {
@@ -130,7 +119,7 @@ fun Application.configureRouting() {
 
             val imageName = "${newProduct.id}.png"
             if(imageBytes!=null) {
-                File(uploadDir, imageName).writeBytes(imageBytes)
+                File(uploadDir, imageName).writeBytes(imageBytes!!)
 
                 suspendTransaction {
                     val findProduct = ProductDAO.findById(newProduct.id.value)
@@ -138,6 +127,7 @@ fun Application.configureRouting() {
                 }
             }
 
+            call.respond(HttpStatusCode.OK)
             return@post
         }
 

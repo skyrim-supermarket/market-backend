@@ -53,6 +53,22 @@ data class ProductFilterTest (
     val pageSize: Int
 )
 
+@Serializable
+data class QueryResults (
+    val query: List<ProductCardInfo>,
+    val totalCount: Int
+)
+
+@Serializable
+data class ProductCardInfo (
+    val id: Long,
+    val productName: String,
+    val image: String?,
+    val priceGold: Long,
+    val stock: Long,
+    val type: String
+)
+
 suspend fun parseMultiPart(multipart : MultiPartData): Pair<Map<String, String>, Map<String, ByteArray>> {
     var fields = mutableMapOf<String, String>()
     var files = mutableMapOf<String, ByteArray>()
@@ -97,3 +113,18 @@ suspend fun createNewProduct(productName: String, priceGold: Long, description: 
 
     return newProduct
 }
+
+
+@Serializable
+data class AmmoInsertTest (
+    val productName: String,
+    val priceGold: Long,
+    val description: String,
+    val standardDiscount: Long,
+    val specialDiscount: Long,
+    val magical: String,
+    val craft: String,
+    val speed: Double,
+    val gravity: Double,
+    val category: String
+)
