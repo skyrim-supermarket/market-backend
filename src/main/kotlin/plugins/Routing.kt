@@ -72,7 +72,6 @@ fun Application.configureRouting() {
         }
 
         post("/newAmmunition") {
-            /*
             val (fields, files) = parseMultiPart(call.receiveMultipart())
             val productName = fields["productName"]
             val priceGold = fields["priceGold"]
@@ -85,24 +84,8 @@ fun Application.configureRouting() {
             val gravity = fields["gravity"]
             val category = fields["category"]
 
-            val imageBytes = files["image"]*/
+            val imageBytes = files["image"]
 
-            val recv = call.receive<AmmoInsertTest>()
-
-            print(recv)
-
-            val productName = recv.productName
-            val priceGold = recv.priceGold
-            val description = recv.description
-            val standardDiscount = recv.standardDiscount
-            val specialDiscount = recv.specialDiscount
-            val magical = recv.magical
-            val craft = recv.craft
-            val speed = recv.speed
-            val gravity = recv.gravity
-            val category = recv.category
-
-            val imageBytes = null
 
             if(productName == null || priceGold == null || description == null || standardDiscount == null || specialDiscount == null
                 || magical == null || craft == null || speed == null || gravity == null || category == null) {
@@ -136,7 +119,7 @@ fun Application.configureRouting() {
                 }
             }
 
-            call.respond(HttpStatusCode.OK)
+            call.respond(HttpStatusCode.OK, "Ammunition successfully added!")
             return@post
         }
 
