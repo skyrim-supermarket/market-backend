@@ -42,13 +42,22 @@ fun Application.configureRouting() {
 
             val query = suspendTransaction {
                 if(type=="all products") {
-                    ProductDAO
-                        .all()
-                        .map(::daoToCard)
-                } else {
-                    ProductDAO.find { ProductT.type eq type }
-                        .map(::daoToCard)
-                }
+                    ProductDAO.all().map(::daoToCard)
+                } else if(
+                    type=="ammunition" ||
+                    type=="armor" ||
+                    type=="books" ||
+                    type=="clothing" ||
+                    type=="food" ||
+                    type=="ingredients" ||
+                    type=="miscellaneous" ||
+                    type=="ores" ||
+                    type=="potions" ||
+                    type=="soul gems" ||
+                    type=="weapons"
+                    ) {
+                    ProductDAO.find { ProductT.type eq type }.map(::daoToCard)
+                } else null
             }
 
             if (query == null) {
