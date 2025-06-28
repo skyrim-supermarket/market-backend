@@ -8,12 +8,14 @@ import org.jetbrains.exposed.sql.ReferenceOption
 
 object AdminT : IntIdTable("Admins") {
     val account = reference("account_id", AccountT, onDelete = ReferenceOption.CASCADE)
+    val root = bool("root")
 }
 
 class AdminDAO(id: EntityID<Int>) : IntEntity(id) {
     companion object : IntEntityClass<AdminDAO>(AdminT)
 
     var account by AccountDAO referencedOn AdminT.account
+    var root by AdminT.root
 }
 
 fun daoToAdmin(dao: AdminDAO): Admin = Admin(
@@ -24,5 +26,6 @@ fun daoToAdmin(dao: AdminDAO): Admin = Admin(
     type = dao.account.type,
     createdAt = dao.account.createdAt,
     updatedAt = dao.account.updatedAt,
-    lastRun = dao.account.lastRun
+    lastRun = dao.account.lastRun,
+    root = dao.root
 )

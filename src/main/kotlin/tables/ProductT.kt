@@ -5,6 +5,7 @@ import com.mac350.models.ProductCardInfo
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
+import org.jetbrains.exposed.sql.Table
 import org.jetbrains.exposed.dao.id.IntIdTable
 
 object ProductT : IntIdTable("Products") {
@@ -45,3 +46,27 @@ fun daoToCard(dao: ProductDAO): ProductCardInfo = ProductCardInfo(
     stock = dao.stock,
     type = dao.type
 )
+
+fun getLabelsAndTypes(vararg tables: Table): List<Pair<String, String>> {
+    val ignoredColumns = setOf("id", "createdAt", "updatedAt", "hasDiscount", "product_id")
+    return tables
+        .flatMap { it.columns }
+        .filter { it.name !in ignoredColumns }
+        .map { it.name to it.columnType.sqlType() }
+        .distinctBy { it.first }
+}
+
+fun getTableName(name: String): Table? = when(name) {
+    "ammunition" -> AmmunitionT
+    "armor" -> ArmorT
+    "books" -> BookT
+    "clothing" -> ClothingT
+    "foods" -> FoodT
+    "ingredients" -> IngredientT
+    "miscellaneous" -> MiscellanyT
+    "ores" -> OreT
+    "potions" -> PotionT
+    "soul gems" -> SoulGemT
+    "weapons" -> WeaponT
+    else -> null
+}

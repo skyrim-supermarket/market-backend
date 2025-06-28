@@ -177,6 +177,29 @@ fun Application.configureRouting() {
             }
         }
 
+        get("/labels/{table}") {
+            val table = call.parameters["table"]
+
+            if(table == null) {
+                call.respond(HttpStatusCode.BadRequest, "Invalid table name!")
+                return@get
+            }
+
+            val childTable = getTableName(table.lowercase())
+
+            if(childTable == null) {
+                call.respond(HttpStatusCode.NotFound, "$table does not exist!")
+                return@get
+            }
+
+            val columns = suspendTransaction { getLabelsAndTypes(ProductT, childTable) }
+
+            val response = columns.map{(name, type) -> mapOf("name" to name, "type" to type)}
+
+            call.respond(response)
+            return@get
+        }
+
         get("/clientByEmail/{email}") {
             val email = call.parameters["email"]
 
@@ -286,6 +309,16 @@ fun Application.configureRouting() {
                 return@post
             } else {
                 call.respond(HttpStatusCode.Unauthorized, "Invalid user or invalid password!")
+                return@post
+            }
+        }
+
+        post("/addToCart/{idProduct}/{email}") {
+            val idProduct = call.parameters["idProduct"]?.toIntOrNull()
+            val email = call.parameters["email"]
+
+            if(idProduct == null || email.isNullOrBlank()) {
+                call.respond(HttpStatusCode.BadRequest, "Invalid parameters!")
                 return@post
             }
         }

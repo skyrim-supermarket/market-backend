@@ -5,6 +5,7 @@ import com.mac350.tables.ProductDAO
 import io.ktor.http.content.*
 import io.ktor.utils.io.*
 import kotlinx.serialization.Serializable
+import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.CumeDist
 import java.util.Date
 
@@ -113,7 +114,6 @@ suspend fun createNewProduct(productName: String, priceGold: Long, description: 
 
     return newProduct
 }
-
 
 @Serializable
 data class AmmoInsertTest (
