@@ -94,26 +94,6 @@ suspend fun parseMultiPart(multipart : MultiPartData): Pair<Map<String, String>,
     return fields to files
 }
 
-suspend fun createNewProduct(productName: String, priceGold: Long, description: String, standardDiscount: Long, specialDiscount: Long): ProductDAO {
-    val date = Date(System.currentTimeMillis()).toString()
-    val newProduct = suspendTransaction {
-        ProductDAO.new {
-            this.productName = productName
-            this.image = null
-            this.priceGold = priceGold
-            this.stock = 0
-            this.description = description
-            this.type = "ammunition"
-            this.createdAt = date
-            this.updatedAt = date
-            this.standardDiscount = standardDiscount
-            this.specialDiscount = specialDiscount
-            this.hasDiscount = false
-        }
-    }
-
-    return newProduct
-}
 
 @Serializable
 data class AmmoInsertTest (

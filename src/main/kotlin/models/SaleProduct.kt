@@ -4,9 +4,9 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class SaleProduct (
-    val id: Long,
-    val idProduct: Long,
-    val idSale: Long,
+    val id: Int,
+    val idProduct: Int,
+    val idSale: Int,
     val quantity: Long
 ) {
 

@@ -24,8 +24,8 @@ class SaleProductDAO(id: EntityID<Int>) : IntEntity(id) {
 }
 
 fun daoToSaleProduct(dao: SaleProductDAO): SaleProduct = SaleProduct(
-    id = dao.id.value.toLong(),
-    idProduct = dao.idProduct.id.value.toLong(),
-    idSale = dao.idSale.id.value.toLong(),
+    id = dao.id.value,
+    idProduct = dao.idProduct.id.value,
+    idSale = dao.idSale.id.value,
     quantity = dao.quantity
 )

@@ -5,6 +5,7 @@ import com.auth0.jwt.algorithms.Algorithm
 import com.mac350.models.*
 import com.mac350.repositories.ClientRepo
 import com.mac350.tables.*
+import com.mac350.repositories.*
 import io.ktor.http.*
 import io.ktor.serialization.*
 import io.ktor.serialization.kotlinx.json.*
@@ -24,6 +25,7 @@ import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.sql.Op
 import org.jetbrains.exposed.sql.SqlExpressionBuilder
 import org.jetbrains.exposed.sql.Transaction
+import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 
 suspend fun <T> suspendTransaction(block: Transaction.() -> T): T =
@@ -93,7 +95,8 @@ fun Application.configureRouting() {
                 return@post
             }
 
-            val newProduct = createNewProduct(productName, priceGold.toLong(), description, standardDiscount.toLong(), specialDiscount.toLong())
+            val date = Date(System.currentTimeMillis()).toString()
+            val newProduct = ProductRepository.newProduct(productName, priceGold.toLong(), description, standardDiscount.toLong(), specialDiscount.toLong(), date)
 
             suspendTransaction {
                 AmmunitionDAO.new {
@@ -248,69 +251,87 @@ fun Application.configureRouting() {
             }
         }
 
-        post("/registerClient") {
-            val register = call.receive<Register>()
-            val check = suspendTransaction {
-                val account = AccountDAO.find {AccountT.email eq register.email }.firstOrNull()
-                if(account == null) {
-                    val date = Date(System.currentTimeMillis()).toString()
-                    val newAccount = AccountDAO.new {
-                        this.username = register.username
-                        this.email = register.email
-                        this.password = register.password
-                        this.type = "client"
-                        this.createdAt = date
-                        this.updatedAt = date
-                        this.lastRun = date
-                    }
+        post("/registerAdmin") {
+            val register = call.receive<RegisterAdminAndCarrocaBoy>()
 
-                    val newClient = ClientDAO.new {
-                        this.account = newAccount
-                        this.isSpecialClient = false
-                        this.address = register.address
-                    }
-
-                    SaleDAO.new {
-                        this.idClient = newAccount
-                        this.totalPriceGold = 0
-                        this.totalQuantity = 0
-                        this.finished = false
-                        this.status = "Carrinho"
-                        this.createdAt = date
-                        this.updatedAt = date
-                    }
-                } else null
-            }
-
-            if(check != null) {
-                val token = generateToken(register.email, "client")
-                call.respond(mapOf("token" to token))
-                return@post
-            } else {
+            val account = AccountRepository.getAccountByEmail(register.email)
+            if(account != null) {
                 call.respond(HttpStatusCode.Unauthorized, "This user already exists!")
                 return@post
             }
+
+            val date = Date(System.currentTimeMillis()).toString()
+            val newAccount = AccountRepository.newAccount(register.username, register.email, register.password, "admin", date)
+            AccountRepository.newAdmin(newAccount)
+
+            call.respond(HttpStatusCode.OK, "Admin successfully registered")
+            return@post
+        }
+
+        post("/registerCarrocaBoy") {
+            val register = call.receive<RegisterAdminAndCarrocaBoy>()
+
+            val account = AccountRepository.getAccountByEmail(register.email)
+            if(account != null) {
+                call.respond(HttpStatusCode.Unauthorized, "This user already exists!")
+                return@post
+            }
+
+            val date = Date(System.currentTimeMillis()).toString()
+            val newAccount = AccountRepository.newAccount(register.username, register.email, register.password, "carrocaboy", date)
+            AccountRepository.newCarrocaBoy(newAccount)
+
+            call.respond(HttpStatusCode.OK, "CarroçaBoy successfully registered")
+            return@post
+        }
+
+        post("/registerCashier") {
+            val register = call.receive<RegisterCashier>()
+
+            val account = AccountRepository.getAccountByEmail(register.email)
+            if(account != null) {
+                call.respond(HttpStatusCode.Unauthorized, "This user already exists!")
+                return@post
+            }
+
+            val date = Date(System.currentTimeMillis()).toString()
+            val newAccount = AccountRepository.newAccount(register.username, register.email, register.password, "client", date)
+            AccountRepository.newCashier(newAccount, register.section)
+
+            call.respond(HttpStatusCode.OK, "Cashier successfully registered")
+            return@post
+        }
+
+        post("/registerClient") {
+            val register = call.receive<Register>()
+
+            val account = AccountRepository.getAccountByEmail(register.email)
+            if(account != null) {
+                call.respond(HttpStatusCode.Unauthorized, "This user already exists!")
+                return@post
+            }
+
+            val date = Date(System.currentTimeMillis()).toString()
+            val newAccount = AccountRepository.newAccount(register.username, register.email, register.password, "client", date)
+            AccountRepository.newClient(newAccount, register.address)
+            SaleRepository.newCart(newAccount, date)
+
+            val token = generateToken(register.email, "client")
+            call.respond(mapOf("token" to token))
+            return@post
         }
 
         post("/login") {
             val login = call.receive<Login>()
-            val check = suspendTransaction {
-                val account = AccountDAO.find {AccountT.email eq login.email }.firstOrNull()
-                if(account != null && account.password == login.password) {
-                    account
-                } else null
-            }
-
-            if(check != null) {
-                val email = check.email
-                val type = check.type
-                val token = generateToken(email, type)
-                call.respond(mapOf("token" to token))
-                return@post
-            } else {
+            val account = AccountRepository.getAccountByEmail(login.email)
+            if(account == null || !AccountRepository.checkPw(login.password, account.password)) {
                 call.respond(HttpStatusCode.Unauthorized, "Invalid user or invalid password!")
                 return@post
             }
+
+            val token = generateToken(account.email, account.type)
+            call.respond(mapOf("token" to token))
+            return@post
         }
 
         post("/addToCart/{idProduct}/{email}") {
@@ -321,6 +342,140 @@ fun Application.configureRouting() {
                 call.respond(HttpStatusCode.BadRequest, "Invalid parameters!")
                 return@post
             }
+
+            val account = AccountRepository.getAccountByEmail(email)
+            val product = ProductRepository.getProductById(idProduct)
+
+            if(account == null) {
+                call.respond(HttpStatusCode.NotFound, "This account does not exist!")
+                return@post
+            }
+
+            if(product == null) {
+                call.respond(HttpStatusCode.NotFound, "This product does not exist!")
+                return@post
+            }
+
+            if(product.stock <= 0) {
+                call.respond(HttpStatusCode.Unauthorized, "This product is out of stock!")
+                return@post
+            }
+
+            val cart = SaleRepository.getCartByAccount(account)
+
+            SaleProductRepository.newSaleProduct(cart, product)
+
+            call.respond(HttpStatusCode.OK, "Product successfully added!")
+            return@post
+        }
+
+        delete("/deleteFromCart/{idProduct}/{email}") {
+            val idProduct = call.parameters["idProduct"]?.toIntOrNull()
+            val email = call.parameters["email"]
+
+            if(idProduct == null || email.isNullOrBlank()) {
+                call.respond(HttpStatusCode.BadRequest, "Invalid parameters!")
+                return@delete
+            }
+
+            val account = AccountRepository.getAccountByEmail(email)
+            val product = ProductRepository.getProductById(idProduct)
+
+            if(account == null) {
+                call.respond(HttpStatusCode.NotFound, "This account does not exist!")
+                return@delete
+            }
+
+            if(product == null) {
+                call.respond(HttpStatusCode.NotFound, "This product does not exist!")
+                return@delete
+            }
+
+            val cart = SaleRepository.getCartByAccount(account)
+            val saleProduct = SaleProductRepository.getSaleProduct(cart.id.value, account.id.value)
+
+            if(saleProduct == null) {
+                call.respond(HttpStatusCode.NotFound, "This product is not in the cart!")
+                return@delete
+            }
+
+            val date = Date(System.currentTimeMillis()).toString()
+            SaleRepository.alterTotalPrice(cart, product, saleProduct.quantity, 0, date)
+            SaleProductRepository.deleteSaleProduct(saleProduct)
+        }
+
+        post("/alterQuantity/{idProduct}/{email}/{quantity}") {
+            val idProduct = call.parameters["idProduct"]?.toIntOrNull()
+            val email = call.parameters["email"]
+            val quantity = call.parameters["quantity"]?.toLongOrNull()
+
+            if(idProduct == null || email.isNullOrBlank() || quantity == null || quantity < 0) {
+                call.respond(HttpStatusCode.BadRequest, "Invalid parameters!")
+                return@post
+            }
+
+            val product = ProductRepository.getProductById(idProduct)
+            if(product == null) {
+                call.respond(HttpStatusCode.NotFound, "This product does not exist!")
+                return@post
+            }
+
+            if(product.stock < quantity) {
+                call.respond(HttpStatusCode.Unauthorized, "This quantity is over the product's stock!")
+                return@post
+            }
+
+            val account = AccountRepository.getAccountByEmail(email)
+            if(account == null) {
+                call.respond(HttpStatusCode.NotFound, "This account does not exist!")
+                return@post
+            }
+
+            val sale = SaleRepository.getCartByAccount(account)
+            val saleProduct = SaleProductRepository.getSaleProduct(sale.id.value, idProduct)
+
+            if(saleProduct == null) {
+                call.respond(HttpStatusCode.NotFound, "This product to sale assignment does not exist!")
+                return@post
+            }
+
+            val previousQuantity = saleProduct.quantity
+
+            val date = Date(System.currentTimeMillis()).toString()
+            SaleProductRepository.alterQuantity(saleProduct, quantity)
+            SaleRepository.alterTotalPrice(sale, product, previousQuantity, quantity, date)
+
+            call.respond(HttpStatusCode.OK, "Quantity successfully altered!")
+            return@post
+        }
+
+        post("/finishOnlineSale/{email}") {
+            val email = call.parameters["email"]
+            if(email.isNullOrBlank()) {
+                call.respond(HttpStatusCode.BadRequest, "Invalid Parameters!")
+                return@post
+            }
+
+            val account = AccountRepository.getAccountByEmail(email)
+            if(account == null || account.type != "client") {
+                call.respond(HttpStatusCode.BadRequest, "Invalid user!")
+                return@post
+            }
+
+            val cart = SaleRepository.getCartByAccount(account)
+            val saleProducts = SaleProductRepository.getSaleProductsBySale(cart.id.value)
+
+            for (product in saleProducts) {
+                val check = ProductRepository.getProductById(product.idProduct)
+                if(check == null || product.quantity > check.stock) {
+                    call.respond(HttpStatusCode.Unauthorized, "Couldn't finish your purchase!")
+                    return@post
+                }
+            }
+
+            val date = Date(System.currentTimeMillis()).toString()
+            SaleRepository.finishOnlineSale(cart, date)
+            SaleRepository.newCart(account, date)
         }
     }
 }
