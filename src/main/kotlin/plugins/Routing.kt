@@ -334,6 +334,25 @@ fun Application.configureRouting() {
             return@post
         }
 
+        get("/cartSize/{email}") {
+            val email = call.parameters["email"]
+            if(email.isNullOrBlank()) {
+                call.respond(HttpStatusCode.BadRequest, "Invalid parameters!")
+                return@get
+            }
+
+            val account = AccountRepository.getAccountByEmail(email)
+            if(account == null) {
+                call.respond(HttpStatusCode.NotFound, "This account does not exist!")
+                return@get
+            }
+
+            val cart = SaleRepository.getCartByAccount(account)
+            val cartSize = SaleProductRepository.getCartSize(cart.id.value)
+            call.respond(mapOf("size" to cartSize))
+            return@get
+        }
+
         post("/addToCart/{idProduct}/{email}") {
             val idProduct = call.parameters["idProduct"]?.toIntOrNull()
             val email = call.parameters["email"]
@@ -476,6 +495,11 @@ fun Application.configureRouting() {
             val date = Date(System.currentTimeMillis()).toString()
             SaleRepository.finishOnlineSale(cart, date)
             SaleRepository.newCart(account, date)
+
+            for (product in saleProducts) {
+                val productDAO = ProductRepository.getProductById(product.idProduct)
+                ProductRepository.alterStock(productDAO!!, product.quantity)
+            }
         }
     }
 }

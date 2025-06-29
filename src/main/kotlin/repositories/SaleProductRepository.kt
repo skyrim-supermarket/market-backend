@@ -1,5 +1,6 @@
 package com.mac350.repositories
 
+import com.mac350.models.Sale
 import com.mac350.models.SaleProduct
 import com.mac350.plugins.suspendTransaction
 import com.mac350.tables.*
@@ -17,6 +18,10 @@ class SaleProductRepository {
         suspend fun getSaleProductsBySale(idSale: Int) : List<SaleProduct> = suspendTransaction {
             SaleProductDAO.find { SaleProductT.idSale eq idSale }
                 .map(::daoToSaleProduct)
+        }
+
+        suspend fun getCartSize(idSale: Int) : Long = suspendTransaction {
+            SaleProductDAO.find { SaleProductT.idSale eq idSale }.count()
         }
 
         suspend fun newSaleProduct(cart: SaleDAO, product: ProductDAO) : SaleProductDAO = suspendTransaction {

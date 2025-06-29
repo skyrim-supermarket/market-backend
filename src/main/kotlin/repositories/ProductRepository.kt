@@ -25,5 +25,9 @@ class ProductRepository {
                 this.hasDiscount = false
             }
         }
+
+        suspend fun alterStock(product: ProductDAO, subtract: Long) = suspendTransaction {
+            product.stock -= subtract
+        }
     }
 }
