@@ -33,9 +33,8 @@ suspend fun <T> suspendTransaction(block: Transaction.() -> T): T =
 
 fun Application.configureRouting() {
     routing {
-        static("/uploads") {
-            files("uploads")
-        }
+        staticFiles("/uploads", File("uploads"))
+
         post("/products") {
             val recv = call.receive<ProductFilterTest>()
             val type = recv.type.lowercase()

@@ -1,5 +1,6 @@
 package com.mac350.plugins
 
+import com.mac350.repositories.AccountRepository
 import com.mac350.tables.*
 import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
@@ -59,13 +60,13 @@ object Databases {
             SchemaUtils.create(WeaponT)
 
         }
-        /*
-        transaction {
+
+        /*transaction {
             val account = AccountDAO.new {
                 val date = Date(System.currentTimeMillis()).toString()
                 this.username = "admin1"
-                this.email = "admin1@admin.br"
-                this.password = "123"
+                this.email = "admin@admin.br"
+                this.password = AccountRepository.hashPw("123")
                 this.type = "admin"
                 this.createdAt = date
                 this.updatedAt = date
@@ -74,6 +75,7 @@ object Databases {
 
             AdminDAO.new {
                 this.account = account
+                //this.root = true
             }
         }*/
     }

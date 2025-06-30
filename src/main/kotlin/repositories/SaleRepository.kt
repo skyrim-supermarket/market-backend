@@ -46,7 +46,7 @@ class SaleRepository {
             } else cart
         }
 
-        suspend fun alterTotalPrice(sale: SaleDAO, product: ProductDAO, previousQuantity: Long, quantity: Long, date: String): Unit = suspendTransaction {
+        suspend fun alterTotalPrice(sale: SaleDAO, product: ProductDAO, previousQuantity: Long, quantity: Long, date: String) = suspendTransaction {
             sale.totalPriceGold += (quantity-previousQuantity)*product.priceGold
             sale.updatedAt = date
         }
