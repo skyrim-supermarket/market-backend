@@ -232,22 +232,17 @@ fun Application.configureRouting() {
             if(id == null) {
                 call.respond(HttpStatusCode.BadRequest, "Invalid ID!")
                 return@get
-            } else {
-                val client = suspendTransaction {
-                    val account = AccountDAO.find { AccountT.id eq id }.firstOrNull()
-                    account?.let { acc ->
-                        ClientDAO.find { ClientT.account eq acc.id }.firstOrNull()
-                    }
-                }
-
-                if (client == null) {
-                    call.respond(HttpStatusCode.NotFound, "This client doesn't exist!")
-                    return@get
-                } else {
-                    call.respond(daoToClient(client))
-                    return@get
-                }
             }
+
+            val client = AccountRepository.getClientById(id)
+
+            if (client == null) {
+                call.respond(HttpStatusCode.NotFound, "This client doesn't exist!")
+                return@get
+            }
+
+            call.respond(daoToClient(client))
+            return@get
         }
 
         post("/registerAdmin") {
@@ -499,6 +494,74 @@ fun Application.configureRouting() {
                 val productDAO = ProductRepository.getProductById(product.idProduct)
                 ProductRepository.alterStock(productDAO!!, product.quantity)
             }
+        }
+
+        post("/acceptOrder/{email}/{idSale}") {
+            val email = call.parameters["email"]
+            val idSale = call.parameters["idSale"]?.toIntOrNull()
+
+            if(email.isNullOrBlank() || idSale == null) {
+                call.respond(HttpStatusCode.BadRequest, "Invalid parameters!")
+                return@post
+            }
+
+            val account = AccountRepository.getAccountByEmail(email)
+            if(account == null) {
+                call.respond(HttpStatusCode.NotFound, "This account does not exist!")
+                return@post
+            }
+
+            val sale = SaleRepository.getAvailableSaleById(idSale)
+            if(sale == null) {
+                call.respond(HttpStatusCode.NotFound, "This sale does not exist or has already been accepted!")
+                return@post
+            }
+
+            val date = Date(System.currentTimeMillis()).toString()
+
+            SaleRepository.assignCarrocaBoy(sale, account, date)
+
+            call.respond(HttpStatusCode.OK, "You have accepted this order!")
+            return@post
+        }
+
+        post("/deliverOrder/{email}/{idSale}") {
+            val email = call.parameters["email"]
+            val idSale = call.parameters["idSale"]?.toIntOrNull()
+
+            if(email.isNullOrBlank() || idSale == null) {
+                call.respond(HttpStatusCode.BadRequest, "Invalid parameters!")
+                return@post
+            }
+
+            val account = AccountRepository.getAccountByEmail(email)
+            if(account == null) {
+                call.respond(HttpStatusCode.NotFound, "This account does not exist!")
+                return@post
+            }
+
+            val sale = SaleRepository.getAvailableSaleById(idSale)
+            if(sale == null) {
+                call.respond(HttpStatusCode.NotFound, "This sale does not exist or has already been accepted!")
+                return@post
+            }
+
+            val date = Date(System.currentTimeMillis()).toString()
+            SaleRepository.finishSale(sale, date)
+            val carrocaBoy = AccountRepository.getCarrocaBoyByEmail(email)
+            if(carrocaBoy == null) {
+                call.respond(HttpStatusCode.NotFound, "This CarroçaBoy does not exist!")
+                return@post
+            }
+
+            AccountRepository.addCommissionToEmployee(carrocaBoy, sale.totalPriceGold, date)
+
+            call.respond(HttpStatusCode.OK, "You have delivered this order!")
+            return@post
+        }
+
+        post("") {
+
         }
     }
 }

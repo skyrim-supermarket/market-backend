@@ -2,6 +2,7 @@ package com.mac350.repositories
 
 import com.mac350.plugins.suspendTransaction
 import at.favre.lib.crypto.bcrypt.BCrypt
+import com.mac350.models.Cashier
 import com.mac350.tables.*
 import io.ktor.util.*
 import kotlin.text.toCharArray
@@ -18,6 +19,48 @@ class AccountRepository {
 
         suspend fun getAccountByEmail(email: String): AccountDAO? = suspendTransaction {
             AccountDAO.find { AccountT.email eq email }.firstOrNull()
+        }
+
+        suspend fun getClientById(accountId: Int): ClientDAO? = suspendTransaction {
+            val account = AccountDAO.find { AccountT.id eq accountId }.firstOrNull()
+            account?.let { acc ->
+                ClientDAO.find { ClientT.account eq acc.id }.firstOrNull()
+            }
+        }
+
+        suspend fun getClientByEmail(email: String): ClientDAO? = suspendTransaction {
+            val account = AccountDAO.find { AccountT.email eq email }.firstOrNull()
+            account?.let { acc ->
+                ClientDAO.find { ClientT.account eq acc.id }.firstOrNull()
+            }
+        }
+
+        suspend fun getCashierById(accountId: Int): CashierDAO? = suspendTransaction {
+            val account = AccountDAO.find { AccountT.id eq accountId }.firstOrNull()
+            account?.let { acc ->
+                CashierDAO.find { CashierT.account eq acc.id }.firstOrNull()
+            }
+        }
+
+        suspend fun getCashierByEmail(email: String): CashierDAO? = suspendTransaction {
+            val account = AccountDAO.find { AccountT.email eq email }.firstOrNull()
+            account?.let { acc ->
+                CashierDAO.find { CashierT.account eq acc.id }.firstOrNull()
+            }
+        }
+
+        suspend fun getCarrocaBoyById(accountId: Int): CarrocaBoyDAO? = suspendTransaction {
+            val account = AccountDAO.find { AccountT.id eq accountId }.firstOrNull()
+            account?.let { acc ->
+                CarrocaBoyDAO.find { CarrocaBoyT.account eq acc.id }.firstOrNull()
+            }
+        }
+
+        suspend fun getCarrocaBoyByEmail(email: String): CarrocaBoyDAO? = suspendTransaction {
+            val account = AccountDAO.find { AccountT.email eq email }.firstOrNull()
+            account?.let { acc ->
+                CarrocaBoyDAO.find { CarrocaBoyT.account eq acc.id }.firstOrNull()
+            }
         }
 
         suspend fun newAccount(
@@ -66,6 +109,20 @@ class AccountRepository {
                 this.account = account
                 this.isSpecialClient = false
                 this.address = address
+            }
+        }
+
+        suspend fun addCommissionToEmployee(employee: Any, totalPrice: Long, date: String) = suspendTransaction {
+            when(employee) {
+                is CashierDAO -> {
+                    employee.totalComissions += totalPrice/10
+                    employee.account.updatedAt = date
+                }
+                is CarrocaBoyDAO -> {
+                    employee.totalComissions += totalPrice/10
+                    employee.account.updatedAt = date
+                }
+                else -> null
             }
         }
     }

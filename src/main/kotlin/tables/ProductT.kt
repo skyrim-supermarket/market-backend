@@ -61,7 +61,7 @@ fun getTableName(name: String): Table? = when(name) {
     "armor" -> ArmorT
     "books" -> BookT
     "clothing" -> ClothingT
-    "foods" -> FoodT
+    "food" -> FoodT
     "ingredients" -> IngredientT
     "miscellaneous" -> MiscellanyT
     "ores" -> OreT

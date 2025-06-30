@@ -46,6 +46,32 @@ class SaleRepository {
             } else cart
         }
 
+        suspend fun getAvailableSaleById(saleId: Int): SaleDAO? = suspendTransaction {
+            SaleDAO.find {
+                (SaleT.id eq saleId) and
+                (SaleT.status eq "Waiting for CarroçaBoy")
+            }.firstOrNull()
+        }
+
+        suspend fun assignCarrocaBoy(saleDAO: SaleDAO, account: AccountDAO, date: String) = suspendTransaction {
+            saleDAO.idEmployee = account
+            saleDAO.updatedAt = date
+            saleDAO.status = "To be delivered by ${account.username}"
+        }
+
+        suspend fun getSaleOnTheWayByIdAndCarrocaBoy(saleId: Int, account: AccountDAO): SaleDAO? = suspendTransaction {
+            SaleDAO.find {
+                (SaleT.id eq saleId) and
+                (SaleT.idEmployee eq account.id.value) and
+                (SaleT.status eq "To be delivered by ${account.username}")
+            }.firstOrNull()
+        }
+
+        suspend fun finishSale(saleDAO: SaleDAO, date: String) = suspendTransaction {
+            saleDAO.status = "Delivered!"
+            saleDAO.updatedAt = date
+        }
+
         suspend fun alterTotalPrice(sale: SaleDAO, product: ProductDAO, previousQuantity: Long, quantity: Long, date: String) = suspendTransaction {
             sale.totalPriceGold += (quantity-previousQuantity)*product.priceGold
             sale.updatedAt = date
