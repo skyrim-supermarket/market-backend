@@ -17,6 +17,7 @@ class SaleRepository {
         suspend fun newCart(account: AccountDAO, date: String): SaleDAO = suspendTransaction {
             SaleDAO.new {
                 this.idClient = account
+                this.idEmployee = null
                 this.totalPriceGold = 0
                 this.totalQuantity = 0
                 this.finished = false
@@ -26,10 +27,24 @@ class SaleRepository {
             }
         }
 
+        suspend fun newIrlPurchase(account: AccountDAO, date: String): SaleDAO = suspendTransaction {
+            SaleDAO.new {
+                this.idClient = null
+                this.idEmployee = account
+                this.totalPriceGold = 0
+                this.totalQuantity = 0
+                this.finished = false
+                this.status = "Ongoing IRL purchase"
+                this.createdAt = date
+                this.updatedAt = date
+            }
+        }
+
         suspend fun getCartByAccount(account: AccountDAO): SaleDAO = suspendTransaction {
             val cart = SaleDAO.find {
                 (SaleT.idClient eq account.id) and
-                        (SaleT.finished eq false)
+                        (SaleT.finished eq false) and
+                        (SaleT.status eq "Cart")
             }.firstOrNull()
 
             if (cart == null) {
@@ -44,6 +59,14 @@ class SaleRepository {
                     this.updatedAt = date
                 }
             } else cart
+        }
+
+        suspend fun getIrlPurchaseByAccount(account: AccountDAO): SaleDAO? = suspendTransaction {
+            SaleDAO.find {
+                (SaleT.idEmployee eq account.id) and
+                        (SaleT.finished eq false) and
+                        (SaleT.status eq "Ongoing IRL purchase")
+            }.firstOrNull()
         }
 
         suspend fun getAvailableSaleById(saleId: Int): SaleDAO? = suspendTransaction {
@@ -74,6 +97,11 @@ class SaleRepository {
 
         suspend fun alterTotalPrice(sale: SaleDAO, product: ProductDAO, previousQuantity: Long, quantity: Long, date: String) = suspendTransaction {
             sale.totalPriceGold += (quantity-previousQuantity)*product.priceGold
+            sale.updatedAt = date
+        }
+
+        suspend fun alterTotalQuantity(sale: SaleDAO, delta: Long, date: String) = suspendTransaction {
+            sale.totalQuantity += delta
             sale.updatedAt = date
         }
 

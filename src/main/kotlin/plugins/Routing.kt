@@ -328,6 +328,189 @@ fun Application.configureRouting() {
             return@post
         }
 
+        post("/newIrlPurchase/{email}") {
+            val email = call.parameters["email"]
+            if(email.isNullOrBlank()) {
+                call.respond(HttpStatusCode.BadRequest, "Invalid parameters!")
+                return@post
+            }
+
+            val account = AccountRepository.getAccountByEmail(email)
+            if(account == null || account.type != "cashier") {
+                call.respond(HttpStatusCode.NotFound, "This cashier does not exist!")
+                return@post
+            }
+
+            val date = Date(System.currentTimeMillis()).toString()
+            SaleRepository.newIrlPurchase(account, date)
+
+            call.respond(HttpStatusCode.OK, "New IRL purchase created!")
+            return@post
+        }
+
+        post("/addToIrlPurchase/{idProduct}/{email}") {
+            val idProduct = call.parameters["idProduct"]?.toIntOrNull()
+            val email = call.parameters["email"]
+
+            if(idProduct == null || email.isNullOrBlank()) {
+                call.respond(HttpStatusCode.BadRequest, "Invalid parameters!")
+                return@post
+            }
+
+            val account = AccountRepository.getAccountByEmail(email)
+            val product = ProductRepository.getProductById(idProduct)
+
+            if(account == null || account.type != "cashier") {
+                call.respond(HttpStatusCode.NotFound, "This cashier does not exist!")
+                return@post
+            }
+
+            if(product == null) {
+                call.respond(HttpStatusCode.NotFound, "This product does not exist!")
+                return@post
+            }
+
+            if(product.stock <= 0) {
+                call.respond(HttpStatusCode.Unauthorized, "This product is out of stock!")
+                return@post
+            }
+
+            val purchase = SaleRepository.getIrlPurchaseByAccount(account)
+
+            if(purchase == null) {
+                call.respond(HttpStatusCode.NotFound, "This IRL purchase does not exist!")
+                return@post
+            }
+
+            val date = Date(System.currentTimeMillis()).toString()
+            SaleProductRepository.newSaleProduct(purchase, product)
+            SaleRepository.alterTotalQuantity(purchase, 1, date)
+
+            call.respond(HttpStatusCode.OK, "Product successfully added!")
+            return@post
+        }
+
+        delete("/deleteFromIrlPurchase/{idProduct}/{email}") {
+            val idProduct = call.parameters["idProduct"]?.toIntOrNull()
+            val email = call.parameters["email"]
+
+            if(idProduct == null || email.isNullOrBlank()) {
+                call.respond(HttpStatusCode.BadRequest, "Invalid parameters!")
+                return@delete
+            }
+
+            val account = AccountRepository.getAccountByEmail(email)
+            val product = ProductRepository.getProductById(idProduct)
+
+            if(account == null) {
+                call.respond(HttpStatusCode.NotFound, "This account does not exist!")
+                return@delete
+            }
+
+            if(product == null) {
+                call.respond(HttpStatusCode.NotFound, "This product does not exist!")
+                return@delete
+            }
+
+            val cart = SaleRepository.getCartByAccount(account)
+            val saleProduct = SaleProductRepository.getSaleProduct(cart.id.value, account.id.value)
+
+            if(saleProduct == null) {
+                call.respond(HttpStatusCode.NotFound, "This product is not in the cart!")
+                return@delete
+            }
+
+            val date = Date(System.currentTimeMillis()).toString()
+            val delta = saleProduct.quantity
+            SaleRepository.alterTotalPrice(cart, product, saleProduct.quantity, 0, date)
+            SaleRepository.alterTotalQuantity(cart, -delta, date)
+            SaleProductRepository.deleteSaleProduct(saleProduct)
+        }
+
+        post("/alterQuantityIrlPurchase/{idProduct}/{email}/{quantity}") {
+            val idProduct = call.parameters["idProduct"]?.toIntOrNull()
+            val email = call.parameters["email"]
+            val quantity = call.parameters["quantity"]?.toLongOrNull()
+
+            if(idProduct == null || email.isNullOrBlank() || quantity == null || quantity < 0) {
+                call.respond(HttpStatusCode.BadRequest, "Invalid parameters!")
+                return@post
+            }
+
+            val product = ProductRepository.getProductById(idProduct)
+            if(product == null) {
+                call.respond(HttpStatusCode.NotFound, "This product does not exist!")
+                return@post
+            }
+
+            if(product.stock < quantity) {
+                call.respond(HttpStatusCode.Unauthorized, "This quantity is over the product's stock!")
+                return@post
+            }
+
+            val account = AccountRepository.getAccountByEmail(email)
+            if(account == null) {
+                call.respond(HttpStatusCode.NotFound, "This account does not exist!")
+                return@post
+            }
+
+            val sale = SaleRepository.getIrlPurchaseByAccount(account)
+            if(sale == null) {
+                call.respond(HttpStatusCode.NotFound, "This IRL sale does not exist!")
+                return@post
+            }
+
+            val saleProduct = SaleProductRepository.getSaleProduct(sale.id.value, idProduct)
+
+            if(saleProduct == null) {
+                call.respond(HttpStatusCode.NotFound, "This product to sale assignment does not exist!")
+                return@post
+            }
+
+            val previousQuantity = saleProduct.quantity
+
+            val date = Date(System.currentTimeMillis()).toString()
+            SaleProductRepository.alterQuantity(saleProduct, quantity)
+            SaleRepository.alterTotalPrice(sale, product, previousQuantity, quantity, date)
+
+            call.respond(HttpStatusCode.OK, "Quantity successfully altered!")
+            return@post
+        }
+
+        post("/finishOnlineSale/{email}") {
+            val email = call.parameters["email"]
+            if(email.isNullOrBlank()) {
+                call.respond(HttpStatusCode.BadRequest, "Invalid Parameters!")
+                return@post
+            }
+
+            val account = AccountRepository.getAccountByEmail(email)
+            if(account == null || account.type != "client") {
+                call.respond(HttpStatusCode.BadRequest, "Invalid user!")
+                return@post
+            }
+
+            val cart = SaleRepository.getCartByAccount(account)
+            val saleProducts = SaleProductRepository.getSaleProductsBySale(cart.id.value)
+
+            for (product in saleProducts) {
+                val check = ProductRepository.getProductById(product.idProduct)
+                if(check == null || product.quantity > check.stock) {
+                    call.respond(HttpStatusCode.Unauthorized, "Couldn't finish your purchase!")
+                    return@post
+                }
+            }
+
+            val date = Date(System.currentTimeMillis()).toString()
+            SaleRepository.finishOnlineSale(cart, date)
+            SaleRepository.newCart(account, date)
+
+            for (product in saleProducts) {
+                val productDAO = ProductRepository.getProductById(product.idProduct)
+                ProductRepository.alterStock(productDAO!!, product.quantity)
+            }
+        }
+
         get("/cartSize/{email}") {
             val email = call.parameters["email"]
             if(email.isNullOrBlank()) {
@@ -375,8 +558,10 @@ fun Application.configureRouting() {
             }
 
             val cart = SaleRepository.getCartByAccount(account)
+            val date = Date(System.currentTimeMillis()).toString()
 
             SaleProductRepository.newSaleProduct(cart, product)
+            SaleRepository.alterTotalQuantity(cart, 1, date)
 
             call.respond(HttpStatusCode.OK, "Product successfully added!")
             return@post
@@ -413,8 +598,10 @@ fun Application.configureRouting() {
             }
 
             val date = Date(System.currentTimeMillis()).toString()
+            val delta = saleProduct.quantity
             SaleRepository.alterTotalPrice(cart, product, saleProduct.quantity, 0, date)
             SaleProductRepository.deleteSaleProduct(saleProduct)
+            SaleRepository.alterTotalQuantity(cart, -delta, date)
         }
 
         post("/alterQuantity/{idProduct}/{email}/{quantity}") {
@@ -456,6 +643,7 @@ fun Application.configureRouting() {
 
             val date = Date(System.currentTimeMillis()).toString()
             SaleProductRepository.alterQuantity(saleProduct, quantity)
+            SaleRepository.alterTotalQuantity(sale, quantity-previousQuantity, date)
             SaleRepository.alterTotalPrice(sale, product, previousQuantity, quantity, date)
 
             call.respond(HttpStatusCode.OK, "Quantity successfully altered!")

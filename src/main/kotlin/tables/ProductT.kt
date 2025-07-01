@@ -57,9 +57,12 @@ fun getLabelsAndTypes(vararg tables: Table): List<Pair<String, String>> {
 }
 
 fun getTableName(name: String): Table? = when(name) {
+    "admins" -> AdminT
     "ammunition" -> AmmunitionT
     "armor" -> ArmorT
     "books" -> BookT
+    "cashiers" -> CashierT
+    "carrocaboys" -> CarrocaBoyT
     "clothing" -> ClothingT
     "food" -> FoodT
     "ingredients" -> IngredientT
