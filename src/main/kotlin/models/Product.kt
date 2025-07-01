@@ -70,30 +70,6 @@ data class ProductCardInfo (
     val type: String
 )
 
-suspend fun parseMultiPart(multipart : MultiPartData): Pair<Map<String, String>, Map<String, ByteArray>> {
-    var fields = mutableMapOf<String, String>()
-    var files = mutableMapOf<String, ByteArray>()
-
-    multipart.forEachPart { part ->
-        when (part) {
-            is PartData.FormItem -> {
-                if (part.name != null) {
-                    fields[part.name!!] = part.value
-                }
-            }
-            is PartData.FileItem -> {
-                if (part.name != null) {
-                    files[part.name!!] = part.provider().toByteArray()
-                }
-            }
-            else -> {}
-        }
-        part.dispose()
-    }
-
-    return fields to files
-}
-
 
 @Serializable
 data class AmmoInsertTest (

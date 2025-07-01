@@ -1,5 +1,6 @@
 package com.mac350.repositories
 
+import com.mac350.models.ProductCardInfo
 import com.mac350.plugins.suspendTransaction
 import com.mac350.tables.*
 
@@ -22,6 +23,10 @@ class ProductRepository {
             "Soul gems" to listOf("productName", "priceGold", "description", "standardDiscount", "specialDiscount"),
             "Weapon" to listOf("productName", "priceGold", "description", "standardDiscount", "specialDiscount", "weight", "magical", "craft", "damage", "speed", "reach", "stagger", "battleStyle", "category")
         )
+
+        suspend fun getProducts() = suspendTransaction {
+
+        }
 
         suspend fun getProductById(productId: Int) : ProductDAO? = suspendTransaction {
             ProductDAO.find { ProductT.id eq productId }.firstOrNull()

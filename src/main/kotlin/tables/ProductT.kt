@@ -47,29 +47,3 @@ fun daoToCard(dao: ProductDAO): ProductCardInfo = ProductCardInfo(
     type = dao.type
 )
 
-fun getLabelsAndTypes(vararg tables: Table): List<Pair<String, String>> {
-    val ignoredColumns = setOf("id", "createdAt", "updatedAt", "hasDiscount", "product_id")
-    return tables
-        .flatMap { it.columns }
-        .filter { it.name !in ignoredColumns }
-        .map { it.name to it.columnType.sqlType() }
-        .distinctBy { it.first }
-}
-
-fun getTableName(name: String): Table? = when(name) {
-    "admins" -> AdminT
-    "ammunition" -> AmmunitionT
-    "armor" -> ArmorT
-    "books" -> BookT
-    "cashiers" -> CashierT
-    "carrocaboys" -> CarrocaBoyT
-    "clothing" -> ClothingT
-    "food" -> FoodT
-    "ingredients" -> IngredientT
-    "miscellaneous" -> MiscellanyT
-    "ores" -> OreT
-    "potions" -> PotionT
-    "soul gems" -> SoulGemT
-    "weapons" -> WeaponT
-    else -> null
-}

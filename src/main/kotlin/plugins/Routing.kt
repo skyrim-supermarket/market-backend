@@ -79,7 +79,7 @@ fun Application.configureRouting() {
                 return@post
             }
 
-            val (fields, files) = parseMultiPart(call.receiveMultipart())
+            val (fields, files) = UtilRepository.parseMultiPart(call.receiveMultipart())
             val required = ProductRepository.reqFields[type] ?: emptyList()
             val missing = required.filter { it !in fields }
             if(missing.isNotEmpty()) {
@@ -118,7 +118,7 @@ fun Application.configureRouting() {
             val imageBytes = files["image"]
             val imageName = "${product.id}.png"
             if(imageBytes!=null) {
-                File(uploadDir, imageName).writeBytes(imageBytes!!)
+                File(uploadDir, imageName).writeBytes(imageBytes)
 
                 suspendTransaction {
                     val findProduct = ProductDAO.findById(product.id.value)
@@ -135,13 +135,8 @@ fun Application.configureRouting() {
                 ClientDAO.all().map(::daoToClient)
             }
 
-            if(clients.isEmpty()) {
-                call.respond(HttpStatusCode.NotFound, "No client was found!")
-                return@get
-            } else {
-                call.respond(clients)
-                return@get
-            }
+            call.respond(clients)
+            return@get
         }
 
         get("/labels/{table}") {
@@ -152,14 +147,14 @@ fun Application.configureRouting() {
                 return@get
             }
 
-            val childTable = getTableName(table.lowercase())
+            val childTable = UtilRepository.getTableName(table.lowercase())
 
             if(childTable == null) {
                 call.respond(HttpStatusCode.NotFound, "$table does not exist!")
                 return@get
             }
 
-            val columns = suspendTransaction { getLabelsAndTypes(ProductT, childTable) }
+            val columns = suspendTransaction { UtilRepository.getLabelsAndTypes(ProductT, childTable) }
 
             val response = columns.map{(name, type) -> mapOf("name" to name, "type" to type)}
 
