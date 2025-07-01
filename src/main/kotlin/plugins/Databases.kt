@@ -61,22 +61,27 @@ object Databases {
 
         }
 
-        /*transaction {
-            val account = AccountDAO.new {
-                val date = Date(System.currentTimeMillis()).toString()
-                this.username = "admin1"
-                this.email = "admin@admin.br"
-                this.password = AccountRepository.hashPw("123")
-                this.type = "admin"
-                this.createdAt = date
-                this.updatedAt = date
-                this.lastRun = date
-            }
+        transaction {
+            val qtd = AccountDAO.find { AccountT.type eq "admin" }.count()
+            val zero = 0
 
-            AdminDAO.new {
-                this.account = account
-                //this.root = true
+            if(qtd == zero.toLong()) {
+                val account = AccountDAO.new {
+                    val date = Date(System.currentTimeMillis()).toString()
+                    this.username = "Root Admin"
+                    this.email = "root@admin.br"
+                    this.password = AccountRepository.hashPw("root")
+                    this.type = "admin"
+                    this.createdAt = date
+                    this.updatedAt = date
+                    this.lastRun = date
+                }
+
+                AdminDAO.new {
+                    this.account = account
+                    this.root = true
+                }
             }
-        }*/
+        }
     }
 }

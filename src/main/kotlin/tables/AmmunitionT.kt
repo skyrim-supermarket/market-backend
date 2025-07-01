@@ -8,7 +8,7 @@ import org.jetbrains.exposed.sql.ReferenceOption
 
 object AmmunitionT : IntIdTable("Ammunition") {
     val product = reference("product_id", ProductT, onDelete = ReferenceOption.CASCADE)
-    val magical = varchar("magical", 255)
+    val magical = bool("magical")
     val craft = varchar("craft", 255)
     val speed = double("speed")
     val gravity = double("gravity")

@@ -72,97 +72,62 @@ fun Application.configureRouting() {
             }
         }
 
-        post("/newAmmunition") {
+        post("/newProduct/{type}") {
+            val type = call.parameters["type"]
+            if(type.isNullOrBlank() || type !in ProductRepository.validTypes) {
+                call.respond(HttpStatusCode.BadRequest, "Invalid product type!")
+                return@post
+            }
+
             val (fields, files) = parseMultiPart(call.receiveMultipart())
-            val productName = fields["productName"]
-            val priceGold = fields["priceGold"]
-            val description = fields["description"]
-            val standardDiscount = fields["standardDiscount"]
-            val specialDiscount = fields["specialDiscount"]
-            val magical = fields["magical"]
-            val craft = fields["craft"]
-            val speed = fields["speed"]
-            val gravity = fields["gravity"]
-            val category = fields["category"]
-
-            val imageBytes = files["image"]
-
-
-            if(productName == null || priceGold == null || description == null || standardDiscount == null || specialDiscount == null
-                || magical == null || craft == null || speed == null || gravity == null || category == null) {
-                call.respond(HttpStatusCode.BadRequest, "Every field must be filled!")
+            val required = ProductRepository.reqFields[type] ?: emptyList()
+            val missing = required.filter { it !in fields }
+            if(missing.isNotEmpty()) {
+                call.respond(HttpStatusCode.BadRequest, "Missing fields: $missing")
                 return@post
             }
 
             val date = Date(System.currentTimeMillis()).toString()
-            val newProduct = ProductRepository.newProduct(productName, priceGold.toLong(), description, standardDiscount.toLong(), specialDiscount.toLong(), date)
+            val product = ProductRepository.newProduct(
+                fields["productName"]!!,
+                fields["priceGold"]!!.toLong(),
+                fields["description"]!!,
+                type,
+                fields["standardDiscount"]!!.toLong(),
+                fields["specialDiscount"]!!.toLong(),
+                date
+            )
 
-            suspendTransaction {
-                AmmunitionDAO.new {
-                    this.product = newProduct
-                    this.magical = magical
-                    this.craft = craft
-                    this.speed = speed.toDouble()
-                    this.gravity = gravity.toDouble()
-                    this.category = category
-                }
+            when(type) {
+                "Ammunition" -> ProductRepository.newAmmunition(product, fields["magical"]!!.toBoolean(), fields["craft"]!!, fields["speed"]!!.toDouble(), fields["gravity"]!!.toDouble(), fields["category"]!!)
+                "Armor" -> ProductRepository.newArmor(product, fields["weight"]!!.toDouble(), fields["magical"]!!.toBoolean(), fields["craft"]!!, fields["protection"]!!.toDouble(), fields["heavy"]!!.toBoolean(), fields["category"]!!)
+                "Books" -> ProductRepository.newBook(product)
+                "Clothing" -> ProductRepository.newClothing(product)
+                "Foods" -> ProductRepository.newFood(product)
+                "Ingredients" -> ProductRepository.newIngredient(product)
+                "Miscellaneous" -> ProductRepository.newMiscellany(product)
+                "Ores" -> ProductRepository.newOre(product)
+                "Potions" -> ProductRepository.newPotion(product)
+                "Soul gems" -> ProductRepository.newSoulGem(product)
+                "Weapons" -> ProductRepository.newWeapon(product, fields["weight"]!!.toDouble(), fields["magical"]!!.toBoolean(), fields["craft"]!!, fields["damage"]!!.toLong(), fields["speed"]!!.toDouble(), fields["reach"]!!.toLong(), fields["stagger"]!!.toDouble(), fields["battleStyle"]!!, fields["category"]!!)
             }
 
             val uploadDir = File("uploads")
             if(!uploadDir.exists()) uploadDir.mkdirs()
 
-            val imageName = "${newProduct.id}.png"
+            val imageBytes = files["image"]
+            val imageName = "${product.id}.png"
             if(imageBytes!=null) {
                 File(uploadDir, imageName).writeBytes(imageBytes!!)
 
                 suspendTransaction {
-                    val findProduct = ProductDAO.findById(newProduct.id.value)
+                    val findProduct = ProductDAO.findById(product.id.value)
                     findProduct?.image = "/uploads/$imageName"
                 }
             }
 
-            call.respond(HttpStatusCode.OK, "Ammunition successfully added!")
+            call.respond(HttpStatusCode.OK, "$type successfully added!")
             return@post
-        }
-
-        post("/newArmor") {
-
-        }
-
-        post("/newBook") {
-
-        }
-
-        post("/newClothing") {
-
-        }
-
-        post("/newFood") {
-
-        }
-
-        post("/newIngredient") {
-
-        }
-
-        post("/newMiscellany") {
-
-        }
-
-        post("/newOre") {
-
-        }
-
-        post("/newPotion") {
-
-        }
-
-        post("/newSoulGem") {
-
-        }
-
-        post("/newWeapon") {
-
         }
 
         get("/clients") {
