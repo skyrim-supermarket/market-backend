@@ -131,7 +131,7 @@ fun Application.configureRouting() {
             return@get
         }
 
-        get("/carrocaBoys") {
+        get("/carrocaboys") {
             call.respond(AccountRepository.getCarrocaBoys())
             return@get
         }
