@@ -1,6 +1,6 @@
 package com.mac350.repositories
 
-import com.mac350.models.ProductCardInfo
+import com.mac350.models.*
 import com.mac350.plugins.suspendTransaction
 import com.mac350.tables.*
 
@@ -21,7 +21,7 @@ class ProductRepository {
             "Ores" to listOf("productName", "priceGold", "stock", "description", "standardDiscount", "specialDiscount"),
             "Potions" to listOf("productName", "priceGold", "stock", "description", "standardDiscount", "specialDiscount"),
             "Soul gems" to listOf("productName", "priceGold", "stock", "description", "standardDiscount", "specialDiscount"),
-            "Weapon" to listOf("productName", "priceGold", "stock", "description", "standardDiscount", "specialDiscount", "weight", "magical", "craft", "damage", "speed", "reach", "stagger", "battleStyle", "category")
+            "Weapons" to listOf("productName", "priceGold", "stock", "description", "standardDiscount", "specialDiscount", "weight", "magical", "craft", "damage", "speed", "reach", "stagger", "battleStyle", "category")
         )
 
         suspend fun getProducts() = suspendTransaction {
@@ -132,6 +132,83 @@ class ProductRepository {
                 this.battleStyle = battleStyle
                 this.category = category
             }
+        }
+
+        suspend fun getAmmunition(productId: Int): Ammunition? = suspendTransaction {
+            val product = AmmunitionDAO.find{ AmmunitionT.product eq productId }.firstOrNull()
+
+            if(product != null) daoToAmmunition(product)
+            else null
+        }
+
+        suspend fun getArmor(productId: Int): Armor? = suspendTransaction {
+            val product = ArmorDAO.find{ ArmorT.product eq productId }.firstOrNull()
+
+            if(product != null) daoToArmor(product)
+            else null
+        }
+
+        suspend fun getBook(productId: Int): Book? = suspendTransaction {
+            val product = BookDAO.find{ BookT.product eq productId }.firstOrNull()
+
+            if(product != null) daoToBook(product)
+            else null
+        }
+
+        suspend fun getClothing(productId: Int): Clothing? = suspendTransaction {
+            val product = ClothingDAO.find{ ClothingT.product eq productId }.firstOrNull()
+
+            if(product != null) daoToClothing(product)
+            else null
+        }
+
+        suspend fun getFood(productId: Int): Food? = suspendTransaction {
+            val product = FoodDAO.find{ FoodT.product eq productId }.firstOrNull()
+
+            if(product != null) daoToFood(product)
+            else null
+        }
+
+        suspend fun getIngredient(productId: Int): Ingredient? = suspendTransaction {
+            val product = IngredientDAO.find{ IngredientT.product eq productId }.firstOrNull()
+
+            if(product != null) daoToIngredient(product)
+            else null
+        }
+
+        suspend fun getMiscellany(productId: Int): Miscellany? = suspendTransaction {
+            val product = MiscellanyDAO.find{ MiscellanyT.product eq productId }.firstOrNull()
+
+            if(product != null) daoToMiscellany(product)
+            else null
+        }
+
+        suspend fun getOre(productId: Int): Ore? = suspendTransaction {
+            val product = OreDAO.find{ OreT.product eq productId }.firstOrNull()
+
+            if(product != null) daoToOre(product)
+            else null
+        }
+
+        suspend fun getPotion(productId: Int): Potion? = suspendTransaction {
+            val product = PotionDAO.find{ PotionT.product eq productId }.firstOrNull()
+
+            if(product != null) daoToPotion(product)
+            else null
+        }
+
+        suspend fun getSoulGem(productId: Int): SoulGem? = suspendTransaction {
+            val product = SoulGemDAO.find{ SoulGemT.product eq productId }.firstOrNull()
+
+            if(product != null) daoToSoulGem(product)
+            else null
+        }
+
+        suspend fun getWeapon(productId: Int): Weapon? = suspendTransaction {
+            val product = WeaponDAO.find{ WeaponT.product eq productId }.firstOrNull()
+
+            if(product != null) daoToWeapon(product)
+            else null
         }
 
         suspend fun alterStock(product: ProductDAO, subtract: Long) = suspendTransaction {

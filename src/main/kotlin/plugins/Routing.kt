@@ -63,8 +63,31 @@ fun Application.configureRouting() {
         get("/product/{idProduct}") {
             val idProduct = call.parameters["idProduct"]?.toIntOrNull()
             if(idProduct == null) {
-                call.respond(HttpStatusCode.BadRequest)
+                call.respond(HttpStatusCode.BadRequest, "Invalid parameter!")
+                return@get
             }
+
+            val product = ProductRepository.getProductById(idProduct)
+            if(product == null) {
+                call.respond(HttpStatusCode.NotFound, "This product does not exist!")
+                return@get
+            }
+
+            when(product.type) {
+                "Ammunition" -> call.respond(ProductRepository.getAmmunition(product.id.value)!!)
+                "Armor" -> call.respond(ProductRepository.getArmor(product.id.value)!!)
+                "Books" -> call.respond(ProductRepository.getBook(product.id.value)!!)
+                "Clothing" -> call.respond(ProductRepository.getClothing(product.id.value)!!)
+                "Food" -> call.respond(ProductRepository.getFood(product.id.value)!!)
+                "Ingredients" -> call.respond(ProductRepository.getIngredient(product.id.value)!!)
+                "Miscellaneous" -> call.respond(ProductRepository.getMiscellany(product.id.value)!!)
+                "Ores" -> call.respond(ProductRepository.getOre(product.id.value)!!)
+                "Potions" -> call.respond(ProductRepository.getPotion(product.id.value)!!)
+                "Soul gems" -> call.respond(ProductRepository.getSoulGem(product.id.value)!!)
+                "Weapons" -> call.respond(ProductRepository.getWeapon(product.id.value)!!)
+            }
+
+            return@get
         }
 
         post("/newProduct/{type}") {
@@ -99,7 +122,7 @@ fun Application.configureRouting() {
                 "Armor" -> ProductRepository.newArmor(product, fields["weight"]!!.toDouble(), fields["magical"]!!.toBoolean(), fields["craft"]!!, fields["protection"]!!.toDouble(), fields["heavy"]!!.toBoolean(), fields["category"]!!)
                 "Books" -> ProductRepository.newBook(product)
                 "Clothing" -> ProductRepository.newClothing(product)
-                "Foods" -> ProductRepository.newFood(product)
+                "Food" -> ProductRepository.newFood(product)
                 "Ingredients" -> ProductRepository.newIngredient(product)
                 "Miscellaneous" -> ProductRepository.newMiscellany(product)
                 "Ores" -> ProductRepository.newOre(product)
@@ -494,6 +517,12 @@ fun Application.configureRouting() {
                 return@post
             }
 
+            val check = SaleProductRepository.getSaleProduct(purchase.id.value, product.id.value)
+            if(check != null) {
+                call.respond(HttpStatusCode.Unauthorized, "This product is already in this purchase!")
+                return@post
+            }
+
             val date = Date(System.currentTimeMillis()).toString()
             SaleProductRepository.newSaleProduct(purchase, product)
             SaleRepository.alterTotalQuantity(purchase, 1, date)
@@ -670,6 +699,13 @@ fun Application.configureRouting() {
             }
 
             val cart = SaleRepository.getCartByAccount(account)
+
+            val check = SaleProductRepository.getSaleProduct(cart.id.value, product.id.value)
+            if(check != null) {
+                call.respond(HttpStatusCode.Unauthorized, "This product is already in this cart!")
+                return@post
+            }
+
             val date = Date(System.currentTimeMillis()).toString()
 
             SaleProductRepository.newSaleProduct(cart, product)
