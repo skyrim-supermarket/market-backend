@@ -8,14 +8,14 @@ import org.jetbrains.exposed.sql.ReferenceOption
 
 object CarrocaBoyT : IntIdTable("CarrocaBoys") {
     val account = reference("account_id", AccountT, onDelete = ReferenceOption.CASCADE)
-    val totalComissions = long("totalComissions")
+    val totalCommissions = long("totalCommissions")
 }
 
 class CarrocaBoyDAO(id: EntityID<Int>) : IntEntity(id) {
     companion object : IntEntityClass<CarrocaBoyDAO>(CarrocaBoyT)
 
     var account by AccountDAO referencedOn CarrocaBoyT.account
-    var totalComissions by CarrocaBoyT.totalComissions
+    var totalCommissions by CarrocaBoyT.totalCommissions
 }
 
 fun daoToCarrocaBoy(dao: CarrocaBoyDAO): CarrocaBoy = CarrocaBoy(
@@ -27,5 +27,5 @@ fun daoToCarrocaBoy(dao: CarrocaBoyDAO): CarrocaBoy = CarrocaBoy(
     createdAt = dao.account.createdAt,
     updatedAt = dao.account.updatedAt,
     lastRun = dao.account.lastRun,
-    totalCommissions = dao.totalComissions
+    totalCommissions = dao.totalCommissions
 )

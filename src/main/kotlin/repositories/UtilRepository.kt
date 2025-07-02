@@ -7,6 +7,14 @@ import org.jetbrains.exposed.sql.Table
 
 class UtilRepository {
     companion object {
+        fun capitalizeFirstLetter(input: String): String {
+            if(input.isEmpty()) return input
+
+            return input.replaceFirstChar {
+                if(it.isLowerCase()) it.uppercaseChar() else it
+            }
+        }
+
         suspend fun parseMultiPart(multipart : MultiPartData): Pair<Map<String, String>, Map<String, ByteArray>> {
             var fields = mutableMapOf<String, String>()
             var files = mutableMapOf<String, ByteArray>()
@@ -32,7 +40,7 @@ class UtilRepository {
         }
 
         fun getLabelsAndTypes(vararg tables: Table): List<Pair<String, String>> {
-            val ignoredColumns = setOf("id", "createdAt", "updatedAt", "hasDiscount", "product_id", "type", "image")
+            val ignoredColumns = setOf("id", "createdAt", "updatedAt", "hasDiscount", "product_id", "type", "image", "account_id", "lastRun", "totalCommissions")
             return tables
                 .flatMap { it.columns }
                 .filter { it.name !in ignoredColumns }

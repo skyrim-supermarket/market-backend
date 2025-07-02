@@ -16,3 +16,9 @@ data class Sale (
 ) {
 
 }
+
+@Serializable
+data class SaleInfo (
+    val sale: Sale,
+    val products: List<ProductCartInfo?>
+)

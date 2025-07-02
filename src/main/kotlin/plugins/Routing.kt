@@ -1,31 +1,18 @@
 package com.mac350.plugins
 
-import com.auth0.jwt.JWT
-import com.auth0.jwt.algorithms.Algorithm
 import com.mac350.models.*
-import com.mac350.repositories.ClientRepo
 import com.mac350.tables.*
 import com.mac350.repositories.*
 import io.ktor.http.*
-import io.ktor.serialization.*
-import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*
-import io.ktor.server.auth.*
-import io.ktor.server.auth.jwt.*
 import io.ktor.server.http.content.*
-import io.ktor.server.plugins.contentnegotiation.*
-import io.ktor.server.plugins.cors.routing.*
 import java.util.Date
 import java.io.File
 import io.ktor.server.response.*
 import io.ktor.server.request.*
 import io.ktor.server.routing.*
 import kotlinx.coroutines.Dispatchers
-import org.jetbrains.exposed.dao.id.EntityID
-import org.jetbrains.exposed.sql.Op
-import org.jetbrains.exposed.sql.SqlExpressionBuilder
 import org.jetbrains.exposed.sql.Transaction
-import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 
 suspend fun <T> suspendTransaction(block: Transaction.() -> T): T =
@@ -36,26 +23,27 @@ fun Application.configureRouting() {
         staticFiles("/uploads", File("uploads"))
 
         post("/products") {
-            val recv = call.receive<ProductFilterTest>()
-            val type = recv.type.lowercase()
+            val recv = call.receive<PaginationFilter>()
+            var type = recv.type.lowercase()
+            type = UtilRepository.capitalizeFirstLetter(type)
             val page = recv.page - 1
             val pageSize = recv.pageSize
 
             val query = suspendTransaction {
-                if(type=="all products") {
+                if(type=="All products") {
                     ProductDAO.all().map(::daoToCard)
                 } else if(
-                    type=="ammunition" ||
-                    type=="armor" ||
-                    type=="books" ||
-                    type=="clothing" ||
-                    type=="food" ||
-                    type=="ingredients" ||
-                    type=="miscellaneous" ||
-                    type=="ores" ||
-                    type=="potions" ||
-                    type=="soul gems" ||
-                    type=="weapons"
+                    type=="Ammunition" ||
+                    type=="Armor" ||
+                    type=="Books" ||
+                    type=="Clothing" ||
+                    type=="Food" ||
+                    type=="Ingredients" ||
+                    type=="Miscellaneous" ||
+                    type=="Ores" ||
+                    type=="Potions" ||
+                    type=="Soul gems" ||
+                    type=="Weapons"
                     ) {
                     ProductDAO.find { ProductT.type eq type }.map(::daoToCard)
                 } else null
@@ -130,31 +118,47 @@ fun Application.configureRouting() {
             return@post
         }
 
-        get("/clients") {
-            val clients = suspendTransaction {
-                ClientDAO.all().map(::daoToClient)
-            }
+        get("/admins") {
+            call.respond(AccountRepository.getAdmins())
+            return@get
+        }
 
-            call.respond(clients)
+        get("/carrocaBoys") {
+            call.respond(AccountRepository.getCarrocaBoys())
+            return@get
+        }
+
+        get("/cashiers") {
+            call.respond(AccountRepository.getCashiers())
+            return@get
+        }
+
+        get("/clients") {
+            call.respond(AccountRepository.getClients())
             return@get
         }
 
         get("/labels/{table}") {
-            val table = call.parameters["table"]
+            var table = call.parameters["table"]
 
             if(table == null) {
                 call.respond(HttpStatusCode.BadRequest, "Invalid table name!")
                 return@get
             }
 
-            val childTable = UtilRepository.getTableName(table.lowercase())
+            table = table.lowercase()
+            val childTable = UtilRepository.getTableName(table)
 
             if(childTable == null) {
                 call.respond(HttpStatusCode.NotFound, "$table does not exist!")
                 return@get
             }
 
-            val columns = suspendTransaction { UtilRepository.getLabelsAndTypes(ProductT, childTable) }
+            val columns = if(table=="admins" || table == "carrocaboys" || table == "cashiers") {
+                suspendTransaction { UtilRepository.getLabelsAndTypes(AccountT, childTable) }
+            } else {
+                suspendTransaction { UtilRepository.getLabelsAndTypes(ProductT, childTable) }
+            }
 
             val response = columns.map{(name, type) -> mapOf("name" to name, "type" to type)}
 
@@ -168,22 +172,18 @@ fun Application.configureRouting() {
             if(email.isNullOrBlank()) {
                 call.respond(HttpStatusCode.BadRequest, "Invalid email!")
                 return@get
-            } else {
-                val client = suspendTransaction {
-                    val account = AccountDAO.find { AccountT.email eq email }.firstOrNull()
-                    account?.let { acc ->
-                        ClientDAO.find { ClientT.account eq acc.id }.firstOrNull()
-                    }
-                }
-
-                if (client == null) {
-                    call.respond(HttpStatusCode.NotFound, "This client doesn't exist!")
-                    return@get
-                } else {
-                    call.respond(daoToClient(client))
-                    return@get
-                }
             }
+
+            val client = AccountRepository.getClientByEmail(email)
+
+            if (client == null) {
+                call.respond(HttpStatusCode.NotFound, "This client doesn't exist!")
+                return@get
+            }
+
+            val res = suspendTransaction { daoToClient(client) }
+            call.respond(res)
+            return@get
         }
 
         get("/clientById/{id}") {
@@ -201,11 +201,12 @@ fun Application.configureRouting() {
                 return@get
             }
 
-            call.respond(daoToClient(client))
+            val res = suspendTransaction { daoToClient(client) }
+            call.respond(res)
             return@get
         }
 
-        post("/registerAdmin") {
+        post("/newAdmins") {
             val register = call.receive<RegisterAdminAndCarrocaBoy>()
 
             val account = AccountRepository.getAccountByEmail(register.email)
@@ -222,7 +223,7 @@ fun Application.configureRouting() {
             return@post
         }
 
-        post("/registerCarrocaBoy") {
+        post("/newCarrocaboys") {
             val register = call.receive<RegisterAdminAndCarrocaBoy>()
 
             val account = AccountRepository.getAccountByEmail(register.email)
@@ -239,7 +240,7 @@ fun Application.configureRouting() {
             return@post
         }
 
-        post("/registerCashier") {
+        post("/newCashiers") {
             val register = call.receive<RegisterCashier>()
 
             val account = AccountRepository.getAccountByEmail(register.email)
@@ -249,7 +250,7 @@ fun Application.configureRouting() {
             }
 
             val date = Date(System.currentTimeMillis()).toString()
-            val newAccount = AccountRepository.newAccount(register.username, register.email, register.password, "client", date)
+            val newAccount = AccountRepository.newAccount(register.username, register.email, register.password, "cashier", date)
             AccountRepository.newCashier(newAccount, register.section)
 
             call.respond(HttpStatusCode.OK, "Cashier successfully registered")
@@ -283,9 +284,126 @@ fun Application.configureRouting() {
                 return@post
             }
 
+            val date = Date(System.currentTimeMillis()).toString()
+            AccountRepository.setLastRun(account, date)
+
             val token = generateToken(account.email, account.type)
             call.respond(mapOf("token" to token))
             return@post
+        }
+
+        get("/getCart/{email}") {
+            val email = call.parameters["email"]
+            if(email.isNullOrBlank()) {
+                call.respond(HttpStatusCode.BadRequest, "Invalid parameters!")
+                return@get
+            }
+
+            val account = AccountRepository.getAccountByEmail(email)
+            if(account == null || account.type != "client") {
+                call.respond(HttpStatusCode.NotFound, "This client does not exist!")
+                return@get
+            }
+
+            val cart = SaleRepository.getCartByAccount(account)
+            val saleProducts = SaleProductRepository.getSaleProductsBySale(cart.id.value)
+            val sale = suspendTransaction { daoToSale(cart) }
+
+            if(saleProducts.isEmpty()) {
+                call.respond(SaleInfo(sale, emptyList()))
+                return@get
+            }
+
+            val productInfos = saleProducts.map { saleProduct ->
+                val productDAO = ProductRepository.getProductById(saleProduct.idProduct)
+                suspendTransaction {
+                    productDAO?.let {
+                        ProductCartInfo(
+                            it.id.value.toLong(),
+                            it.productName,
+                            it.image,
+                            it.priceGold * saleProduct.quantity,
+                            saleProduct.quantity,
+                            it.type
+                        )
+                    }
+                }
+            }
+
+            call.respond(SaleInfo(sale, productInfos))
+        }
+
+        get("/getSale/{saleId}") {
+            val saleId = call.parameters["saleId"]?.toIntOrNull()
+            if(saleId == null) {
+                call.respond(HttpStatusCode.BadRequest, "Invalid parameters!")
+                return@get
+            }
+
+            val cart = SaleRepository.getSaleById(saleId)
+
+            if(cart == null) {
+                call.respond(HttpStatusCode.NotFound, "This sale does not exist!")
+                return@get
+            }
+
+            val saleProducts = SaleProductRepository.getSaleProductsBySale(cart.id.value)
+            val sale = suspendTransaction { daoToSale(cart) }
+
+            if(saleProducts.isEmpty()) {
+                call.respond(SaleInfo(sale, emptyList()))
+                return@get
+            }
+
+            val productInfos = saleProducts.map { saleProduct ->
+                val productDAO = ProductRepository.getProductById(saleProduct.idProduct)
+                suspendTransaction {
+                    productDAO?.let {
+                        ProductCartInfo(
+                            it.id.value.toLong(),
+                            it.productName,
+                            it.image,
+                            it.priceGold * saleProduct.quantity,
+                            saleProduct.quantity,
+                            it.type
+                        )
+                    }
+                }
+            }
+
+            call.respond(SaleInfo(sale, productInfos))
+        }
+
+        get("/previousOrders/{email}") {
+            val email = call.parameters["email"]
+            if(email.isNullOrBlank()) {
+                call.respond(HttpStatusCode.BadRequest, "Invalid parameters!")
+                return@get
+            }
+
+            val account = AccountRepository.getAccountByEmail(email)
+            if(account == null) {
+                call.respond(HttpStatusCode.NotFound, "This account does not exist!")
+                return@get
+            }
+
+            call.respond(SaleRepository.getFinishedSalesByClient(account.id.value))
+        }
+
+        get("/previousSales/{email}") {
+            val email = call.parameters["email"]
+            if(email.isNullOrBlank()) {
+                call.respond(HttpStatusCode.BadRequest, "Invalid parameters!")
+                return@get
+            }
+
+            val account = AccountRepository.getAccountByEmail(email)
+            if(account == null) {
+                call.respond(HttpStatusCode.NotFound, "This account does not exist!")
+                return@get
+            }
+
+            call.respond(SaleRepository.getFinishedSalesByEmployee(account.id.value))
         }
 
         post("/newIrlPurchase/{email}") {
@@ -373,7 +491,7 @@ fun Application.configureRouting() {
             }
 
             val cart = SaleRepository.getCartByAccount(account)
-            val saleProduct = SaleProductRepository.getSaleProduct(cart.id.value, account.id.value)
+            val saleProduct = SaleProductRepository.getSaleProduct(cart.id.value, idProduct)
 
             if(saleProduct == null) {
                 call.respond(HttpStatusCode.NotFound, "This product is not in the cart!")
@@ -550,7 +668,7 @@ fun Application.configureRouting() {
             }
 
             val cart = SaleRepository.getCartByAccount(account)
-            val saleProduct = SaleProductRepository.getSaleProduct(cart.id.value, account.id.value)
+            val saleProduct = SaleProductRepository.getSaleProduct(cart.id.value, idProduct)
 
             if(saleProduct == null) {
                 call.respond(HttpStatusCode.NotFound, "This product is not in the cart!")

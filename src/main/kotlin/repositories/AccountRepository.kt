@@ -2,7 +2,10 @@ package com.mac350.repositories
 
 import com.mac350.plugins.suspendTransaction
 import at.favre.lib.crypto.bcrypt.BCrypt
+import com.mac350.models.Admin
+import com.mac350.models.CarrocaBoy
 import com.mac350.models.Cashier
+import com.mac350.models.Client
 import com.mac350.tables.*
 import io.ktor.util.*
 import kotlin.text.toCharArray
@@ -15,6 +18,22 @@ class AccountRepository {
 
         fun checkPw(pw: String, hashPw: String): Boolean {
             return BCrypt.verifyer().verify(pw.toCharArray(), hashPw).verified
+        }
+
+        suspend fun getAdmins(): List<Admin> = suspendTransaction {
+            AdminDAO.all().map(::daoToAdmin)
+        }
+
+        suspend fun getCarrocaBoys(): List<CarrocaBoy> = suspendTransaction {
+            CarrocaBoyDAO.all().map(::daoToCarrocaBoy)
+        }
+
+        suspend fun getCashiers(): List<Cashier> = suspendTransaction {
+            CashierDAO.all().map(::daoToCashier)
+        }
+
+        suspend fun getClients(): List<Client> = suspendTransaction {
+            ClientDAO.all().map(::daoToClient)
         }
 
         suspend fun getAccountByEmail(email: String): AccountDAO? = suspendTransaction {
@@ -92,14 +111,14 @@ class AccountRepository {
         suspend fun newCarrocaBoy(account: AccountDAO): CarrocaBoyDAO = suspendTransaction {
             CarrocaBoyDAO.new {
                 this.account = account
-                this.totalComissions = 0
+                this.totalCommissions = 0
             }
         }
 
         suspend fun newCashier(account: AccountDAO, section: Long): CashierDAO = suspendTransaction {
             CashierDAO.new {
                 this.account = account
-                this.totalComissions = 0
+                this.totalCommissions = 0
                 this.section = section
             }
         }
@@ -112,14 +131,18 @@ class AccountRepository {
             }
         }
 
+        suspend fun setLastRun(account: AccountDAO, date: String) = suspendTransaction {
+            account.lastRun = date
+        }
+
         suspend fun addCommissionToEmployee(employee: Any, totalPrice: Long, date: String) = suspendTransaction {
             when(employee) {
                 is CashierDAO -> {
-                    employee.totalComissions += totalPrice/10
+                    employee.totalCommissions += totalPrice/10
                     employee.account.updatedAt = date
                 }
                 is CarrocaBoyDAO -> {
-                    employee.totalComissions += totalPrice/10
+                    employee.totalCommissions += totalPrice/10
                     employee.account.updatedAt = date
                 }
                 else -> null

@@ -3,11 +3,9 @@ package com.mac350.repositories
 import com.mac350.models.Account
 import com.mac350.models.Client
 import com.mac350.models.Product
+import com.mac350.models.Sale
 import com.mac350.plugins.suspendTransaction
-import com.mac350.tables.AccountDAO
-import com.mac350.tables.ProductDAO
-import com.mac350.tables.SaleDAO
-import com.mac350.tables.SaleT
+import com.mac350.tables.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder
 import org.jetbrains.exposed.sql.and
 import java.util.*
@@ -69,10 +67,30 @@ class SaleRepository {
             }.firstOrNull()
         }
 
+        suspend fun getSaleById(saleId: Int): SaleDAO? = suspendTransaction {
+            SaleDAO.find {
+                (SaleT.id eq saleId)
+            }.firstOrNull()
+        }
+
+        suspend fun getFinishedSalesByClient(clientId: Int): List<Sale> = suspendTransaction {
+            SaleDAO.find {
+                (SaleT.id eq clientId) and
+                        (SaleT.finished eq true)
+            }.map(::daoToSale)
+        }
+
+        suspend fun getFinishedSalesByEmployee(employeeId: Int): List<Sale> = suspendTransaction {
+            SaleDAO.find {
+                (SaleT.id eq employeeId) and
+                        (SaleT.status eq "Delivered!")
+            }.map(::daoToSale)
+        }
+
         suspend fun getAvailableSaleById(saleId: Int): SaleDAO? = suspendTransaction {
             SaleDAO.find {
                 (SaleT.id eq saleId) and
-                (SaleT.status eq "Waiting for CarroçaBoy")
+                        (SaleT.status eq "Waiting for CarroçaBoy")
             }.firstOrNull()
         }
 

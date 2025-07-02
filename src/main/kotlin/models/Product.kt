@@ -1,13 +1,6 @@
 package com.mac350.models
 
-import com.mac350.plugins.suspendTransaction
-import com.mac350.tables.ProductDAO
-import io.ktor.http.content.*
-import io.ktor.utils.io.*
 import kotlinx.serialization.Serializable
-import org.jetbrains.exposed.dao.id.IntIdTable
-import org.jetbrains.exposed.sql.CumeDist
-import java.util.Date
 
 @Serializable
 sealed class Product {
@@ -48,7 +41,7 @@ data class AllProductsFilter (
 ) : GeneralFilter()
 
 @Serializable
-data class ProductFilterTest (
+data class PaginationFilter (
     val type: String,
     val page: Int,
     val pageSize: Int
@@ -67,6 +60,16 @@ data class ProductCardInfo (
     val image: String?,
     val priceGold: Long,
     val stock: Long,
+    val type: String
+)
+
+@Serializable
+data class ProductCartInfo (
+    val id: Long,
+    val productName: String,
+    val image: String?,
+    val priceGold: Long,
+    val quantity: Long,
     val type: String
 )
 
