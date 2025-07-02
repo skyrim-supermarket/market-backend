@@ -1,8 +1,12 @@
 package com.mac350.models
 
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.JsonClassDiscriminator
 
+@OptIn(ExperimentalSerializationApi::class)
 @Serializable
+@JsonClassDiscriminator("kind")
 data class Miscellany (
     override val id: Long,
     override var productName: String,
