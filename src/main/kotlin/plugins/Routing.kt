@@ -605,6 +605,30 @@ fun Application.configureRouting() {
             return@post
         }
 
+        delete("/cancelIrlPurchase/{email}") {
+            val email = call.parameters["email"]
+            if(email.isNullOrBlank()) {
+                call.respond(HttpStatusCode.BadRequest, "Invalid parameters!")
+                return@delete
+            }
+
+            val account = AccountRepository.getAccountByEmail(email)
+            if(account == null || account.type != "cashier") {
+                call.respond(HttpStatusCode.NotFound, "This cashier does not exist!")
+                return@delete
+            }
+
+            val purchase = SaleRepository.getIrlPurchaseByAccount(account)
+            if(purchase == null) {
+                call.respond(HttpStatusCode.NotFound, "This IRL purchase does not exist!")
+                return@delete
+            }
+
+            SaleRepository.deleteIrlPurchase(purchase)
+            call.respond(HttpStatusCode.OK, "Purchase cancelled successfully!")
+            return@delete
+        }
+
         post("/addToIrlPurchase/{idProduct}/{email}") {
             val idProduct = call.parameters["idProduct"]?.toIntOrNull()
             val email = call.parameters["email"]
@@ -1018,8 +1042,26 @@ fun Application.configureRouting() {
             return@post
         }
 
-        post("") {
+        get("/availableSales") {
+            call.respond(SaleRepository.getAvailableSales())
+            return@get
+        }
 
+        get("/salesToBeDelivered/{email}") {
+            val email = call.parameters["email"]
+
+            if(email.isNullOrBlank()) {
+                call.respond(HttpStatusCode.BadRequest, "Invalid parameters!")
+                return@get
+            }
+
+            val account = AccountRepository.getAccountByEmail(email)
+            if(account == null) {
+                call.respond(HttpStatusCode.NotFound, "This CarroçaBoy does not exist!")
+                return@get
+            }
+            call.respond(SaleRepository.getSalesToBeDelivered(account))
+            return@get
         }
     }
 }

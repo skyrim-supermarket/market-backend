@@ -93,11 +93,28 @@ class SaleRepository {
             }.map(::daoToSale)
         }
 
+        suspend fun getAvailableSales(): List<Sale> = suspendTransaction {
+            SaleDAO.find {
+                SaleT.status eq "Waiting for CarroçaBoy"
+            }.map(::daoToSale)
+        }
+
+        suspend fun getSalesToBeDelivered(account: AccountDAO): List<Sale> = suspendTransaction {
+            SaleDAO.find {
+                (SaleT.status eq "To be delivered by ${account.username}") and
+                        (SaleT.idEmployee eq account.id.value)
+            }.map(::daoToSale)
+        }
+
         suspend fun getAvailableSaleById(saleId: Int): SaleDAO? = suspendTransaction {
             SaleDAO.find {
                 (SaleT.id eq saleId) and
                         (SaleT.status eq "Waiting for CarroçaBoy")
             }.firstOrNull()
+        }
+
+        suspend fun deleteIrlPurchase(purchase: SaleDAO) = suspendTransaction {
+            purchase.delete()
         }
 
         suspend fun assignCarrocaBoy(saleDAO: SaleDAO, account: AccountDAO, date: String) = suspendTransaction {
