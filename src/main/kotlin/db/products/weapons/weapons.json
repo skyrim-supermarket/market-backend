@@ -2,7 +2,7 @@
     {
         "name": "Iron Sword",
         "id": "00012eb7dd",
-        "image": "./weapon/images/iron-sword.png",
+        "image": "./weapons/images/iron-sword.png",
         "price_gold": 25,
         "weight": 9.0,
         "stock": 100,
@@ -23,7 +23,7 @@
     {
         "name": "Steel Sword",
         "id": "00013989dd",
-        "image": "./weapon/images/steel-sword.png",
+        "image": "./weapons/images/steel-sword.png",
         "price_gold": 45,
         "weight": 10.0,
         "stock": 100,
@@ -44,7 +44,7 @@
     {
         "name": "Orcish Sword",
         "id": "00013991dd",
-        "image": "./weapon/images/orcish-sword.png",
+        "image": "./weapons/images/orcish-sword.png",
         "price_gold": 75,
         "weight": 11.0,
         "stock": 100,
@@ -65,7 +65,7 @@
     {
         "name": "Dwarven Sword",
         "id": "00013999dd",
-        "image": "./weapon/images/dwarven-sword.png",
+        "image": "./weapons/images/dwarven-sword.png",
         "price_gold": 125,
         "weight": 12.0,
         "stock": 100,
@@ -86,7 +86,7 @@
     {
         "name": "Nord Hero Sword",
         "id": "00068c7bdd",
-        "image": "./weapon/images/nord-hero-sword.png",
+        "image": "./weapons/images/nord-hero-sword.png",
         "price_gold": 135,
         "weight": 9.0,
         "stock": 100,
@@ -107,7 +107,7 @@
     {
         "name": "Skyforge Steel Sword",
         "id": "0009f25cdd",
-        "image": "./weapon/images/skyforge-steel-sword.png",
+        "image": "./weapons/images/skyforge-steel-sword.png",
         "price_gold": 70,
         "weight": 10.0,
         "stock": 100,
@@ -128,7 +128,7 @@
     {
         "name": "Elven Sword",
         "id": "000139a1dd",
-        "image": "./weapon/images/elven-sword.png",
+        "image": "./weapons/images/elven-sword.png",
         "price_gold": 235,
         "weight": 13.0,
         "stock": 100,
@@ -149,7 +149,7 @@
     {
         "name": "Golden Sword",
         "id": "xx000822dd",
-        "image": "./weapon/images/golden-sword.png",
+        "image": "./weapons/images/golden-sword.png",
         "price_gold": 250,
         "weight": 11.0,
         "stock": 100,
@@ -170,7 +170,7 @@
     {
         "name": "Nordic Sword",
         "id": "xx01cdb1",
-        "image": "./weapon/images/nordic-sword.png",
+        "image": "./weapons/images/nordic-sword.png",
         "price_gold": 290,
         "weight": 12.0,
         "stock": 100,
@@ -191,7 +191,7 @@
     {
         "name": "Dark Sword",
         "id": "xx000823dd",
-        "image": "./weapon/images/dark-sword.png",
+        "image": "./weapons/images/dark-sword.png",
         "price_gold": 250,
         "weight": 11.0,
         "stock": 100,
@@ -212,7 +212,7 @@
     {
         "name": "Remnant Scimitar",
         "id": "FExxx805dd",
-        "image": "./weapon/images/remnant-scimitar.png",
+        "image": "./weapons/images/remnant-scimitar.png",
         "price_gold": 325,
         "weight": 10.5,
         "stock": 100,
@@ -233,7 +233,7 @@
     {
         "name": "Glass Sword",
         "id": "000139a9dd",
-        "image": "./weapon/images/glass-sword.png",
+        "image": "./weapons/images/glass-sword.png",
         "price_gold": 410,
         "weight": 14.0,
         "stock": 100,
@@ -254,7 +254,7 @@
     {
         "name": "Ebony Sword",
         "id": "000139b1dd",
-        "image": "./weapon/images/ebony-sword.png",
+        "image": "./weapons/images/ebony-sword.png",
         "price_gold": 720,
         "weight": 15.0,
         "stock": 100,
@@ -275,7 +275,7 @@
     {
         "name": "Stalhrim Sword",
         "id": "xx01cdb8dd",
-        "image": "./weapon/images/stalhrim-sword.png",
+        "image": "./weapons/images/stalhrim-sword.png",
         "price_gold": 985,
         "weight": 14.0,
         "stock": 100,
@@ -296,7 +296,7 @@
     {
         "name": "Daedric Sword",
         "id": "000139b9dd",
-        "image": "./weapon/images/daedric-sword.png",
+        "image": "./weapons/images/daedric-sword.png",
         "price_gold": 1250,
         "weight": 16.0,
         "stock": 100,
@@ -317,7 +317,7 @@
     {
         "name": "Ebony Scimitar",
         "id": "xx000E38dd",
-        "image": "./weapon/images/ebony-scimitar.png",
+        "image": "./weapons/images/ebony-scimitar.png",
         "price_gold": 800,
         "weight": 14.0,
         "stock": 100,
@@ -338,7 +338,7 @@
     {
         "name": "Dragonbone Sword",
         "id": "xx014fcedd",
-        "image": "./weapon/images/dragonbone-sword.png",
+        "image": "./weapons/images/dragonbone-sword.png",
         "price_gold": 1500,
         "weight": 19.0,
         "stock": 100,
@@ -359,7 +359,7 @@
     {
         "name": "Amber Sword",
         "id": "xx000BE0",
-        "image": "./weapon/images/amber-sword.png",
+        "image": "./weapons/images/amber-sword.png",
         "price_gold": 1600,
         "weight": 14.0,
         "stock": 100,
@@ -380,7 +380,7 @@
     {
         "name": "Madness Sword",
         "id": "xx000BE9dd",
-        "image": "./weapon/images/madness-sword.png",
+        "image": "./weapons/images/madness-sword.png",
         "price_gold": 250,
         "weight": 20.0,
         "stock": 100,
@@ -401,7 +401,7 @@
     {
         "name": "Iron War Axe",
         "id": "00013790dd",
-        "image": "./weapon/images/iron-war-axe.png",
+        "image": "./weapons/images/iron-war-axe.png",
         "price_gold": 30,
         "weight": 11.0,
         "stock": 100,
@@ -422,7 +422,7 @@
     {
         "name": "Steel War Axe",
         "id": "00013983dd",
-        "image": "./weapon/images/steel-war-axe.png",
+        "image": "./weapons/images/steel-war-axe.png",
         "price_gold": 55,
         "weight": 12.0,
         "stock": 100,
@@ -443,7 +443,7 @@
     {
         "name": "Orcish War Axe",
         "id": "0001398bdd",
-        "image": "./weapon/images/orcish-war-axe.png",
+        "image": "./weapons/images/orcish-war-axe.png",
         "price_gold": 90,
         "weight": 13.0,
         "stock": 100,
@@ -464,7 +464,7 @@
     {
         "name": "Dwarven War Axe",
         "id": "00013993dd",
-        "image": "./weapon/images/dwarven-war-axe.png",
+        "image": "./weapons/images/dwarven-war-axe.png",
         "price_gold": 165,
         "weight": 14.0,
         "stock": 100,
@@ -485,7 +485,7 @@
     {
         "name": "Nord Hero War Axe",
         "id": "00068c63dd",
-        "image": "./weapon/images/nord-hero-war-axe.png",
+        "image": "./weapons/images/nord-hero-war-axe.png",
         "price_gold": 165,
         "weight": 11.0,
         "stock": 100,
@@ -506,7 +506,7 @@
     {
         "name": "Skyforge Steel War Axe",
         "id": "0009f260dd",
-        "image": "./weapon/images/skyforge-steel-war-axe.png",
+        "image": "./weapons/images/skyforge-steel-war-axe.png",
         "price_gold": 80,
         "weight": 12.0,
         "stock": 100,
@@ -527,7 +527,7 @@
     {
         "name": "Elven War Axe",
         "id": "0001399bdd",
-        "image": "./weapon/images/elven-war-axe.png",
+        "image": "./weapons/images/elven-war-axe.png",
         "price_gold": 280,
         "weight": 15.0,
         "stock": 100,
@@ -548,7 +548,7 @@
     {
         "name": "Golden War Axe",
         "id": "xx00080A",
-        "image": "./weapon/images/golden-war-axe.png",
+        "image": "./weapons/images/golden-war-axe.png",
         "price_gold": 320,
         "weight": 13.0,
         "stock": 100,
@@ -569,7 +569,7 @@
     {
         "name": "Nordic War Axe",
         "id": "xx01cdb2dd",
-        "image": "./weapon/images/nordic-war-axe.png",
+        "image": "./weapons/images/nordic-war-axe.png",
         "price_gold": 350,
         "weight": 14.0,
         "stock": 100,
@@ -590,7 +590,7 @@
     {
         "name": "Irkngthand War Axe",
         "id": "xx07aed6dd",
-        "image": "./weapon/images/irkngthand-war-axe.png",
+        "image": "./weapons/images/irkngthand-war-axe.png",
         "price_gold": 265,
         "weight": 16.0,
         "stock": 100,
@@ -611,7 +611,7 @@
     {
         "name": "Dark War Axe",
         "id": "xx000829dd",
-        "image": "./weapon/images/dark-war-axe.png",
+        "image": "./weapons/images/dark-war-axe.png",
         "price_gold": 320,
         "weight": 13.0,
         "stock": 100,
@@ -632,7 +632,7 @@
     {
         "name": "Glass War Axe",
         "id": "000139a3dd",
-        "image": "./weapon/images/glass-war-axe.png",
+        "image": "./weapons/images/glass-war-axe.png",
         "price_gold": 490,
         "weight": 16.0,
         "stock": 100,
@@ -653,7 +653,7 @@
     {
         "name": "Ebony War Axe",
         "id": "000139ABdd",
-        "image": "./weapon/images/ebony-war-axe.png",
+        "image": "./weapons/images/ebony-war-axe.png",
         "price_gold": 865,
         "weight": 17.0,
         "stock": 100,
@@ -674,7 +674,7 @@
     {
         "name": "Stalhrim War Axe",
         "id": "xx01cdb9dd",
-        "image": "./weapon/images/stalhrim-war-axe.png",
+        "image": "./weapons/images/stalhrim-war-axe.png",
         "price_gold": 1180,
         "weight": 16.0,
         "stock": 100,
@@ -695,7 +695,7 @@
     {
         "name": "Daedric War Axe",
         "id": "000139b3dd",
-        "image": "./weapon/images/daedric-war-axe.png",
+        "image": "./weapons/images/daedric-war-axe.png",
         "price_gold": 1500,
         "weight": 18.0,
         "stock": 100,
@@ -716,7 +716,7 @@
     {
         "name": "Dragonbone War Axe",
         "id": "xx014fcfdd",
-        "image": "./weapon/images/dragonbone-war-axe.png",
+        "image": "./weapons/images/dragonbone-war-axe.png",
         "price_gold": 1700,
         "weight": 21.0,
         "stock": 100,
@@ -737,7 +737,7 @@
     {
         "name": "Amber War Axe",
         "id": "xx000BE1",
-        "image": "./weapon/images/amber-war-axe.png",
+        "image": "./weapons/images/amber-war-axe.png",
         "price_gold": 1800,
         "weight": 16.0,
         "stock": 100,
@@ -758,7 +758,7 @@
     {
         "name": "Madness War Axe",
         "id": "xx000BEAdd",
-        "image": "./weapon/images/madness-war-axe.png",
+        "image": "./weapons/images/madness-war-axe.png",
         "price_gold": 1900,
         "weight": 22.0,
         "stock": 100,
@@ -779,7 +779,7 @@
     {
         "name": "Iron Mace",
         "id": "00013982dd",
-        "image": "./weapon/images/iron-mace.png",
+        "image": "./weapons/images/iron-mace.png",
         "price_gold": 35,
         "weight": 13.0,
         "stock": 100,
@@ -800,7 +800,7 @@
     {
         "name": "Steel Mace",
         "id": "00013988dd",
-        "image": "./weapon/images/steel-mace.png",
+        "image": "./weapons/images/steel-mace.png",
         "price_gold": 65,
         "weight": 14.0,
         "stock": 100,
@@ -821,7 +821,7 @@
     {
         "name": "Orcish Mace",
         "id": "00013990dd",
-        "image": "./weapon/images/orcish-mace.png",
+        "image": "./weapons/images/orcish-mace.png",
         "price_gold": 105,
         "weight": 15.0,
         "stock": 100,
@@ -842,7 +842,7 @@
     {
         "name": "Dwarven Mace",
         "id": "00013998dd",
-        "image": "./weapon/images/dwarven-mace.png",
+        "image": "./weapons/images/dwarven-mace.png",
         "price_gold": 190,
         "weight": 16.0,
         "stock": 100,
@@ -863,7 +863,7 @@
     {
         "name": "Nord Hero Mace",
         "id": "xx08A1E5dd",
-        "image": "./weapon/images/nord-hero-mace.png",
+        "image": "./weapons/images/nord-hero-mace.png",
         "price_gold": 195,
         "weight": 13.0,
         "stock": 100,
@@ -884,7 +884,7 @@
     {
         "name": "Elven Mace",
         "id": "000139a0dd",
-        "image": "./weapon/images/elven-mace.png",
+        "image": "./weapons/images/elven-mace.png",
         "price_gold": 330,
         "weight": 17.0,
         "stock": 100,
@@ -905,7 +905,7 @@
     {
         "name": "Golden Mace",
         "id": "xx000827dd",
-        "image": "./weapon/images/golden-mace.png",
+        "image": "./weapons/images/golden-mace.png",
         "price_gold": 370,
         "weight": 15.0,
         "stock": 100,
@@ -926,7 +926,7 @@
     {
         "name": "Nordic Mace",
         "id": "xx01cdb0",
-        "image": "./weapon/images/nordic-mace.png",
+        "image": "./weapons/images/nordic-mace.png",
         "price_gold": 410,
         "weight": 16.0,
         "stock": 100,
@@ -947,7 +947,7 @@
     {
         "name": "Dark Mace",
         "id": "xx000824dd",
-        "image": "./weapon/images/dark-mace.png",
+        "image": "./weapons/images/dark-mace.png",
         "price_gold": 370,
         "weight": 15.0,
         "stock": 100,
@@ -968,7 +968,7 @@
     {
         "name": "Glass Mace",
         "id": "000139a8dd",
-        "image": "./weapon/images/glass-mace.png",
+        "image": "./weapons/images/glass-mace.png",
         "price_gold": 575,
         "weight": 18.0,
         "stock": 100,
@@ -989,7 +989,7 @@
     {
         "name": "Ebony Mace",
         "id": "000139b0dd",
-        "image": "./weapon/images/ebony-mace.png",
+        "image": "./weapons/images/ebony-mace.png",
         "price_gold": 1000,
         "weight": 19.0,
         "stock": 100,
@@ -1010,7 +1010,7 @@
     {
         "name": "Stalhrim Mace",
         "id": "xx01cdb7dd",
-        "image": "./weapon/images/stalhrim-mace.png",
+        "image": "./weapons/images/stalhrim-mace.png",
         "price_gold": 1375,
         "weight": 18.0,
         "stock": 100,
@@ -1031,7 +1031,7 @@
     {
         "name": "Daedric Mace",
         "id": "000139b8dd",
-        "image": "./weapon/images/daedric-mace.png",
+        "image": "./weapons/images/daedric-mace.png",
         "price_gold": 1750,
         "weight": 20.0,
         "stock": 100,
@@ -1052,7 +1052,7 @@
     {
         "name": "Ebony Mace",
         "id": "xx000E37dd",
-        "image": "./weapon/images/ebony-mace.png",
+        "image": "./weapons/images/ebony-mace.png",
         "price_gold": 1000,
         "weight": 19.0,
         "stock": 100,
@@ -1073,7 +1073,7 @@
     {
         "name": "Dragonbone Mace",
         "id": "xx014fcddd",
-        "image": "./weapon/images/dragonbone-mace.png",
+        "image": "./weapons/images/dragonbone-mace.png",
         "price_gold": 2000,
         "weight": 22.0,
         "stock": 100,
@@ -1094,7 +1094,7 @@
     {
         "name": "Amber Mace",
         "id": "xx000BDFdd",
-        "image": "./weapon/images/amber-mace.png",
+        "image": "./weapons/images/amber-mace.png",
         "price_gold": 2100,
         "weight": 18.0,
         "stock": 100,
@@ -1115,7 +1115,7 @@
     {
         "name": "Madness Mace",
         "id": "xx000BE8",
-        "image": "./weapon/images/madness-mace.png",
+        "image": "./weapons/images/madness-mace.png",
         "price_gold": 2200,
         "weight": 23.0,
         "stock": 100,
@@ -1136,7 +1136,7 @@
     {
         "name": "Iron Dagger",
         "id": "0001397edd",
-        "image": "./weapon/images/iron-dagger.png",
+        "image": "./weapons/images/iron-dagger.png",
         "price_gold": 10,
         "weight": 2.0,
         "stock": 100,
@@ -1157,7 +1157,7 @@
     {
         "name": "Steel Dagger",
         "id": "00013986dd",
-        "image": "./weapon/images/steel-dagger.png",
+        "image": "./weapons/images/steel-dagger.png",
         "price_gold": 18,
         "weight": 2.5,
         "stock": 100,
@@ -1178,7 +1178,7 @@
     {
         "name": "Orcish Dagger",
         "id": "0001398edd",
-        "image": "./weapon/images/orcish-dagger.png",
+        "image": "./weapons/images/orcish-dagger.png",
         "price_gold": 30,
         "weight": 3.0,
         "stock": 100,
@@ -1199,7 +1199,7 @@
     {
         "name": "Dwarven Dagger",
         "id": "00013996dd",
-        "image": "./weapon/images/dwarven-dagger.png",
+        "image": "./weapons/images/dwarven-dagger.png",
         "price_gold": 55,
         "weight": 3.5,
         "stock": 100,
@@ -1220,7 +1220,7 @@
     {
         "name": "Skyforge Steel Dagger",
         "id": "0009f25ddd",
-        "image": "./weapon/images/skyforge-steel-dagger.png",
+        "image": "./weapons/images/skyforge-steel-dagger.png",
         "price_gold": 25,
         "weight": 2.5,
         "stock": 100,
@@ -1241,7 +1241,7 @@
     {
         "name": "Nord Hero Dagger",
         "id": "xx08A1E4dd",
-        "image": "./weapon/images/nord-hero-dagger.png",
+        "image": "./weapons/images/nord-hero-dagger.png",
         "price_gold": 55,
         "weight": 2.0,
         "stock": 100,
@@ -1262,7 +1262,7 @@
     {
         "name": "Elven Dagger",
         "id": "0001399edd",
-        "image": "./weapon/images/elven-dagger.png",
+        "image": "./weapons/images/elven-dagger.png",
         "price_gold": 95,
         "weight": 4.0,
         "stock": 100,
@@ -1283,7 +1283,7 @@
     {
         "name": "Golden Dagger",
         "id": "xx00080Edd",
-        "image": "./weapon/images/golden-dagger.png",
+        "image": "./weapons/images/golden-dagger.png",
         "price_gold": 105,
         "weight": 3.0,
         "stock": 100,
@@ -1304,7 +1304,7 @@
     {
         "name": "Nordic Dagger",
         "id": "xx01cdae",
-        "image": "./weapon/images/nordic-dagger.png",
+        "image": "./weapons/images/nordic-dagger.png",
         "price_gold": 115,
         "weight": 3.5,
         "stock": 100,
@@ -1325,7 +1325,7 @@
     {
         "name": "Dark Dagger",
         "id": "xx000821dd",
-        "image": "./weapon/images/dark-dagger.png",
+        "image": "./weapons/images/dark-dagger.png",
         "price_gold": 105,
         "weight": 3.0,
         "stock": 100,
@@ -1346,7 +1346,7 @@
     {
         "name": "Glass Dagger",
         "id": "000139a6dd",
-        "image": "./weapon/images/glass-dagger.png",
+        "image": "./weapons/images/glass-dagger.png",
         "price_gold": 165,
         "weight": 4.5,
         "stock": 100,
@@ -1367,7 +1367,7 @@
     {
         "name": "Ebony Dagger",
         "id": "000139aedd",
-        "image": "./weapon/images/ebony-dagger.png",
+        "image": "./weapons/images/ebony-dagger.png",
         "price_gold": 290,
         "weight": 5.0,
         "stock": 100,
@@ -1388,7 +1388,7 @@
     {
         "name": "Stalhrim Dagger",
         "id": "xx01cdb5dd",
-        "image": "./weapon/images/stalhrim-dagger.png",
+        "image": "./weapons/images/stalhrim-dagger.png",
         "price_gold": 395,
         "weight": 4.5,
         "stock": 100,
@@ -1409,7 +1409,7 @@
     {
         "name": "Daedric Dagger",
         "id": "000139b6dd",
-        "image": "./weapon/images/daedric-dagger.png",
+        "image": "./weapons/images/daedric-dagger.png",
         "price_gold": 500,
         "weight": 6.0,
         "stock": 100,
@@ -1430,7 +1430,7 @@
     {
         "name": "Dragonbone Dagger",
         "id": "xx014fcbdd",
-        "image": "./weapon/images/dragonbone-dagger.png",
+        "image": "./weapons/images/dragonbone-dagger.png",
         "price_gold": 600,
         "weight": 6.5,
         "stock": 100,
@@ -1451,7 +1451,7 @@
     {
         "name": "Amber Dagger",
         "id": "xx000BDDdd",
-        "image": "./weapon/images/amber-dagger.png",
+        "image": "./weapons/images/amber-dagger.png",
         "price_gold": 700,
         "weight": 4.5,
         "stock": 100,
@@ -1472,7 +1472,7 @@
     {
         "name": "Madness Dagger",
         "id": "xx000BE6dd",
-        "image": "./weapon/images/madness-dagger.png",
+        "image": "./weapons/images/madness-dagger.png",
         "price_gold": 800,
         "weight": 7.0,
         "stock": 100,
@@ -1493,7 +1493,7 @@
     {
         "name": "Iron Greatsword",
         "id": "0001359d",
-        "image": "./weapon/images/iron-greatsword.png",
+        "image": "./weapons/images/iron-greatsword.png",
         "price_gold": 50,
         "weight": 16.0,
         "stock": 100,
@@ -1514,7 +1514,7 @@
     {
         "name": "Steel Greatsword",
         "id": "00013987dd",
-        "image": "./weapon/images/steel-greatsword.png",
+        "image": "./weapons/images/steel-greatsword.png",
         "price_gold": 90,
         "weight": 17.0,
         "stock": 100,
@@ -1535,7 +1535,7 @@
     {
         "name": "Orcish Greatsword",
         "id": "0001398fdd",
-        "image": "./weapon/images/orcish-greatsword.png",
+        "image": "./weapons/images/orcish-greatsword.png",
         "price_gold": 75,
         "weight": 18.0,
         "stock": 100,
@@ -1556,7 +1556,7 @@
     {
         "name": "Dwarven Greatsword",
         "id": "00013997dd",
-        "image": "./weapon/images/dwarven-greatsword.png",
+        "image": "./weapons/images/dwarven-greatsword.png",
         "price_gold": 270,
         "weight": 19.0,
         "stock": 100,
@@ -1577,7 +1577,7 @@
     {
         "name": "Nord Hero Greatsword",
         "id": "000a3115dd",
-        "image": "./weapon/images/nord-hero-greatsword.png",
+        "image": "./weapons/images/nord-hero-greatsword.png",
         "price_gold": 250,
         "weight": 16.0,
         "stock": 100,
@@ -1598,7 +1598,7 @@
     {
         "name": "Skyforge Steel Greatsword",
         "id": "0009f25edd",
-        "image": "./weapon/images/skyforge-steel-greatsword.png",
+        "image": "./weapons/images/skyforge-steel-greatsword.png",
         "price_gold": 140,
         "weight": 17.0,
         "stock": 100,
@@ -1619,7 +1619,7 @@
     {
         "name": "Elven Greatsword",
         "id": "0001399fdd",
-        "image": "./weapon/images/elven-greatsword.png",
+        "image": "./weapons/images/elven-greatsword.png",
         "price_gold": 470,
         "weight": 20.0,
         "stock": 100,
@@ -1640,7 +1640,7 @@
     {
         "name": "Nordic Greatsword",
         "id": "xx01cdafdd",
-        "image": "./weapon/images/nordic-greatsword.png",
+        "image": "./weapons/images/nordic-greatsword.png",
         "price_gold": 585,
         "weight": 19.0,
         "stock": 100,
@@ -1661,7 +1661,7 @@
     {
         "name": "Dark Greatsword",
         "id": "xx000825dd",
-        "image": "./weapon/images/dark-greatsword.png",
+        "image": "./weapons/images/dark-greatsword.png",
         "price_gold": 510,
         "weight": 18.0,
         "stock": 100,
@@ -1682,7 +1682,7 @@
     {
         "name": "Golden Greatsword",
         "id": "xx000826",
-        "image": "./weapon/images/golden-greatsword.png",
+        "image": "./weapons/images/golden-greatsword.png",
         "price_gold": 510,
         "weight": 18.0,
         "stock": 100,
@@ -1703,7 +1703,7 @@
     {
         "name": "Glass Greatsword",
         "id": "000139a7dd",
-        "image": "./weapon/images/glass-greatsword.png",
+        "image": "./weapons/images/glass-greatsword.png",
         "price_gold": 820,
         "weight": 22.0,
         "stock": 100,
@@ -1724,7 +1724,7 @@
     {
         "name": "Ebony Greatsword",
         "id": "000139afdd",
-        "image": "./weapon/images/ebony-greatsword.png",
+        "image": "./weapons/images/ebony-greatsword.png",
         "price_gold": 1440,
         "weight": 22.0,
         "stock": 100,
@@ -1745,7 +1745,7 @@
     {
         "name": "Stalhrim Greatsword",
         "id": "xx01cdb6dd",
-        "image": "./weapon/images/stalhrim-greatsword.png",
+        "image": "./weapons/images/stalhrim-greatsword.png",
         "price_gold": 1970,
         "weight": 21.0,
         "stock": 100,
@@ -1766,7 +1766,7 @@
     {
         "name": "Daedric Greatsword",
         "id": "000139b7dd",
-        "image": "./weapon/images/daedric-greatsword.png",
+        "image": "./weapons/images/daedric-greatsword.png",
         "price_gold": 2500,
         "weight": 23.0,
         "stock": 100,
@@ -1787,7 +1787,7 @@
     {
         "name": "Dragonbone Greatsword",
         "id": "xx014fdd",
-        "image": "./weapon/images/dragonbone-greatsword.png",
+        "image": "./weapons/images/dragonbone-greatsword.png",
         "price_gold": 2725,
         "weight": 27.0,
         "stock": 100,
@@ -1808,7 +1808,7 @@
     {
         "name": "Amber Greatsword",
         "id": "xx000BDEdd",
-        "image": "./weapon/images/amber-greatsword.png",
+        "image": "./weapons/images/amber-greatsword.png",
         "price_gold": 2925,
         "weight": 22.0,
         "stock": 100,
@@ -1829,7 +1829,7 @@
     {
         "name": "Madness Greatsword",
         "id": "xx000BE7dd",
-        "image": "./weapon/images/madness-greatsword.png",
+        "image": "./weapons/images/madness-greatsword.png",
         "price_gold": 3100,
         "weight": 28.0,
         "stock": 100,
@@ -1850,7 +1850,7 @@
     {
         "name": "Iron Battleaxe",
         "id": "00013980dd",
-        "image": "./weapon/images/iron-battleaxe.png",
+        "image": "./weapons/images/iron-battleaxe.png",
         "price_gold": 55,
         "weight": 20.0,
         "stock": 100,
@@ -1871,7 +1871,7 @@
     {
         "name": "Steel Battleaxe",
         "id": "00013984",
-        "image": "./weapon/images/steel-battleaxe.png",
+        "image": "./weapons/images/steel-battleaxe.png",
         "price_gold": 100,
         "weight": 21.0,
         "stock": 100,
@@ -1892,7 +1892,7 @@
     {
         "name": "Orcish Battleaxe",
         "id": "0001398cdd",
-        "image": "./weapon/images/orcish-battleaxe.png",
+        "image": "./weapons/images/orcish-battleaxe.png",
         "price_gold": 165,
         "weight": 25.0,
         "stock": 100,
@@ -1913,7 +1913,7 @@
     {
         "name": "Dwarven Battleaxe",
         "id": "00013994dd",
-        "image": "./weapon/images/dwarven-battleaxe.png",
+        "image": "./weapons/images/dwarven-battleaxe.png",
         "price_gold": 300,
         "weight": 23.0,
         "stock": 100,
@@ -1934,7 +1934,7 @@
     {
         "name": "Nord Hero Battle Axe",
         "id": "00068c79dd",
-        "image": "./weapon/images/nord-hero-battle-axe.png",
+        "image": "./weapons/images/nord-hero-battle-axe.png",
         "price_gold": 300,
         "weight": 20.0,
         "stock": 100,
@@ -1955,7 +1955,7 @@
     {
         "name": "Skyforge Steel Battleaxe",
         "id": "0009f25fdd",
-        "image": "./weapon/images/skyforge-steel-battleaxe.png",
+        "image": "./weapons/images/skyforge-steel-battleaxe.png",
         "price_gold": 150,
         "weight": 21.0,
         "stock": 100,
@@ -1976,7 +1976,7 @@
     {
         "name": "Elven Battleaxe",
         "id": "0001399cdd",
-        "image": "./weapon/images/elven-battleaxe.png",
+        "image": "./weapons/images/elven-battleaxe.png",
         "price_gold": 520,
         "weight": 24.0,
         "stock": 100,
@@ -1997,7 +1997,7 @@
     {
         "name": "Nordic Battleaxe",
         "id": "xx01cdaddd",
-        "image": "./weapon/images/nordic-battleaxe.png",
+        "image": "./weapons/images/nordic-battleaxe.png",
         "price_gold": 650,
         "weight": 23.0,
         "stock": 100,
@@ -2018,7 +2018,7 @@
     {
         "name": "Dark Battleaxe",
         "id": "xx000839dd",
-        "image": "./weapon/images/dark-battleaxe.png",
+        "image": "./weapons/images/dark-battleaxe.png",
         "price_gold": 575,
         "weight": 22.0,
         "stock": 100,
@@ -2039,7 +2039,7 @@
     {
         "name": "Golden Battleaxe",
         "id": "xx000810dd",
-        "image": "./weapon/images/golden-battleaxe.png",
+        "image": "./weapons/images/golden-battleaxe.png",
         "price_gold": 575,
         "weight": 22.0,
         "stock": 100,
@@ -2060,7 +2060,7 @@
     {
         "name": "Glass Battleaxe",
         "id": "000139a4",
-        "image": "./weapon/images/glass-battleaxe.png",
+        "image": "./weapons/images/glass-battleaxe.png",
         "price_gold": 900,
         "weight": 25.0,
         "stock": 100,
@@ -2081,7 +2081,7 @@
     {
         "name": "Ebony Battleaxe",
         "id": "000139acdd",
-        "image": "./weapon/images/ebony-battleaxe.png",
+        "image": "./weapons/images/ebony-battleaxe.png",
         "price_gold": 1585,
         "weight": 26.0,
         "stock": 100,
@@ -2102,7 +2102,7 @@
     {
         "name": "Stalhrim Battleaxe",
         "id": "xx01cdb4dd",
-        "image": "./weapon/images/stalhrim-battleaxe.png",
+        "image": "./weapons/images/stalhrim-battleaxe.png",
         "price_gold": 2150,
         "weight": 25.0,
         "stock": 100,
@@ -2123,7 +2123,7 @@
     {
         "name": "Daedric Battleaxe",
         "id": "000139b4dd",
-        "image": "./weapon/images/daedric-battleaxe.png",
+        "image": "./weapons/images/daedric-battleaxe.png",
         "price_gold": 2750,
         "weight": 27.0,
         "stock": 100,
@@ -2144,7 +2144,7 @@
     {
         "name": "Amber Battleaxe",
         "id": "xx000810dd",
-        "image": "./weapon/images/amber-battleaxe.png",
+        "image": "./weapons/images/amber-battleaxe.png",
         "price_gold": 1600,
         "weight": 24.0,
         "stock": 100,
@@ -2165,7 +2165,7 @@
     {
         "name": "Dragonbone Battleaxe",
         "id": "xx014fc3dd",
-        "image": "./weapon/images/dragonbone-battleaxe.png",
+        "image": "./weapons/images/dragonbone-battleaxe.png",
         "price_gold": 3000,
         "weight": 30.0,
         "stock": 100,
@@ -2186,7 +2186,7 @@
     {
         "name": "Madness Battleaxe",
         "id": "xx000BE4dd",
-        "image": "./weapon/images/madness-battleaxe.png",
+        "image": "./weapons/images/madness-battleaxe.png",
         "price_gold": 3300,
         "weight": 31.0,
         "stock": 100,
@@ -2207,7 +2207,7 @@
     {
         "name": "Iron Warhammer",
         "id": "00013981dd",
-        "image": "./weapon/images/iron-warhammer.png",
+        "image": "./weapons/images/iron-warhammer.png",
         "price_gold": 60,
         "weight": 24.0,
         "stock": 100,
@@ -2228,7 +2228,7 @@
     {
         "name": "Ancient Nord Warhammer",
         "id": "0001398Add",
-        "image": "./weapon/images/ancient-nord-warhammer.png",
+        "image": "./weapons/images/ancient-nord-warhammer.png",
         "price_gold": 42,
         "weight": 26.0,
         "stock": 100,
@@ -2249,7 +2249,7 @@
     {
         "name": "Steel Warhammer",
         "id": "0001398A",
-        "image": "./weapon/images/steel-warhammer.png",
+        "image": "./weapons/images/steel-warhammer.png",
         "price_gold": 110,
         "weight": 25.0,
         "stock": 100,
@@ -2270,7 +2270,7 @@
     {
         "name": "Orcish Warhammer",
         "id": "00013992dd",
-        "image": "./weapon/images/orcish-warhammer.png",
+        "image": "./weapons/images/orcish-warhammer.png",
         "price_gold": 180,
         "weight": 26.0,
         "stock": 100,
@@ -2291,7 +2291,7 @@
     {
         "name": "Dawnguard Warhammer",
         "id": "xx00DD55dd",
-        "image": "./weapon/images/dawnguard-warhammer.png",
+        "image": "./weapons/images/dawnguard-warhammer.png",
         "price_gold": 110,
         "weight": 26.0,
         "stock": 100,
@@ -2312,7 +2312,7 @@
     {
         "name": "Dwarven Warhammer",
         "id": "0001399Add",
-        "image": "./weapon/images/dwarven-warhammer.png",
+        "image": "./weapons/images/dwarven-warhammer.png",
         "price_gold": 325,
         "weight": 27.0,
         "stock": 100,
@@ -2333,7 +2333,7 @@
     {
         "name": "Nord Hero Warhammer",
         "id": "xx08A1E6dd",
-        "image": "./weapon/images/nord-hero-warhammer.png",
+        "image": "./weapons/images/nord-hero-warhammer.png",
         "price_gold": 350,
         "weight": 24.0,
         "stock": 100,
@@ -2354,7 +2354,7 @@
     {
         "name": "Honed Ancient Nord Warhammer",
         "id": "xx08A1EFdd",
-        "image": "./weapon/images/honed-ancient-nord-warhammer.png",
+        "image": "./weapons/images/honed-ancient-nord-warhammer.png",
         "price_gold": 76,
         "weight": 29.0,
         "stock": 100,
@@ -2375,7 +2375,7 @@
     {
         "name": "Elven Warhammer",
         "id": "000139A2dd",
-        "image": "./weapon/images/elven-warhammer.png",
+        "image": "./weapons/images/elven-warhammer.png",
         "price_gold": 565,
         "weight": 28.0,
         "stock": 100,
@@ -2396,7 +2396,7 @@
     {
         "name": "Dark Warhammer",
         "id": "xx000828dd",
-        "image": "./weapon/images/dark-warhammer.png",
+        "image": "./weapons/images/dark-warhammer.png",
         "price_gold": 620,
         "weight": 26.0,
         "stock": 100,
@@ -2417,7 +2417,7 @@
     {
         "name": "Nordic Warhammer",
         "id": "xx01CDB3dd",
-        "image": "./weapon/images/nordic-warhammer.png",
+        "image": "./weapons/images/nordic-warhammer.png",
         "price_gold": 700,
         "weight": 27.0,
         "stock": 100,
@@ -2438,7 +2438,7 @@
     {
         "name": "Golden Warhammer",
         "id": "xx000809",
-        "image": "./weapon/images/golden-warhammer.png",
+        "image": "./weapons/images/golden-warhammer.png",
         "price_gold": 620,
         "weight": 26.0,
         "stock": 100,
@@ -2459,7 +2459,7 @@
     {
         "name": "Glass Warhammer",
         "id": "000139AAdd",
-        "image": "./weapon/images/glass-warhammer.png",
+        "image": "./weapons/images/glass-warhammer.png",
         "price_gold": 985,
         "weight": 29.0,
         "stock": 100,
@@ -2480,7 +2480,7 @@
     {
         "name": "Ebony Warhammer",
         "id": "000139B2dd",
-        "image": "./weapon/images/ebony-warhammer.png",
+        "image": "./weapons/images/ebony-warhammer.png",
         "price_gold": 1725,
         "weight": 30.0,
         "stock": 100,
@@ -2501,7 +2501,7 @@
     {
         "name": "Stalhrim Warhammer",
         "id": "xx01CDBAdd",
-        "image": "./weapon/images/stalhrim-warhammer.png",
+        "image": "./weapons/images/stalhrim-warhammer.png",
         "price_gold": 2850,
         "weight": 29.0,
         "stock": 100,
@@ -2522,7 +2522,7 @@
     {
         "name": "Daedric Warhammer",
         "id": "000139BAdd",
-        "image": "./weapon/images/daedric-warhammer.png",
+        "image": "./weapons/images/daedric-warhammer.png",
         "price_gold": 4000,
         "weight": 31.0,
         "stock": 100,
@@ -2543,7 +2543,7 @@
     {
         "name": "Dragonbone Warhammer",
         "id": "xx014FD0dd",
-        "image": "./weapon/images/dragonbone-warhammer.png",
+        "image": "./weapons/images/dragonbone-warhammer.png",
         "price_gold": 4275,
         "weight": 33.0,
         "stock": 100,
@@ -2564,7 +2564,7 @@
     {
         "name": "Amber Warhammer",
         "id": "xx000BE2dd",
-        "image": "./weapon/images/amber-warhammer.png",
+        "image": "./weapons/images/amber-warhammer.png",
         "price_gold": 4475,
         "weight": 29.0,
         "stock": 100,
@@ -2585,7 +2585,7 @@
     {
         "name": "Madness Warhammer",
         "id": "xx000BEBdd",
-        "image": "./weapon/images/madness-warhammer.png",
+        "image": "./weapons/images/madness-warhammer.png",
         "price_gold": 4600,
         "weight": 34.0,
         "stock": 100,
@@ -2606,7 +2606,7 @@
     {
         "name": "Long Bow",
         "id": "0003b562dd",
-        "image": "./weapon/images/long-bow.png",
+        "image": "./weapons/images/long-bow.png",
         "price_gold": 30,
         "weight": 5.0,
         "stock": 100,
@@ -2627,7 +2627,7 @@
     {
         "name": "Hunting Bow",
         "id": "00013985",
-        "image": "./weapon/images/hunting-bow.png",
+        "image": "./weapons/images/hunting-bow.png",
         "price_gold": 50,
         "weight": 7.0,
         "stock": 100,
@@ -2648,7 +2648,7 @@
     {
         "name": "Orcish Bow",
         "id": "0001398ddd",
-        "image": "./weapon/images/orcish-bow.png",
+        "image": "./weapons/images/orcish-bow.png",
         "price_gold": 150,
         "weight": 9.0,
         "stock": 100,
@@ -2669,7 +2669,7 @@
     {
         "name": "Nord Hero Bow",
         "id": "00068c57dd",
-        "image": "./weapon/images/nord-hero-bow.png",
+        "image": "./weapons/images/nord-hero-bow.png",
         "price_gold": 200,
         "weight": 7.0,
         "stock": 100,
@@ -2690,7 +2690,7 @@
     {
         "name": "Golden Bow",
         "id": "xx00080Fdd",
-        "image": "./weapon/images/golden-bow.png",
+        "image": "./weapons/images/golden-bow.png",
         "price_gold": 495,
         "weight": 10.0,
         "stock": 100,
@@ -2711,7 +2711,7 @@
     {
         "name": "Dwarven Bow",
         "id": "00013995dd",
-        "image": "./weapon/images/dwarven-bow.png",
+        "image": "./weapons/images/dwarven-bow.png",
         "price_gold": 270,
         "weight": 10.0,
         "stock": 100,
@@ -2732,7 +2732,7 @@
     {
         "name": "Elven Bow",
         "id": "0001399ddd",
-        "image": "./weapon/images/elven-bow.png",
+        "image": "./weapons/images/elven-bow.png",
         "price_gold": 470,
         "weight": 12.0,
         "stock": 100,
@@ -2753,7 +2753,7 @@
     {
         "name": "Nordic Bow",
         "id": "xx026232dd",
-        "image": "./weapon/images/nordic-bow.png",
+        "image": "./weapons/images/nordic-bow.png",
         "price_gold": 580,
         "weight": 11.0,
         "stock": 100,
@@ -2774,7 +2774,7 @@
     {
         "name": "Dark Bow",
         "id": "xx000802dd",
-        "image": "./weapon/images/dark-bow.png",
+        "image": "./weapons/images/dark-bow.png",
         "price_gold": 495,
         "weight": 10.0,
         "stock": 100,
@@ -2795,7 +2795,7 @@
     {
         "name": "Glass Bow",
         "id": "000139a5dd",
-        "image": "./weapon/images/glass-bow.png",
+        "image": "./weapons/images/glass-bow.png",
         "price_gold": 820,
         "weight": 14.0,
         "stock": 100,
@@ -2816,7 +2816,7 @@
     {
         "name": "Ebony Bow",
         "id": "000139ad",
-        "image": "./weapon/images/ebony-bow.png",
+        "image": "./weapons/images/ebony-bow.png",
         "price_gold": 1440,
         "weight": 16.0,
         "stock": 100,
@@ -2837,7 +2837,7 @@
     {
         "name": "Stalhrim Bow",
         "id": "xx026231dd",
-        "image": "./weapon/images/stalhrim-bow.png",
+        "image": "./weapons/images/stalhrim-bow.png",
         "price_gold": 1800,
         "weight": 15.0,
         "stock": 100,
@@ -2858,7 +2858,7 @@
     {
         "name": "Daedric Bow",
         "id": "000139b5dd",
-        "image": "./weapon/images/daedric-bow.png",
+        "image": "./weapons/images/daedric-bow.png",
         "price_gold": 2500,
         "weight": 18.0,
         "stock": 100,
@@ -2879,7 +2879,7 @@
     {
         "name": "Dragonbone Bow",
         "id": "xx0176f1dd",
-        "image": "./weapon/images/dragonbone-bow.png",
+        "image": "./weapons/images/dragonbone-bow.png",
         "price_gold": 2725,
         "weight": 20.0,
         "stock": 100,
@@ -2900,7 +2900,7 @@
     {
         "name": "Amber Bow",
         "id": "xx000BDCdd",
-        "image": "./weapon/images/amber-bow.png",
+        "image": "./weapons/images/amber-bow.png",
         "price_gold": 2925,
         "weight": 14.0,
         "stock": 100,
@@ -2921,7 +2921,7 @@
     {
         "name": "Madness Bow",
         "id": "xx000BE5",
-        "image": "./weapon/images/madness-bow.png",
+        "image": "./weapons/images/madness-bow.png",
         "price_gold": 3050,
         "weight": 21.0,
         "stock": 100,
@@ -2942,7 +2942,7 @@
     {
         "name": "Crossbow",
         "id": "xx000801",
-        "image": "./weapon/images/crossbow.png",
+        "image": "./weapons/images/crossbow.png",
         "price_gold": 120,
         "weight": 14.0,
         "stock": 100,
@@ -2963,7 +2963,7 @@
     {
         "name": "Enhanced Crossbow",
         "id": "xx00f19e",
-        "image": "./weapon/images/enhanced-crossbow.png",
+        "image": "./weapons/images/enhanced-crossbow.png",
         "price_gold": 200,
         "weight": 15.0,
         "stock": 100,
@@ -2984,7 +2984,7 @@
     {
         "name": "Imperial Crossbow",
         "id": "FExxx80b",
-        "image": "./weapon/images/imperial-crossbow.png",
+        "image": "./weapons/images/imperial-crossbow.png",
         "price_gold": 200,
         "weight": 14.0,
         "stock": 100,
@@ -3005,7 +3005,7 @@
     {
         "name": "Enhanced Imperial Crossbow",
         "id": "FExxx817",
-        "image": "./weapon/images/enhanced-imperial-crossbow.png",
+        "image": "./weapons/images/enhanced-imperial-crossbow.png",
         "price_gold": 400,
         "weight": 14.0,
         "stock": 100,
@@ -3026,7 +3026,7 @@
     {
         "name": "Silver Crossbow",
         "id": "FExxx80E",
-        "image": "./weapon/images/silver-crossbow.png",
+        "image": "./weapons/images/silver-crossbow.png",
         "price_gold": 600,
         "weight": 14.0,
         "stock": 100,
@@ -3047,7 +3047,7 @@
     {
         "name": "Enhanced Silver Crossbow",
         "id": "FExxx81A",
-        "image": "./weapon/images/enhanced-silver-crossbow.png",
+        "image": "./weapons/images/enhanced-silver-crossbow.png",
         "price_gold": 700,
         "weight": 14.0,
         "stock": 100,
@@ -3068,7 +3068,7 @@
     {
         "name": "Dwarven Crossbow",
         "id": "xx00b647",
-        "image": "./weapon/images/dwarven-crossbow.png",
+        "image": "./weapons/images/dwarven-crossbow.png",
         "price_gold": 350,
         "weight": 20.0,
         "stock": 100,
@@ -3089,7 +3089,7 @@
     {
         "name": "Enhanced Dwarven Crossbow",
         "id": "xx00f19f",
-        "image": "./weapon/images/enhanced-dwarven-crossbow.png",
+        "image": "./weapons/images/enhanced-dwarven-crossbow.png",
         "price_gold": 550,
         "weight": 21.0,
         "stock": 100,
@@ -3110,7 +3110,7 @@
     {
         "name": "Orcish Crossbow",
         "id": "FExxx80D",
-        "image": "./weapon/images/orcish-crossbow.png",
+        "image": "./weapons/images/orcish-crossbow.png",
         "price_gold": 500,
         "weight": 15.0,
         "stock": 100,
@@ -3131,7 +3131,7 @@
     {
         "name": "Enhanced Orcish Crossbow",
         "id": "FExxx819",
-        "image": "./weapon/images/enhanced-orcish-crossbow.png",
+        "image": "./weapons/images/enhanced-orcish-crossbow.png",
         "price_gold": 700,
         "weight": 15.0,
         "stock": 100,
@@ -3152,7 +3152,7 @@
     {
         "name": "Elven Crossbow",
         "id": "FExxx801",
-        "image": "./weapon/images/elven-crossbow.png",
+        "image": "./weapons/images/elven-crossbow.png",
         "price_gold": 480,
         "weight": 21.0,
         "stock": 100,
@@ -3173,7 +3173,7 @@
     {
         "name": "Enhanced Elven Crossbow",
         "id": "FExxx809",
-        "image": "./weapon/images/enhanced-elven-crossbow.png",
+        "image": "./weapons/images/enhanced-elven-crossbow.png",
         "price_gold": 630,
         "weight": 22.0,
         "stock": 100,
@@ -3194,7 +3194,7 @@
     {
         "name": "Nordic Crossbow",
         "id": "FExxx80C",
-        "image": "./weapon/images/nordic-crossbow.png",
+        "image": "./weapons/images/nordic-crossbow.png",
         "price_gold": 700,
         "weight": 15.0,
         "stock": 100,
@@ -3215,7 +3215,7 @@
     {
         "name": "Enhanced Nordic Crossbow",
         "id": "FExxx818",
-        "image": "./weapon/images/enhanced-nordic-crossbow.png",
+        "image": "./weapons/images/enhanced-nordic-crossbow.png",
         "price_gold": 900,
         "weight": 15.0,
         "stock": 100,
@@ -3236,7 +3236,7 @@
     {
         "name": "Ebony Crossbow",
         "id": "FExxx8A6",
-        "image": "./weapon/images/ebony-crossbow.png",
+        "image": "./weapons/images/ebony-crossbow.png",
         "price_gold": 610,
         "weight": 23.0,
         "stock": 100,
@@ -3257,7 +3257,7 @@
     {
         "name": "Enhanced Ebony Crossbow",
         "id": "FExxx8AE",
-        "image": "./weapon/images/enhanced-ebony-crossbow.png",
+        "image": "./weapons/images/enhanced-ebony-crossbow.png",
         "price_gold": 870,
         "weight": 24.0,
         "stock": 100,
@@ -3278,7 +3278,7 @@
     {
         "name": "Glass Crossbow",
         "id": "FExxx80A",
-        "image": "./weapon/images/glass-crossbow.png",
+        "image": "./weapons/images/glass-crossbow.png",
         "price_gold": 800,
         "weight": 16.0,
         "stock": 100,
@@ -3299,7 +3299,7 @@
     {
         "name": "Enhanced Glass Crossbow",
         "id": "FExxx816",
-        "image": "./weapon/images/enhanced-glass-crossbow.png",
+        "image": "./weapons/images/enhanced-glass-crossbow.png",
         "price_gold": 1000,
         "weight": 16.0,
         "stock": 100,
@@ -3320,7 +3320,7 @@
     {
         "name": "Stalhrim Crossbow",
         "id": "FExxx80F",
-        "image": "./weapon/images/stalhrim-crossbow.png",
+        "image": "./weapons/images/stalhrim-crossbow.png",
         "price_gold": 1100,
         "weight": 18.0,
         "stock": 100,
@@ -3341,7 +3341,7 @@
     {
         "name": "Enhanced Stalhrim Crossbow",
         "id": "FExxx81B",
-        "image": "./weapon/images/enhanced-stalhrim-crossbow.png",
+        "image": "./weapons/images/enhanced-stalhrim-crossbow.png",
         "price_gold": 1300,
         "weight": 18.0,
         "stock": 100,
@@ -3362,7 +3362,7 @@
     {
         "name": "Daedric Crossbow",
         "id": "FExxx808",
-        "image": "./weapon/images/daedric-crossbow.png",
+        "image": "./weapons/images/daedric-crossbow.png",
         "price_gold": 1400,
         "weight": 20.0,
         "stock": 100,
@@ -3383,7 +3383,7 @@
     {
         "name": "Enhanced Daedric Crossbow",
         "id": "FExxx814",
-        "image": "./weapon/images/enhanced-daedric-crossbow.png",
+        "image": "./weapons/images/enhanced-daedric-crossbow.png",
         "price_gold": 1700,
         "weight": 20.0,
         "stock": 100,
@@ -3404,7 +3404,7 @@
     {
         "name": "Dragonbone Crossbow",
         "id": "FExxx809",
-        "image": "./weapon/images/dragonbone-crossbow.png",
+        "image": "./weapons/images/dragonbone-crossbow.png",
         "price_gold": 1500,
         "weight": 22.0,
         "stock": 100,
@@ -3425,7 +3425,7 @@
     {
         "name": "Enhanced Dragonbone Crossbow",
         "id": "FExxx815",
-        "image": "./weapon/images/enhanced-dragonbone-crossbow.png",
+        "image": "./weapons/images/enhanced-dragonbone-crossbow.png",
         "price_gold": 2000,
         "weight": 22.0,
         "stock": 100,
