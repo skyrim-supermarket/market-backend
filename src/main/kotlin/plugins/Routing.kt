@@ -60,6 +60,13 @@ fun Application.configureRouting() {
             }
         }
 
+        get("/product/{idProduct}") {
+            val idProduct = call.parameters["idProduct"]?.toIntOrNull()
+            if(idProduct == null) {
+                call.respond(HttpStatusCode.BadRequest)
+            }
+        }
+
         post("/newProduct/{type}") {
             val type = call.parameters["type"]
             if(type.isNullOrBlank() || type !in ProductRepository.validTypes) {
@@ -79,6 +86,7 @@ fun Application.configureRouting() {
             val product = ProductRepository.newProduct(
                 fields["productName"]!!,
                 fields["priceGold"]!!.toLong(),
+                fields["stock"]!!.toLong(),
                 fields["description"]!!,
                 type,
                 fields["standardDiscount"]!!.toLong(),
@@ -135,6 +143,11 @@ fun Application.configureRouting() {
 
         get("/clients") {
             call.respond(AccountRepository.getClients())
+            return@get
+        }
+
+        get("/sales") {
+            call.respond(SaleRepository.getSales())
             return@get
         }
 
@@ -207,53 +220,74 @@ fun Application.configureRouting() {
         }
 
         post("/newAdmins") {
-            val register = call.receive<RegisterAdminAndCarrocaBoy>()
-
-            val account = AccountRepository.getAccountByEmail(register.email)
-            if(account != null) {
-                call.respond(HttpStatusCode.Unauthorized, "This user already exists!")
+            val (fields, files) = UtilRepository.parseMultiPart(call.receiveMultipart())
+            val required = ProductRepository.reqFields["Admins"] ?: emptyList()
+            val missing = required.filter { it !in fields }
+            if(missing.isNotEmpty()) {
+                call.respond(HttpStatusCode.BadRequest, "Missing fields: $missing")
                 return@post
             }
 
             val date = Date(System.currentTimeMillis()).toString()
-            val newAccount = AccountRepository.newAccount(register.username, register.email, register.password, "admin", date)
-            AccountRepository.newAdmin(newAccount)
+            val account = AccountRepository.newAccount(
+                fields["username"]!!,
+                fields["email"]!!,
+                fields["password"]!!,
+                "admin",
+                date
+            )
 
-            call.respond(HttpStatusCode.OK, "Admin successfully registered")
+            AccountRepository.newAdmin(account, fields["root"]!!.toBoolean())
+
+            call.respond(HttpStatusCode.OK, "Admin successfully added!")
             return@post
         }
 
         post("/newCarrocaboys") {
-            val register = call.receive<RegisterAdminAndCarrocaBoy>()
-
-            val account = AccountRepository.getAccountByEmail(register.email)
-            if(account != null) {
-                call.respond(HttpStatusCode.Unauthorized, "This user already exists!")
+            val (fields, files) = UtilRepository.parseMultiPart(call.receiveMultipart())
+            val required = ProductRepository.reqFields["Carrocaboys"] ?: emptyList()
+            val missing = required.filter { it !in fields }
+            if(missing.isNotEmpty()) {
+                call.respond(HttpStatusCode.BadRequest, "Missing fields: $missing")
                 return@post
             }
 
             val date = Date(System.currentTimeMillis()).toString()
-            val newAccount = AccountRepository.newAccount(register.username, register.email, register.password, "carrocaboy", date)
-            AccountRepository.newCarrocaBoy(newAccount)
+            val account = AccountRepository.newAccount(
+                fields["username"]!!,
+                fields["email"]!!,
+                fields["password"]!!,
+                "carrocaboy",
+                date
+            )
 
-            call.respond(HttpStatusCode.OK, "CarroçaBoy successfully registered")
+            AccountRepository.newCarrocaBoy(account)
+
+            call.respond(HttpStatusCode.OK, "CarroçaBoy successfully added!")
             return@post
         }
 
         post("/newCashiers") {
-            val register = call.receive<RegisterCashier>()
-
-            val account = AccountRepository.getAccountByEmail(register.email)
-            if(account != null) {
-                call.respond(HttpStatusCode.Unauthorized, "This user already exists!")
+            val (fields, files) = UtilRepository.parseMultiPart(call.receiveMultipart())
+            val required = ProductRepository.reqFields["Cashiers"] ?: emptyList()
+            val missing = required.filter { it !in fields }
+            if(missing.isNotEmpty()) {
+                call.respond(HttpStatusCode.BadRequest, "Missing fields: $missing")
                 return@post
             }
 
             val date = Date(System.currentTimeMillis()).toString()
-            val newAccount = AccountRepository.newAccount(register.username, register.email, register.password, "cashier", date)
-            AccountRepository.newCashier(newAccount, register.section)
+            val account = AccountRepository.newAccount(
+                fields["username"]!!,
+                fields["email"]!!,
+                fields["password"]!!,
+                "cashier",
+                date
+            )
 
-            call.respond(HttpStatusCode.OK, "Cashier successfully registered")
+            AccountRepository.newCashier(account, fields["section"]!!.toLong())
+
+            call.respond(HttpStatusCode.OK, "Cashier successfully added!")
             return@post
         }
 

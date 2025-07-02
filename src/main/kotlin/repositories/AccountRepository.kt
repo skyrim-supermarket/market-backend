@@ -12,6 +12,12 @@ import kotlin.text.toCharArray
 
 class AccountRepository {
     companion object {
+        val reqFields = mapOf(
+            "Admins" to listOf("username", "email", "password", "root"),
+            "Cashiers" to listOf("username", "email", "password", "root", "section"),
+            "Carrocaboys" to listOf("username", "email", "password", "root")
+        )
+
         fun hashPw(pw: String): String {
             return BCrypt.withDefaults().hashToString(12, pw.toCharArray())
         }
@@ -101,10 +107,10 @@ class AccountRepository {
             }
         }
 
-        suspend fun newAdmin(account: AccountDAO): AdminDAO = suspendTransaction {
+        suspend fun newAdmin(account: AccountDAO, root: Boolean): AdminDAO = suspendTransaction {
             AdminDAO.new {
                 this.account = account
-                this.root = false
+                this.root = root
             }
         }
 

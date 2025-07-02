@@ -11,17 +11,17 @@ class ProductRepository {
             "Ores", "Potions", "Soul gems", "Weapons")
 
         val reqFields = mapOf(
-            "Ammunition" to listOf("productName", "priceGold", "description", "standardDiscount", "specialDiscount", "magical", "craft", "speed", "gravity", "category"),
-            "Armor" to listOf("productName", "priceGold", "description", "standardDiscount", "specialDiscount", "weight", "magical", "craft", "protection", "heavy", "category"),
-            "Books" to listOf("productName", "priceGold", "description", "standardDiscount", "specialDiscount"),
-            "Clothing" to listOf("productName", "priceGold", "description", "standardDiscount", "specialDiscount"),
-            "Food" to listOf("productName", "priceGold", "description", "standardDiscount", "specialDiscount"),
-            "Ingredients" to listOf("productName", "priceGold", "description", "standardDiscount", "specialDiscount"),
-            "Miscellaneous" to listOf("productName", "priceGold", "description", "standardDiscount", "specialDiscount"),
-            "Ores" to listOf("productName", "priceGold", "description", "standardDiscount", "specialDiscount"),
-            "Potions" to listOf("productName", "priceGold", "description", "standardDiscount", "specialDiscount"),
-            "Soul gems" to listOf("productName", "priceGold", "description", "standardDiscount", "specialDiscount"),
-            "Weapon" to listOf("productName", "priceGold", "description", "standardDiscount", "specialDiscount", "weight", "magical", "craft", "damage", "speed", "reach", "stagger", "battleStyle", "category")
+            "Ammunition" to listOf("productName", "priceGold", "stock", "description", "standardDiscount", "specialDiscount", "magical", "craft", "speed", "gravity", "category"),
+            "Armor" to listOf("productName", "priceGold", "stock", "description", "standardDiscount", "specialDiscount", "weight", "magical", "craft", "protection", "heavy", "category"),
+            "Books" to listOf("productName", "priceGold", "stock", "description", "standardDiscount", "specialDiscount"),
+            "Clothing" to listOf("productName", "priceGold", "stock", "description", "standardDiscount", "specialDiscount"),
+            "Food" to listOf("productName", "priceGold", "stock", "description", "standardDiscount", "specialDiscount"),
+            "Ingredients" to listOf("productName", "priceGold", "stock", "description", "standardDiscount", "specialDiscount"),
+            "Miscellaneous" to listOf("productName", "priceGold", "stock", "description", "standardDiscount", "specialDiscount"),
+            "Ores" to listOf("productName", "priceGold", "stock", "description", "standardDiscount", "specialDiscount"),
+            "Potions" to listOf("productName", "priceGold", "stock", "description", "standardDiscount", "specialDiscount"),
+            "Soul gems" to listOf("productName", "priceGold", "stock", "description", "standardDiscount", "specialDiscount"),
+            "Weapon" to listOf("productName", "priceGold", "stock", "description", "standardDiscount", "specialDiscount", "weight", "magical", "craft", "damage", "speed", "reach", "stagger", "battleStyle", "category")
         )
 
         suspend fun getProducts() = suspendTransaction {
@@ -32,12 +32,12 @@ class ProductRepository {
             ProductDAO.find { ProductT.id eq productId }.firstOrNull()
         }
 
-        suspend fun newProduct(productName: String, priceGold: Long, description: String, type: String, standardDiscount: Long, specialDiscount: Long, date: String): ProductDAO = suspendTransaction {
+        suspend fun newProduct(productName: String, priceGold: Long, stock: Long, description: String, type: String, standardDiscount: Long, specialDiscount: Long, date: String): ProductDAO = suspendTransaction {
             ProductDAO.new {
                 this.productName = productName
                 this.image = null
                 this.priceGold = priceGold
-                this.stock = 0
+                this.stock = stock
                 this.description = description
                 this.type = type
                 this.createdAt = date
