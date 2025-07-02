@@ -473,9 +473,10 @@ fun Application.configureRouting() {
             return@post
         }
 
-        post("/editAdmins/{adminId}") {
+        post("/editAdmins/{adminId}/{adminEditingEmail}") {
             val adminId = call.parameters["adminId"]?.toIntOrNull()
-            if(adminId == null) {
+            val adminEditingEmail = call.parameters["adminEditingEmail"]
+            if(adminId == null || adminEditingEmail.isNullOrBlank()) {
                 call.respond(HttpStatusCode.BadRequest, "Invalid parameters!")
                 return@post
             }
@@ -485,6 +486,17 @@ fun Application.configureRouting() {
 
             if(account == null || admin == null) {
                 call.respond(HttpStatusCode.NotFound, "This admin doesn't exist!")
+                return@post
+            }
+
+            val adminEditing = AccountRepository.getAdminByEmail(adminEditingEmail)
+            if(adminEditing == null) {
+                call.respond(HttpStatusCode.NotFound, "The admin editing doesn't exist!")
+                return@post
+            }
+
+            if(!adminEditing.root) {
+                call.respond(HttpStatusCode.Unauthorized, "The admin can only edit others if it's a root!")
                 return@post
             }
 
