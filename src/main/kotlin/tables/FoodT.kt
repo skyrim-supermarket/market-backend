@@ -25,8 +25,5 @@ fun daoToFood(dao: FoodDAO): Food = Food(
     description = dao.product.description,
     type = dao.product.type,
     createdAt = dao.product.createdAt,
-    updatedAt = dao.product.updatedAt,
-    standardDiscount = dao.product.standardDiscount,
-    specialDiscount = dao.product.specialDiscount,
-    hasDiscount = dao.product.hasDiscount
+    updatedAt = dao.product.updatedAt
 )

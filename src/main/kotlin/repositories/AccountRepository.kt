@@ -14,8 +14,8 @@ class AccountRepository {
     companion object {
         val reqFields = mapOf(
             "Admins" to listOf("username", "email", "password", "root"),
-            "Cashiers" to listOf("username", "email", "password", "root", "section"),
-            "Carrocaboys" to listOf("username", "email", "password", "root")
+            "Cashiers" to listOf("username", "email", "password", "section"),
+            "Carrocaboys" to listOf("username", "email", "password")
         )
 
         fun hashPw(pw: String): String {
@@ -40,6 +40,10 @@ class AccountRepository {
 
         suspend fun getClients(): List<Client> = suspendTransaction {
             ClientDAO.all().map(::daoToClient)
+        }
+
+        suspend fun getAccountById(id: Int): AccountDAO? = suspendTransaction {
+            AccountDAO.find { AccountT.id eq id }.firstOrNull()
         }
 
         suspend fun getAccountByEmail(email: String): AccountDAO? = suspendTransaction {
@@ -121,11 +125,33 @@ class AccountRepository {
             }
         }
 
+        suspend fun editAccount(
+            account: AccountDAO,
+            username: String,
+            email: String,
+            password: String?,
+            date: String
+        ) = suspendTransaction {
+            account.username = username
+            account.email = email
+            if(password != null) account.password = hashPw(password)
+            account.updatedAt = date
+        }
+
+        suspend fun deleteAccount(account: AccountDAO) = suspendTransaction {
+            account.delete()
+        }
+
+
         suspend fun newAdmin(account: AccountDAO, root: Boolean): AdminDAO = suspendTransaction {
             AdminDAO.new {
                 this.account = account
                 this.root = root
             }
+        }
+
+        suspend fun editAdmin(admin: AdminDAO, root: Boolean) = suspendTransaction {
+            admin.root = root
         }
 
         suspend fun newCarrocaBoy(account: AccountDAO): CarrocaBoyDAO = suspendTransaction {
@@ -143,12 +169,20 @@ class AccountRepository {
             }
         }
 
+        suspend fun editCashier(cashier: CashierDAO, section: Long) = suspendTransaction {
+            cashier.section = section
+        }
+
         suspend fun newClient(account: AccountDAO, address: String): ClientDAO = suspendTransaction {
             ClientDAO.new {
                 this.account = account
                 this.isSpecialClient = false
                 this.address = address
             }
+        }
+
+        suspend fun editClient(client: ClientDAO, address: String) = suspendTransaction {
+            client.address = address
         }
 
         suspend fun setLastRun(account: AccountDAO, date: String) = suspendTransaction {

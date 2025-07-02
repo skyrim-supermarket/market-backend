@@ -29,16 +29,10 @@ data class Register (
 )
 
 @Serializable
-data class RegisterCashier (
+data class EditAccount (
     val username: String,
     val email: String,
-    val password: String,
-    val section: Long
-)
-
-@Serializable
-data class RegisterAdminAndCarrocaBoy (
-    val username: String,
-    val email: String,
-    val password: String
+    val prevPassword: String,
+    val newPassword: String,
+    val address: String
 )

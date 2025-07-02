@@ -13,9 +13,6 @@ data class Armor (
     override var type: String,
     override val createdAt: String,
     override var updatedAt: String,
-    override var standardDiscount: Long,
-    override var specialDiscount: Long,
-    override var hasDiscount: Boolean,
     var weight: Double,
     var magical: Boolean,
     var craft: String,
@@ -25,22 +22,3 @@ data class Armor (
 ) : Product() {
 
 }
-
-@Serializable
-data class ArmorFilter (
-    override val page: Long,
-    override val productsPerPage: Long,
-    override val productName: String?,
-    override val minPriceGold: Long?,
-    override val maxPriceGold: Long?,
-    override val type: String?,
-    override val hasDiscount: Boolean?,
-    val minWeight: Double?,
-    val maxWeight: Double?,
-    val magical: Boolean?,
-    val craft: String?,
-    val minProtection: Double?,
-    val maxProtection: Double?,
-    val heavy: Boolean?,
-    val category: String?
-) : GeneralFilter()

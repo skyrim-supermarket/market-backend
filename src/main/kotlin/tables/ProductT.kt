@@ -17,9 +17,6 @@ object ProductT : IntIdTable("Products") {
     val type = varchar("type", 255)
     val createdAt = varchar("createdAt", 255)
     val updatedAt = varchar("updatedAt", 255)
-    val standardDiscount = long("standardDiscount")
-    val specialDiscount = long("specialDiscount")
-    val hasDiscount = bool("hasDiscount")
 }
 
 class ProductDAO(id: EntityID<Int>) : IntEntity(id) {
@@ -33,9 +30,6 @@ class ProductDAO(id: EntityID<Int>) : IntEntity(id) {
     var type by ProductT.type
     var createdAt by ProductT.createdAt
     var updatedAt by ProductT.updatedAt
-    var standardDiscount by ProductT.standardDiscount
-    var specialDiscount by ProductT.specialDiscount
-    var hasDiscount by ProductT.hasDiscount
 }
 
 fun daoToCard(dao: ProductDAO): ProductCardInfo = ProductCardInfo(

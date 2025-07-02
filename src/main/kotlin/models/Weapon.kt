@@ -13,9 +13,6 @@ data class Weapon (
     override var type: String,
     override val createdAt: String,
     override var updatedAt: String,
-    override var standardDiscount: Long,
-    override var specialDiscount: Long,
-    override var hasDiscount: Boolean,
     var weight: Double,
     var magical: Boolean,
     var craft: String,
@@ -28,28 +25,3 @@ data class Weapon (
 ) : Product() {
 
 }
-
-@Serializable
-data class WeaponFilter (
-    override val page: Long,
-    override val productsPerPage: Long,
-    override val productName: String?,
-    override val minPriceGold: Long?,
-    override val maxPriceGold: Long?,
-    override val type: String?,
-    override val hasDiscount: Boolean?,
-    val minWeight: Double?,
-    val maxWeight: Double?,
-    val magical: Boolean?,
-    val craft: String?,
-    val minDamage: Long?,
-    val maxDamage: Long?,
-    val minSpeed: Double?,
-    val maxSpeed: Double?,
-    val minReach: Long?,
-    val maxReach: Long?,
-    val minStagger: Double?,
-    val maxStagger: Double?,
-    val battleStyle: String?,
-    val category: String?
-) : GeneralFilter()

@@ -9,8 +9,8 @@ import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.ReferenceOption
 
 object SaleT : IntIdTable("Sales") {
-    val idClient = reference("client_id", AccountT, onDelete = ReferenceOption.CASCADE).nullable()
-    val idEmployee = reference("employee_id", AccountT, onDelete = ReferenceOption.CASCADE).nullable()
+    val idClient = reference("client_id", AccountT, onDelete = ReferenceOption.SET_NULL).nullable()
+    val idEmployee = reference("employee_id", AccountT, onDelete = ReferenceOption.SET_NULL).nullable()
     val totalPriceGold = long("totalPriceGold")
     val totalQuantity = long("totalQuantity")
     val finished = bool("finished")

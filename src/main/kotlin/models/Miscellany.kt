@@ -12,10 +12,7 @@ data class Miscellany (
     override var description: String,
     override var type: String,
     override val createdAt: String,
-    override var updatedAt: String,
-    override var standardDiscount: Long,
-    override var specialDiscount: Long,
-    override var hasDiscount: Boolean
+    override var updatedAt: String
 ) : Product() {
 
 }

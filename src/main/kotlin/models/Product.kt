@@ -13,9 +13,6 @@ sealed class Product {
     abstract var type: String
     abstract val createdAt: String
     abstract var updatedAt: String
-    abstract var standardDiscount: Long
-    abstract var specialDiscount: Long
-    abstract var hasDiscount: Boolean
 }
 
 @Serializable
@@ -26,7 +23,6 @@ sealed class GeneralFilter {
     abstract val minPriceGold: Long?
     abstract val maxPriceGold: Long?
     abstract val type: String?
-    abstract val hasDiscount: Boolean?
 }
 
 @Serializable
@@ -37,11 +33,10 @@ data class AllProductsFilter (
     override val minPriceGold: Long?,
     override val maxPriceGold: Long?,
     override val type: String?,
-    override val hasDiscount: Boolean?
 ) : GeneralFilter()
 
 @Serializable
-data class PaginationFilter (
+data class Filter (
     val type: String,
     val page: Int,
     val pageSize: Int
@@ -71,19 +66,4 @@ data class ProductCartInfo (
     val priceGold: Long,
     val quantity: Long,
     val type: String
-)
-
-
-@Serializable
-data class AmmoInsertTest (
-    val productName: String,
-    val priceGold: Long,
-    val description: String,
-    val standardDiscount: Long,
-    val specialDiscount: Long,
-    val magical: String,
-    val craft: String,
-    val speed: Double,
-    val gravity: Double,
-    val category: String
 )

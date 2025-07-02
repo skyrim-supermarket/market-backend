@@ -40,7 +40,7 @@ class UtilRepository {
         }
 
         fun getLabelsAndTypes(vararg tables: Table): List<Pair<String, String>> {
-            val ignoredColumns = setOf("id", "createdAt", "updatedAt", "hasDiscount", "product_id", "type", "image", "account_id", "lastRun", "totalCommissions")
+            val ignoredColumns = setOf("id", "createdAt", "updatedAt", "product_id", "type", "image", "account_id", "lastRun", "totalCommissions")
             return tables
                 .flatMap { it.columns }
                 .filter { it.name !in ignoredColumns }

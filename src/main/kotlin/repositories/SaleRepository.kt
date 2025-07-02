@@ -99,6 +99,10 @@ class SaleRepository {
             }.map(::daoToSale)
         }
 
+        suspend fun assignClient(client: AccountDAO, sale: SaleDAO) = suspendTransaction {
+            sale.idClient = client
+        }
+
         suspend fun getSalesToBeDelivered(account: AccountDAO): List<Sale> = suspendTransaction {
             SaleDAO.find {
                 (SaleT.status eq "To be delivered by ${account.username}") and
