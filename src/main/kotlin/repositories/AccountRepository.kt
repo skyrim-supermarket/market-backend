@@ -46,6 +46,20 @@ class AccountRepository {
             AccountDAO.find { AccountT.email eq email }.firstOrNull()
         }
 
+        suspend fun getAdminById(accountId: Int): AdminDAO? = suspendTransaction {
+            val account = AccountDAO.find { AccountT.id eq accountId }.firstOrNull()
+            account?.let { acc ->
+                AdminDAO.find { AdminT.account eq acc.id }.firstOrNull()
+            }
+        }
+
+        suspend fun getAdminByEmail(email: String): AdminDAO? = suspendTransaction {
+            val account = AccountDAO.find { AccountT.email eq email }.firstOrNull()
+            account?.let { acc ->
+                AdminDAO.find { AdminT.account eq acc.id }.firstOrNull()
+            }
+        }
+
         suspend fun getClientById(accountId: Int): ClientDAO? = suspendTransaction {
             val account = AccountDAO.find { AccountT.id eq accountId }.firstOrNull()
             account?.let { acc ->

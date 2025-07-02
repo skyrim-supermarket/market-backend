@@ -202,6 +202,128 @@ fun Application.configureRouting() {
             return@get
         }
 
+        get("/adminByEmail/{email}") {
+            val email = call.parameters["email"]
+
+            if(email.isNullOrBlank()) {
+                call.respond(HttpStatusCode.BadRequest, "Invalid email!")
+                return@get
+            }
+
+            val admin = AccountRepository.getAdminByEmail(email)
+
+            if (admin == null) {
+                call.respond(HttpStatusCode.NotFound, "This admin doesn't exist!")
+                return@get
+            }
+
+            val res = suspendTransaction { daoToAdmin(admin) }
+            call.respond(res)
+            return@get
+        }
+
+        get("/adminById/{id}") {
+            val id = call.parameters["id"]?.toIntOrNull()
+
+            if(id == null) {
+                call.respond(HttpStatusCode.BadRequest, "Invalid ID!")
+                return@get
+            }
+
+            val admin = AccountRepository.getAdminById(id)
+
+            if (admin == null) {
+                call.respond(HttpStatusCode.NotFound, "This admin doesn't exist!")
+                return@get
+            }
+
+            val res = suspendTransaction { daoToAdmin(admin) }
+            call.respond(res)
+            return@get
+        }
+
+
+        get("/cashierByEmail/{email}") {
+            val email = call.parameters["email"]
+
+            if(email.isNullOrBlank()) {
+                call.respond(HttpStatusCode.BadRequest, "Invalid email!")
+                return@get
+            }
+
+            val cashier = AccountRepository.getCashierByEmail(email)
+
+            if (cashier == null) {
+                call.respond(HttpStatusCode.NotFound, "This cashier doesn't exist!")
+                return@get
+            }
+
+            val res = suspendTransaction { daoToCashier(cashier) }
+            call.respond(res)
+            return@get
+        }
+
+        get("/cashierById/{id}") {
+            val id = call.parameters["id"]?.toIntOrNull()
+
+            if(id == null) {
+                call.respond(HttpStatusCode.BadRequest, "Invalid ID!")
+                return@get
+            }
+
+            val cashier = AccountRepository.getCashierById(id)
+
+            if (cashier == null) {
+                call.respond(HttpStatusCode.NotFound, "This cashier doesn't exist!")
+                return@get
+            }
+
+            val res = suspendTransaction { daoToCashier(cashier) }
+            call.respond(res)
+            return@get
+        }
+
+
+        get("/carrocaBoyByEmail/{email}") {
+            val email = call.parameters["email"]
+
+            if(email.isNullOrBlank()) {
+                call.respond(HttpStatusCode.BadRequest, "Invalid email!")
+                return@get
+            }
+
+            val carrocaBoy = AccountRepository.getCarrocaBoyByEmail(email)
+
+            if (carrocaBoy == null) {
+                call.respond(HttpStatusCode.NotFound, "This CarroçaBoy doesn't exist!")
+                return@get
+            }
+
+            val res = suspendTransaction { daoToCarrocaBoy(carrocaBoy) }
+            call.respond(res)
+            return@get
+        }
+
+        get("/carrocaBoyById/{id}") {
+            val id = call.parameters["id"]?.toIntOrNull()
+
+            if(id == null) {
+                call.respond(HttpStatusCode.BadRequest, "Invalid ID!")
+                return@get
+            }
+
+            val carrocaBoy = AccountRepository.getCarrocaBoyById(id)
+
+            if (carrocaBoy == null) {
+                call.respond(HttpStatusCode.NotFound, "This CarroçaBoy doesn't exist!")
+                return@get
+            }
+
+            val res = suspendTransaction { daoToCarrocaBoy(carrocaBoy) }
+            call.respond(res)
+            return@get
+        }
+
         get("/clientByEmail/{email}") {
             val email = call.parameters["email"]
 
