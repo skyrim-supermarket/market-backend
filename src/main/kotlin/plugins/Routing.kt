@@ -1051,7 +1051,7 @@ fun Application.configureRouting() {
             return@post
         }
 
-        post("/addClientToIrlPurhcase/{emailCashier}/{emailClient}") {
+        post("/addClientToIrlPurchase/{emailCashier}/{emailClient}") {
             val emailCashier = call.parameters["emailCashier"]
             val emailClient = call.parameters["emailClient"]
             if(emailCashier.isNullOrBlank() || emailClient.isNullOrBlank()) {
