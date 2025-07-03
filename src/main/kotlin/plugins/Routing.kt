@@ -144,7 +144,7 @@ fun Application.configureRouting() {
             return@post
         }
 
-        post("/editProducts/{productId}") {
+        post("/editProduct/{productId}") {
             val productId = call.parameters["productId"]?.toIntOrNull()
 
             if(productId == null) {
@@ -501,7 +501,7 @@ fun Application.configureRouting() {
             }
 
             val (fields, files) = UtilRepository.parseMultiPart(call.receiveMultipart())
-            val required = AccountRepository.reqFields["Admins"] ?: emptyList()
+            val required = AccountRepository.reqEditFields["Admins"] ?: emptyList()
             val missing = required.filter { it !in fields }
             if(missing.isNotEmpty()) {
                 call.respond(HttpStatusCode.BadRequest, "Missing fields: $missing")
@@ -513,7 +513,6 @@ fun Application.configureRouting() {
                 account,
                 fields["username"]!!,
                 fields["email"]!!,
-                fields["password"]!!,
                 date
             )
             AccountRepository.editAdmin(admin, fields["root"]!!.toBoolean())
@@ -561,7 +560,7 @@ fun Application.configureRouting() {
             }
 
             val (fields, files) = UtilRepository.parseMultiPart(call.receiveMultipart())
-            val required = AccountRepository.reqFields["Carrocaboys"] ?: emptyList()
+            val required = AccountRepository.reqFields["Employee"] ?: emptyList()
             val missing = required.filter { it !in fields }
             if(missing.isNotEmpty()) {
                 call.respond(HttpStatusCode.BadRequest, "Missing fields: $missing")
@@ -573,7 +572,6 @@ fun Application.configureRouting() {
                 account,
                 fields["username"]!!,
                 fields["email"]!!,
-                fields["password"]!!,
                 date
             )
 
@@ -621,7 +619,7 @@ fun Application.configureRouting() {
             }
 
             val (fields, files) = UtilRepository.parseMultiPart(call.receiveMultipart())
-            val required = AccountRepository.reqFields["Cashiers"] ?: emptyList()
+            val required = AccountRepository.reqFields["Employee"] ?: emptyList()
             val missing = required.filter { it !in fields }
             if(missing.isNotEmpty()) {
                 call.respond(HttpStatusCode.BadRequest, "Missing fields: $missing")
@@ -633,10 +631,8 @@ fun Application.configureRouting() {
                 account,
                 fields["username"]!!,
                 fields["email"]!!,
-                fields["password"]!!,
                 date
             )
-            AccountRepository.editCashier(cashier, fields["section"]!!.toLong())
 
             call.respond(HttpStatusCode.OK, "Cashier successfully edited!")
             return@post
@@ -713,13 +709,8 @@ fun Application.configureRouting() {
                 return@post
             }
 
-            if(!AccountRepository.checkPw(register.prevPassword, account.password)) {
-                call.respond(HttpStatusCode.Unauthorized, "Wrong password!")
-                return@post
-            }
-
             val date = Date(System.currentTimeMillis()).toString()
-            AccountRepository.editAccount(account, register.username, register.email, register.newPassword, date)
+            AccountRepository.editAccount(account, register.username, register.email, date)
             AccountRepository.editClient(client, register.address)
 
             call.respond(HttpStatusCode.OK, "Account successfully edited!")
@@ -742,7 +733,7 @@ fun Application.configureRouting() {
             }
 
             val date = Date(System.currentTimeMillis()).toString()
-            AccountRepository.editAccount(account, account.username, account.email, account.password, date)
+            AccountRepository.editAccount(account, account.username, account.email, date)
             AccountRepository.editClient(client, newAddress)
 
             call.respond(HttpStatusCode.OK, "Address successfully edited!")
@@ -966,6 +957,7 @@ fun Application.configureRouting() {
             val date = Date(System.currentTimeMillis()).toString()
             SaleProductRepository.newSaleProduct(purchase, product)
             SaleRepository.alterTotalQuantity(purchase, 1, date)
+            SaleRepository.alterTotalPrice(purchase, product, 0, 1, date)
 
             call.respond(HttpStatusCode.OK, "Product successfully added!")
             return@post
@@ -1052,38 +1044,45 @@ fun Application.configureRouting() {
 
             val date = Date(System.currentTimeMillis()).toString()
             SaleProductRepository.alterQuantity(saleProduct, quantity)
+            SaleRepository.alterTotalQuantity(sale, quantity-previousQuantity, date)
             SaleRepository.alterTotalPrice(sale, product, previousQuantity, quantity, date)
 
             call.respond(HttpStatusCode.OK, "Quantity successfully altered!")
             return@post
         }
 
-        post("/addClientToIrlPurhcase/{email}/{idSale}") {
-            val email = call.parameters["email"]
-            val idSale = call.parameters["idSale"]?.toIntOrNull()
-            if(email.isNullOrBlank() || idSale == null) {
+        post("/addClientToIrlPurhcase/{emailCashier}/{emailClient}") {
+            val emailCashier = call.parameters["emailCashier"]
+            val emailClient = call.parameters["emailClient"]
+            if(emailCashier.isNullOrBlank() || emailClient.isNullOrBlank()) {
                 call.respond(HttpStatusCode.BadRequest, "Invalid Parameters!")
                 return@post
             }
 
-            val account = AccountRepository.getAccountByEmail(email)
-            if(account == null || account.type != "client") {
+            val client = AccountRepository.getAccountByEmail(emailClient)
+            if(client == null || client.type != "client") {
                 call.respond(HttpStatusCode.BadRequest, "Invalid user!")
                 return@post
             }
 
-            val purchase = SaleRepository.getSaleById(idSale)
-            if(purchase == null) {
-                call.respond(HttpStatusCode.BadRequest, "This purchase does not exist!")
+            val cashier = AccountRepository.getAccountByEmail(emailCashier)
+            if(cashier == null || cashier.type != "cashier") {
+                call.respond(HttpStatusCode.NotFound, "This cashier does not exist!")
                 return@post
             }
 
-            SaleRepository.assignClient(account, purchase)
+            val sale = SaleRepository.getIrlPurchaseByAccount(cashier)
+            if(sale == null) {
+                call.respond(HttpStatusCode.NotFound, "This IRL sale does not exist!")
+                return@post
+            }
+
+            SaleRepository.assignClient(client, sale)
             call.respond(HttpStatusCode.OK, "Client successfully added!")
             return@post
         }
 
-        post("/finishOnlineSale/{email}") {
+        post("/finishIrlSale/{email}") {
             val email = call.parameters["email"]
             if(email.isNullOrBlank()) {
                 call.respond(HttpStatusCode.BadRequest, "Invalid Parameters!")
@@ -1096,20 +1095,24 @@ fun Application.configureRouting() {
                 return@post
             }
 
-            val cart = SaleRepository.getCartByAccount(account)
-            val saleProducts = SaleProductRepository.getSaleProductsBySale(cart.id.value)
+            val purchase = SaleRepository.getIrlPurchaseByAccount(account)
+            if(purchase == null) {
+                call.respond(HttpStatusCode.NotFound, "This purchase doesn't exist!")
+                return@post
+            }
+
+            val saleProducts = SaleProductRepository.getSaleProductsBySale(purchase.id.value)
 
             for (product in saleProducts) {
                 val check = ProductRepository.getProductById(product.idProduct)
                 if(check == null || product.quantity > check.stock) {
-                    call.respond(HttpStatusCode.Unauthorized, "Couldn't finish your purchase!")
+                    call.respond(HttpStatusCode.Unauthorized, "Couldn't finish this purchase!")
                     return@post
                 }
             }
 
             val date = Date(System.currentTimeMillis()).toString()
-            SaleRepository.finishOnlineSale(cart, date)
-            SaleRepository.newCart(account, date)
+            SaleRepository.finishSale(purchase, "Delivered!", date)
 
             for (product in saleProducts) {
                 val productDAO = ProductRepository.getProductById(product.idProduct)
@@ -1288,7 +1291,7 @@ fun Application.configureRouting() {
             }
 
             val date = Date(System.currentTimeMillis()).toString()
-            SaleRepository.finishOnlineSale(cart, date)
+            SaleRepository.finishSale(cart, "Waiting for CarroçaBoy!", date)
             SaleRepository.newCart(account, date)
 
             for (product in saleProducts) {
@@ -1348,7 +1351,7 @@ fun Application.configureRouting() {
             }
 
             val date = Date(System.currentTimeMillis()).toString()
-            SaleRepository.finishSale(sale, date)
+            SaleRepository.finishSale(sale, "Delivered", date)
             val carrocaBoy = AccountRepository.getCarrocaBoyByEmail(email)
             if(carrocaBoy == null) {
                 call.respond(HttpStatusCode.NotFound, "This CarroçaBoy does not exist!")

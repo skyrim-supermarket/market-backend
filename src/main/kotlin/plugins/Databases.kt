@@ -1,6 +1,7 @@
 package com.mac350.plugins
 
 import com.mac350.repositories.AccountRepository
+import com.mac350.repositories.UtilRepository
 import com.mac350.tables.*
 import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
@@ -38,28 +39,7 @@ object Databases {
         val dataSource = HikariDataSource(config)
         Database.connect(dataSource)
 
-        transaction {
-            SchemaUtils.create(AccountT)
-            SchemaUtils.create(AdminT)
-            SchemaUtils.create(CarrocaBoyT)
-            SchemaUtils.create(CashierT)
-            SchemaUtils.create(ClientT)
-            SchemaUtils.create(ProductT)
-            SchemaUtils.create(SaleProductT)
-            SchemaUtils.create(SaleT)
-            SchemaUtils.create(AmmunitionT)
-            SchemaUtils.create(ArmorT)
-            SchemaUtils.create(BookT)
-            SchemaUtils.create(ClothingT)
-            SchemaUtils.create(FoodT)
-            SchemaUtils.create(IngredientT)
-            SchemaUtils.create(MiscellanyT)
-            SchemaUtils.create(OreT)
-            SchemaUtils.create(PotionT)
-            SchemaUtils.create(SoulGemT)
-            SchemaUtils.create(WeaponT)
-
-        }
+        UtilRepository.createTables()
 
         transaction {
             val qtd = AccountDAO.find { AccountT.type eq "admin" }.count()

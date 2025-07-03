@@ -127,18 +127,13 @@ class SaleRepository {
             saleDAO.status = "To be delivered by ${account.username}"
         }
 
-        suspend fun getSaleOnTheWayByIdAndCarrocaBoy(saleId: Int, account: AccountDAO): SaleDAO? = suspendTransaction {
+        /*suspend fun getSaleOnTheWayByIdAndCarrocaBoy(saleId: Int, account: AccountDAO): SaleDAO? = suspendTransaction {
             SaleDAO.find {
                 (SaleT.id eq saleId) and
                 (SaleT.idEmployee eq account.id.value) and
                 (SaleT.status eq "To be delivered by ${account.username}")
             }.firstOrNull()
-        }
-
-        suspend fun finishSale(saleDAO: SaleDAO, date: String) = suspendTransaction {
-            saleDAO.status = "Delivered!"
-            saleDAO.updatedAt = date
-        }
+        }*/
 
         suspend fun alterTotalPrice(sale: SaleDAO, product: ProductDAO, previousQuantity: Long, quantity: Long, date: String) = suspendTransaction {
             sale.totalPriceGold += (quantity-previousQuantity)*product.priceGold
@@ -150,7 +145,13 @@ class SaleRepository {
             sale.updatedAt = date
         }
 
-        suspend fun finishOnlineSale(sale: SaleDAO, date: String) = suspendTransaction {
+        suspend fun finishSale(sale: SaleDAO, message: String, date: String) = suspendTransaction {
+            sale.finished = true
+            sale.status = message
+            sale.updatedAt = date
+        }
+
+        suspend fun finishIrlSale(sale: SaleDAO, date: String) = suspendTransaction {
             sale.finished = true
             sale.status = "Waiting for CarroçaBoy"
             sale.updatedAt = date

@@ -3,7 +3,9 @@ package com.mac350.repositories
 import com.mac350.tables.*
 import io.ktor.http.content.*
 import io.ktor.utils.io.*
+import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.Table
+import org.jetbrains.exposed.sql.transactions.transaction
 
 class UtilRepository {
     companion object {
@@ -64,6 +66,30 @@ class UtilRepository {
             "soul gems" -> SoulGemT
             "weapons" -> WeaponT
             else -> null
+        }
+
+        fun createTables() {
+            transaction {
+                SchemaUtils.create(AccountT)
+                SchemaUtils.create(AdminT)
+                SchemaUtils.create(CarrocaBoyT)
+                SchemaUtils.create(CashierT)
+                SchemaUtils.create(ClientT)
+                SchemaUtils.create(ProductT)
+                SchemaUtils.create(SaleProductT)
+                SchemaUtils.create(SaleT)
+                SchemaUtils.create(AmmunitionT)
+                SchemaUtils.create(ArmorT)
+                SchemaUtils.create(BookT)
+                SchemaUtils.create(ClothingT)
+                SchemaUtils.create(FoodT)
+                SchemaUtils.create(IngredientT)
+                SchemaUtils.create(MiscellanyT)
+                SchemaUtils.create(OreT)
+                SchemaUtils.create(PotionT)
+                SchemaUtils.create(SoulGemT)
+                SchemaUtils.create(WeaponT)
+            }
         }
     }
 }

@@ -3,7 +3,6 @@ package com.mac350.plugins
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
 import com.mac350.models.Client
-import com.mac350.repositories.ClientRepo
 import io.ktor.http.*
 import io.ktor.serialization.*
 import io.ktor.serialization.kotlinx.json.*

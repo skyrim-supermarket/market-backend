@@ -18,6 +18,11 @@ class AccountRepository {
             "Carrocaboys" to listOf("username", "email", "password")
         )
 
+        val reqEditFields = mapOf(
+            "Admins" to listOf("username", "email", "root"),
+            "Employee" to listOf("username", "email")
+        )
+
         fun hashPw(pw: String): String {
             return BCrypt.withDefaults().hashToString(12, pw.toCharArray())
         }
@@ -129,12 +134,10 @@ class AccountRepository {
             account: AccountDAO,
             username: String,
             email: String,
-            password: String?,
             date: String
         ) = suspendTransaction {
             account.username = username
             account.email = email
-            if(password != null) account.password = hashPw(password)
             account.updatedAt = date
         }
 
