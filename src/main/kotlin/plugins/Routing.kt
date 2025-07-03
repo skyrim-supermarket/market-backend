@@ -713,34 +713,21 @@ fun Application.configureRouting() {
                 return@post
             }
 
+            if(register.newPassword != null && register.newPassword != "") {
+                if(!AccountRepository.checkPw(register.prevPassword, account.password)) {
+                    call.respond(HttpStatusCode.Unauthorized, "Wrong password!")
+                    return@post
+                }
+
+                AccountRepository.editPw(account, register.newPassword)
+            }
+
             val date = Date(System.currentTimeMillis()).toString()
             AccountRepository.editAccount(account, register.username, register.email, date)
             AccountRepository.editClient(client, register.address)
 
-            call.respond(HttpStatusCode.OK, "Account successfully edited!")
-            return@post
-        }
-
-        post("/editAddress/{email}/{newAddress}") {
-            val email = call.parameters["email"]
-            val newAddress = call.parameters["newAddress"]
-            if(email.isNullOrBlank() || newAddress.isNullOrBlank()) {
-                call.respond(HttpStatusCode.BadRequest, "Invalid parameters!")
-                return@post
-            }
-
-            val account = AccountRepository.getAccountByEmail(email)
-            val client = AccountRepository.getClientByEmail(email)
-            if(account == null || client == null) {
-                call.respond(HttpStatusCode.Unauthorized, "This user doesn't exist!")
-                return@post
-            }
-
-            val date = Date(System.currentTimeMillis()).toString()
-            AccountRepository.editAccount(account, account.username, account.email, date)
-            AccountRepository.editClient(client, newAddress)
-
-            call.respond(HttpStatusCode.OK, "Address successfully edited!")
+            val token = generateToken(register.email, "client")
+            call.respond(mapOf("token" to token))
             return@post
         }
 

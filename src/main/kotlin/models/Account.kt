@@ -37,6 +37,6 @@ data class EditAccount (
     val username: String,
     val email: String,
     val prevPassword: String,
-    val newPassword: String,
+    val newPassword: String?,
     val address: String
 )

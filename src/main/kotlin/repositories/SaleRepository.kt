@@ -88,7 +88,7 @@ class SaleRepository {
 
         suspend fun getFinishedSalesByEmployee(employeeId: Int): List<Sale> = suspendTransaction {
             SaleDAO.find {
-                (SaleT.id eq employeeId) and
+                (SaleT.idEmployee eq employeeId) and
                         (SaleT.status eq "Delivered!")
             }.map(::daoToSale)
         }

@@ -5,6 +5,7 @@ import com.mac350.plugins.generateToken
 import io.ktor.client.request.*
 import io.ktor.http.*
 import com.auth0.jwt.JWT
+import com.mac350.repositories.AccountRepository
 import com.mac350.repositories.SaleProductRepository
 import com.mac350.repositories.SaleRepository
 import com.mac350.repositories.UtilRepository
@@ -524,5 +525,21 @@ class ApplicationTest {
             assertEquals(30, sale.totalPriceGold)
             assertEquals("today", sale.updatedAt)
         }
+    }
+
+    @Test
+    fun `hashPw and checkPw should work correctly`() {
+        val rawPassword = "test123"
+        val hash = AccountRepository.hashPw(rawPassword)
+        assertTrue(AccountRepository.checkPw(rawPassword, hash))
+        assertFalse(AccountRepository.checkPw("wrongpass", hash))
+    }
+
+    @Test
+    fun `should create an account correctly`() = runTest {
+        val acc = AccountRepository.newAccount("user1", "u1@mail.com", "pass123", "client", "2024-01-01")
+        assertEquals("user1", acc.username)
+        assertEquals("u1@mail.com", acc.email)
+        assertEquals("client", acc.type)
     }
 }

@@ -141,6 +141,10 @@ class AccountRepository {
             account.updatedAt = date
         }
 
+        suspend fun editPw(account: AccountDAO, newPw: String) = suspendTransaction {
+            account.password = hashPw(newPw)
+        }
+
         suspend fun deleteAccount(account: AccountDAO) = suspendTransaction {
             account.delete()
         }
