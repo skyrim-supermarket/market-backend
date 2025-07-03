@@ -1360,19 +1360,20 @@ fun Application.configureRouting() {
                 return@post
             }
 
-            val sale = SaleRepository.getAvailableSaleById(idSale)
+            val sale = SaleRepository.getSaleToBeDeliveredById(idSale)
             if(sale == null) {
-                call.respond(HttpStatusCode.NotFound, "This sale does not exist or has already been accepted!")
+                call.respond(HttpStatusCode.NotFound, "This sale does not exist or is not being delivered!")
                 return@post
             }
 
-            val date = Date(System.currentTimeMillis()).toString()
-            SaleRepository.finishSale(sale, "Delivered", date)
             val carrocaBoy = AccountRepository.getCarrocaBoyByEmail(email)
             if(carrocaBoy == null) {
                 call.respond(HttpStatusCode.NotFound, "This CarroçaBoy does not exist!")
                 return@post
             }
+
+            val date = Date(System.currentTimeMillis()).toString()
+            SaleRepository.finishSale(sale, "Delivered!", date)
 
             AccountRepository.addCommissionToEmployee(carrocaBoy, sale.totalPriceGold, date)
 

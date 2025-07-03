@@ -110,6 +110,13 @@ class SaleRepository {
             }.map(::daoToSale)
         }
 
+        suspend fun getSaleToBeDeliveredById(saleId: Int): SaleDAO? = suspendTransaction {
+            SaleDAO.find {
+                (SaleT.id eq saleId) and
+                (SaleT.status like "To be delivered by %")
+            }.firstOrNull()
+        }
+
         suspend fun getAvailableSaleById(saleId: Int): SaleDAO? = suspendTransaction {
             SaleDAO.find {
                 (SaleT.id eq saleId) and
