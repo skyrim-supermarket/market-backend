@@ -28,7 +28,7 @@ fun Application.configureRouting() {
             type = UtilRepository.capitalizeFirstLetter(type)
             val page = recv.page - 1
             val pageSize = recv.pageSize
-            val productName = recv.productName
+            val productName = recv.filterName
             val minPriceGold = recv.minPriceGold
             val maxPriceGold = recv.maxPriceGold
             val orderBy = recv.orderBy

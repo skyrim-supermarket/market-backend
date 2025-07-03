@@ -7,6 +7,7 @@ import org.h2.command.query.QueryOrderBy
 import org.jetbrains.exposed.sql.Op
 import org.jetbrains.exposed.sql.SortOrder
 import org.jetbrains.exposed.sql.and
+import org.jetbrains.exposed.sql.lowerCase
 
 class ProductRepository {
     companion object {
@@ -30,7 +31,7 @@ class ProductRepository {
 
         suspend fun getProducts(
             type: String,
-            productName: String?,
+            filterName: String?,
             minPriceGold: Long?,
             maxPriceGold: Long?,
             orderBy: String?
@@ -50,8 +51,8 @@ class ProductRepository {
                         conditions += (ProductT.type eq type)
                     }
 
-                    if (!productName.isNullOrBlank()) {
-                        conditions += (ProductT.productName like "%$productName%")
+                    if (!filterName.isNullOrBlank()) {
+                        conditions += (ProductT.productName.lowerCase() like "%${filterName.lowercase()}%")
                     }
 
                     if (minPriceGold != null) {
@@ -67,10 +68,10 @@ class ProductRepository {
             }
 
             val ordered = when (orderBy) {
-                "Price - Asc." -> query.orderBy(ProductT.priceGold to SortOrder.ASC)
-                "Price - Desc." -> query.orderBy(ProductT.priceGold to SortOrder.DESC)
-                "Name - Asc." -> query.orderBy(ProductT.productName to SortOrder.ASC)
-                "Name - Desc." -> query.orderBy(ProductT.productName to SortOrder.DESC)
+                "PriceAsc" -> query.orderBy(ProductT.priceGold to SortOrder.ASC)
+                "PriceDesc" -> query.orderBy(ProductT.priceGold to SortOrder.DESC)
+                "NameAsc" -> query.orderBy(ProductT.productName to SortOrder.ASC)
+                "NameDesc" -> query.orderBy(ProductT.productName to SortOrder.DESC)
                 else -> query
             }
 

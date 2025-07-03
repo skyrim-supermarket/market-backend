@@ -26,7 +26,7 @@ data class Filter (
     val type: String,
     val page: Int,
     val pageSize: Int,
-    val productName: String? = null,
+    val filterName: String? = null,
     val minPriceGold: Long? = null,
     val maxPriceGold: Long? = null,
     val orderBy: String? = null
