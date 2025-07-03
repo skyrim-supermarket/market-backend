@@ -998,6 +998,9 @@ fun Application.configureRouting() {
             SaleRepository.alterTotalPrice(cart, product, saleProduct.quantity, 0, date)
             SaleRepository.alterTotalQuantity(cart, -delta, date)
             SaleProductRepository.deleteSaleProduct(saleProduct)
+
+            call.respond(HttpStatusCode.OK, "PRoduct successfully altered!")
+            return@delete
         }
 
         post("/alterQuantityIrlPurchase/{idProduct}/{email}/{quantity}") {
