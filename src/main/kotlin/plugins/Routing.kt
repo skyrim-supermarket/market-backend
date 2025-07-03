@@ -28,8 +28,12 @@ fun Application.configureRouting() {
             type = UtilRepository.capitalizeFirstLetter(type)
             val page = recv.page - 1
             val pageSize = recv.pageSize
+            val productName = recv.productName
+            val minPriceGold = recv.minPriceGold
+            val maxPriceGold = recv.maxPriceGold
+            val orderBy = recv.orderBy
 
-            val query = ProductRepository.getProducts(type)
+            val query = ProductRepository.getProducts(type, productName, minPriceGold, maxPriceGold, orderBy)
 
             if (query == null) {
                 call.respond(HttpStatusCode.BadRequest, "Invalid parameter!")
@@ -1221,9 +1225,9 @@ fun Application.configureRouting() {
 
             val date = Date(System.currentTimeMillis()).toString()
             val delta = saleProduct.quantity
-            SaleRepository.alterTotalPrice(cart, product, saleProduct.quantity, 0, date)
-            SaleProductRepository.deleteSaleProduct(saleProduct)
+            SaleRepository.alterTotalPrice(cart, product, delta, 0, date)
             SaleRepository.alterTotalQuantity(cart, -delta, date)
+            SaleProductRepository.deleteSaleProduct(saleProduct)
 
             call.respond(HttpStatusCode.OK, "Product successfully deleted!")
             return@delete
@@ -1307,6 +1311,9 @@ fun Application.configureRouting() {
                 val productDAO = ProductRepository.getProductById(product.idProduct)
                 ProductRepository.alterStock(productDAO!!, product.quantity)
             }
+
+            call.respond(HttpStatusCode.OK, "You finished your purchase!")
+            return@post
         }
 
         post("/acceptOrder/{email}/{idSale}") {

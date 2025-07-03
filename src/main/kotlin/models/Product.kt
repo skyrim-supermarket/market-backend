@@ -19,31 +19,17 @@ sealed class Product {
     abstract var updatedAt: String
 }
 
+@OptIn(ExperimentalSerializationApi::class)
 @Serializable
-sealed class GeneralFilter {
-    abstract val page: Long
-    abstract val productsPerPage: Long
-    abstract val productName: String?
-    abstract val minPriceGold: Long?
-    abstract val maxPriceGold: Long?
-    abstract val type: String?
-}
-
-@Serializable
-data class AllProductsFilter (
-    override val page: Long = 0,
-    override val productsPerPage: Long,
-    override val productName: String?,
-    override val minPriceGold: Long?,
-    override val maxPriceGold: Long?,
-    override val type: String?,
-) : GeneralFilter()
-
-@Serializable
+@JsonClassDiscriminator("kind")
 data class Filter (
     val type: String,
     val page: Int,
-    val pageSize: Int
+    val pageSize: Int,
+    val productName: String? = null,
+    val minPriceGold: Long? = null,
+    val maxPriceGold: Long? = null,
+    val orderBy: String? = null
 )
 
 @Serializable
@@ -52,7 +38,9 @@ data class QueryResults (
     val totalCount: Int
 )
 
+@OptIn(ExperimentalSerializationApi::class)
 @Serializable
+@JsonClassDiscriminator("kind")
 data class ProductCardInfo (
     val id: Long,
     val productName: String,
@@ -62,7 +50,9 @@ data class ProductCardInfo (
     val type: String
 )
 
+@OptIn(ExperimentalSerializationApi::class)
 @Serializable
+@JsonClassDiscriminator("kind")
 data class ProductCartInfo (
     val id: Long,
     val productName: String,

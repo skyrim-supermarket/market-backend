@@ -3,6 +3,10 @@ package com.mac350.repositories
 import com.mac350.models.*
 import com.mac350.plugins.suspendTransaction
 import com.mac350.tables.*
+import org.h2.command.query.QueryOrderBy
+import org.jetbrains.exposed.sql.Op
+import org.jetbrains.exposed.sql.SortOrder
+import org.jetbrains.exposed.sql.and
 
 class ProductRepository {
     companion object {
@@ -24,25 +28,55 @@ class ProductRepository {
             "Weapons" to listOf("productName", "priceGold", "stock", "description", "weight", "magical", "craft", "damage", "speed", "reach", "stagger", "battleStyle", "category")
         )
 
-        suspend fun getProducts(type: String) = suspendTransaction {
-            if(type=="All products") {
-                ProductDAO.all().map(::daoToCard)
-            } else if(
-                type=="Ammunition" ||
-                type=="Armor" ||
-                type=="Books" ||
-                type=="Clothing" ||
-                type=="Food" ||
-                type=="Ingredients" ||
-                type=="Miscellaneous" ||
-                type=="Ores" ||
-                type=="Potions" ||
-                type=="Soul gems" ||
-                type=="Weapons"
-            ) {
-                ProductDAO.find { ProductT.type eq type }.map(::daoToCard)
-            } else null
+        suspend fun getProducts(
+            type: String,
+            productName: String?,
+            minPriceGold: Long?,
+            maxPriceGold: Long?,
+            orderBy: String?
+        ) = suspendTransaction {
+            val validTypes = setOf(
+                "Ammunition", "Armor", "Books", "Clothing", "Food", "Ingredients",
+                "Miscellaneous", "Ores", "Potions", "Soul gems", "Weapons"
+            )
+
+            if (type != "All products" && type !in validTypes) return@suspendTransaction null
+
+            val query = ProductDAO.find {
+                Op.build {
+                    val conditions = mutableListOf<Op<Boolean>>()
+
+                    if (type != "All products") {
+                        conditions += (ProductT.type eq type)
+                    }
+
+                    if (!productName.isNullOrBlank()) {
+                        conditions += (ProductT.productName like "%$productName%")
+                    }
+
+                    if (minPriceGold != null) {
+                        conditions += (ProductT.priceGold greaterEq minPriceGold)
+                    }
+
+                    if (maxPriceGold != null) {
+                        conditions += (ProductT.priceGold lessEq maxPriceGold)
+                    }
+
+                    conditions.reduceOrNull { acc, op -> acc and op } ?: Op.TRUE
+                }
+            }
+
+            val ordered = when (orderBy) {
+                "Price - Asc." -> query.orderBy(ProductT.priceGold to SortOrder.ASC)
+                "Price - Desc." -> query.orderBy(ProductT.priceGold to SortOrder.DESC)
+                "Name - Asc." -> query.orderBy(ProductT.productName to SortOrder.ASC)
+                "Name - Desc." -> query.orderBy(ProductT.productName to SortOrder.DESC)
+                else -> query
+            }
+
+            ordered.map(::daoToCard)
         }
+
 
         suspend fun getProductById(productId: Int) : ProductDAO? = suspendTransaction {
             ProductDAO.find { ProductT.id eq productId }.firstOrNull()
