@@ -1111,13 +1111,15 @@ fun Application.configureRouting() {
                 }
             }
 
-            val date = Date(System.currentTimeMillis()).toString()
-            SaleRepository.finishSale(purchase, "Delivered!", date)
-
             for (product in saleProducts) {
                 val productDAO = ProductRepository.getProductById(product.idProduct)
                 ProductRepository.alterStock(productDAO!!, product.quantity)
             }
+
+            val date = Date(System.currentTimeMillis()).toString()
+            SaleRepository.finishSale(purchase, "Delivered!", date)
+            call.respond(HttpStatusCode.OK, "Sale finished successfully!")
+            return@post
         }
 
         get("/cartSize/{email}") {
