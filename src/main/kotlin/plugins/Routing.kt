@@ -1090,7 +1090,7 @@ fun Application.configureRouting() {
             }
 
             val account = AccountRepository.getAccountByEmail(email)
-            if(account == null || account.type != "client") {
+            if(account == null || account.type != "cashier") {
                 call.respond(HttpStatusCode.BadRequest, "Invalid user!")
                 return@post
             }

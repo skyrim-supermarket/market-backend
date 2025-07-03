@@ -150,11 +150,5 @@ class SaleRepository {
             sale.status = message
             sale.updatedAt = date
         }
-
-        suspend fun finishIrlSale(sale: SaleDAO, date: String) = suspendTransaction {
-            sale.finished = true
-            sale.status = "Waiting for CarroçaBoy"
-            sale.updatedAt = date
-        }
     }
 }
