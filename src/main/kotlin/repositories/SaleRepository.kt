@@ -95,7 +95,7 @@ class SaleRepository {
 
         suspend fun getAvailableSales(): List<Sale> = suspendTransaction {
             SaleDAO.find {
-                SaleT.status eq "Waiting for CarroçaBoy"
+                SaleT.status eq "Waiting for CarroçaBoy!"
             }.map(::daoToSale)
         }
 
@@ -113,7 +113,7 @@ class SaleRepository {
         suspend fun getAvailableSaleById(saleId: Int): SaleDAO? = suspendTransaction {
             SaleDAO.find {
                 (SaleT.id eq saleId) and
-                        (SaleT.status eq "Waiting for CarroçaBoy")
+                        (SaleT.status eq "Waiting for CarroçaBoy!")
             }.firstOrNull()
         }
 
