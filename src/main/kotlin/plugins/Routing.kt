@@ -1180,6 +1180,7 @@ fun Application.configureRouting() {
 
             SaleProductRepository.newSaleProduct(cart, product)
             SaleRepository.alterTotalQuantity(cart, 1, date)
+            SaleRepository.alterTotalPrice(cart, product, 0, 1, date)
 
             call.respond(HttpStatusCode.OK, "Product successfully added!")
             return@post
@@ -1222,7 +1223,7 @@ fun Application.configureRouting() {
             SaleRepository.alterTotalQuantity(cart, -delta, date)
         }
 
-        post("/alterQuantity/{idProduct}/{email}/{quantity}") {
+        post("/alterQuantityCart/{idProduct}/{email}/{quantity}") {
             val idProduct = call.parameters["idProduct"]?.toIntOrNull()
             val email = call.parameters["email"]
             val quantity = call.parameters["quantity"]?.toLongOrNull()
