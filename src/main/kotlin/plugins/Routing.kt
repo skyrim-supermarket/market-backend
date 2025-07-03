@@ -785,7 +785,7 @@ fun Application.configureRouting() {
                         ProductCartInfo(
                             it.id.value.toLong(),
                             it.productName,
-                            it.image,
+                            it.image?.let { "http://localhost:8080$it" },
                             it.priceGold * saleProduct.quantity,
                             saleProduct.quantity,
                             it.type
@@ -826,7 +826,7 @@ fun Application.configureRouting() {
                         ProductCartInfo(
                             it.id.value.toLong(),
                             it.productName,
-                            it.image,
+                            it.image?.let { "http://localhost:8080${it}" },
                             it.priceGold * saleProduct.quantity,
                             saleProduct.quantity,
                             it.type
