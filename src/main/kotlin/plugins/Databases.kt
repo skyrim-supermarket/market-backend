@@ -59,7 +59,7 @@ object Databases {
 
                 AdminDAO.new {
                     this.account = account
-                    this.root = true
+                    this.root = "Yes"
                 }
             }
         }

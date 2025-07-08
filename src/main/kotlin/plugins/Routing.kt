@@ -117,17 +117,17 @@ fun Application.configureRouting() {
             )
 
             when(type) {
-                "Ammunition" -> ProductRepository.newAmmunition(product, fields["magical"]!!.toBoolean(), fields["craft"]!!, fields["speed"]!!.toDouble(), fields["gravity"]!!.toDouble(), fields["category"]!!)
-                "Armor" -> ProductRepository.newArmor(product, fields["weight"]!!.toDouble(), fields["magical"]!!.toBoolean(), fields["craft"]!!, fields["protection"]!!.toDouble(), fields["heavy"]!!.toBoolean(), fields["category"]!!)
-                "Books" -> ProductRepository.newBook(product)
-                "Clothing" -> ProductRepository.newClothing(product)
-                "Food" -> ProductRepository.newFood(product)
-                "Ingredients" -> ProductRepository.newIngredient(product)
-                "Miscellaneous" -> ProductRepository.newMiscellany(product)
-                "Ores" -> ProductRepository.newOre(product)
-                "Potions" -> ProductRepository.newPotion(product)
-                "Soul gems" -> ProductRepository.newSoulGem(product)
-                "Weapons" -> ProductRepository.newWeapon(product, fields["weight"]!!.toDouble(), fields["magical"]!!.toBoolean(), fields["craft"]!!, fields["damage"]!!.toLong(), fields["speed"]!!.toDouble(), fields["reach"]!!.toLong(), fields["stagger"]!!.toDouble(), fields["battleStyle"]!!, fields["category"]!!)
+                "Ammunition" -> ProductRepository.newAmmunition(product, fields["magical"]!!, fields["craft"]!!, fields["speed"]!!.toDouble(), fields["gravity"]!!.toDouble(), fields["category"]!!)
+                "Armor" -> ProductRepository.newArmor(product, fields["weight"]!!.toDouble(), fields["magical"]!!, fields["craft"]!!, fields["protection"]!!.toDouble(), fields["heavy"]!!, fields["category"]!!)
+                "Books" -> ProductRepository.newBook(product, fields["skillTaught"]!!,  fields["magical"]!!,  fields["pages"]!!.toLong())
+                "Clothing" -> ProductRepository.newClothing(product, fields["protection"]!!.toLong(),  fields["slot"]!!,  fields["enchantment"]!!,  fields["enchanted"]!!,  fields["weight"]!!.toDouble())
+                "Food" -> ProductRepository.newFood(product, fields["weight"]!!.toDouble(),  fields["healthRestored"]!!.toLong(),  fields["staminaRestored"]!!.toLong(),  fields["magickaRestored"]!!.toLong(),  fields["duration"]!!.toLong())
+                "Ingredients" -> ProductRepository.newIngredient(product, fields["weight"]!!.toDouble(),  fields["magical"]!!,  fields["effects"]!!)
+                "Miscellaneous" -> ProductRepository.newMiscellany(product, fields["questItem"]!!,  fields["craftingUse"]!!,  fields["modelType"]!!)
+                "Ores" -> ProductRepository.newOre(product, fields["weight"]!!.toDouble(),  fields["metalType"]!!,  fields["smeltedInto"]!!)
+                "Potions" -> ProductRepository.newPotion(product, fields["effects"]!!,  fields["duration"]!!.toLong(),  fields["magnitude"]!!,  fields["poisoned"]!!)
+                "Soul gems" -> ProductRepository.newSoulGem(product, fields["soulSize"]!!,  fields["isFilled"]!!,  fields["containedSoul"]!!,  fields["canCapture"]!!,  fields["reusable"]!!)
+                "Weapons" -> ProductRepository.newWeapon(product, fields["weight"]!!.toDouble(), fields["magical"]!!, fields["craft"]!!, fields["damage"]!!.toLong(), fields["speed"]!!.toDouble(), fields["reach"]!!.toLong(), fields["stagger"]!!.toDouble(), fields["battleStyle"]!!, fields["category"]!!)
             }
 
             val uploadDir = File("uploads")
@@ -207,17 +207,17 @@ fun Application.configureRouting() {
             }
 
             when(typeDao) {
-                is AmmunitionDAO -> ProductRepository.editAmmunition(typeDao, fields["magical"]!!.toBoolean(), fields["craft"]!!, fields["speed"]!!.toDouble(), fields["gravity"]!!.toDouble(), fields["category"]!!)
-                is ArmorDAO -> ProductRepository.editArmor(typeDao, fields["weight"]!!.toDouble(), fields["magical"]!!.toBoolean(), fields["craft"]!!, fields["protection"]!!.toDouble(), fields["heavy"]!!.toBoolean(), fields["category"]!!)
-                is BookDAO -> ProductRepository.editBook(typeDao)
-                is ClothingDAO -> ProductRepository.editClothing(typeDao)
-                is FoodDAO -> ProductRepository.editFood(typeDao)
-                is IngredientDAO -> ProductRepository.editIngredient(typeDao)
-                is MiscellanyDAO -> ProductRepository.editMiscellany(typeDao)
-                is OreDAO -> ProductRepository.editOre(typeDao)
-                is PotionDAO -> ProductRepository.editPotion(typeDao)
-                is SoulGemDAO -> ProductRepository.editSoulGem(typeDao)
-                is WeaponDAO -> ProductRepository.editWeapon(typeDao, fields["weight"]!!.toDouble(), fields["magical"]!!.toBoolean(), fields["craft"]!!, fields["damage"]!!.toLong(), fields["speed"]!!.toDouble(), fields["reach"]!!.toLong(), fields["stagger"]!!.toDouble(), fields["battleStyle"]!!, fields["category"]!!)
+                is AmmunitionDAO -> ProductRepository.editAmmunition(typeDao, fields["magical"]!!, fields["craft"]!!, fields["speed"]!!.toDouble(), fields["gravity"]!!.toDouble(), fields["category"]!!)
+                is ArmorDAO -> ProductRepository.editArmor(typeDao, fields["weight"]!!.toDouble(), fields["magical"]!!, fields["craft"]!!, fields["protection"]!!.toDouble(), fields["heavy"]!!, fields["category"]!!)
+                is BookDAO -> ProductRepository.editBook(typeDao, fields["skillTaught"]!!,  fields["magical"]!!,  fields["pages"]!!.toLong())
+                is ClothingDAO -> ProductRepository.editClothing(typeDao, fields["protection"]!!.toLong(),  fields["slot"]!!,  fields["enchantment"]!!,  fields["enchanted"]!!,  fields["weight"]!!.toDouble())
+                is FoodDAO -> ProductRepository.editFood(typeDao, fields["weight"]!!.toDouble(),  fields["healthRestored"]!!.toLong(),  fields["staminaRestored"]!!.toLong(),  fields["magickaRestored"]!!.toLong(),  fields["duration"]!!.toLong())
+                is IngredientDAO -> ProductRepository.editIngredient(typeDao, fields["weight"]!!.toDouble(),  fields["magical"]!!,  fields["effects"]!!)
+                is MiscellanyDAO -> ProductRepository.editMiscellany(typeDao, fields["questItem"]!!,  fields["craftingUse"]!!,  fields["modelType"]!!)
+                is OreDAO -> ProductRepository.editOre(typeDao, fields["weight"]!!.toDouble(),  fields["metalType"]!!,  fields["smeltedInto"]!!)
+                is PotionDAO -> ProductRepository.editPotion(typeDao, fields["effects"]!!,  fields["duration"]!!.toLong(),  fields["magnitude"]!!,  fields["poisoned"]!!)
+                is SoulGemDAO -> ProductRepository.editSoulGem(typeDao, fields["soulSize"]!!,  fields["isFilled"]!!,  fields["containedSoul"]!!,  fields["canCapture"]!!,  fields["reusable"]!!)
+                is WeaponDAO -> ProductRepository.editWeapon(typeDao, fields["weight"]!!.toDouble(), fields["magical"]!!, fields["craft"]!!, fields["damage"]!!.toLong(), fields["speed"]!!.toDouble(), fields["reach"]!!.toLong(), fields["stagger"]!!.toDouble(), fields["battleStyle"]!!, fields["category"]!!)
             }
 
             val uploadDir = File("uploads")
@@ -453,6 +453,33 @@ fun Application.configureRouting() {
             return@get
         }
 
+        get("/employeeById/{id}") {
+            val id = call.parameters["id"]?.toIntOrNull()
+
+            if(id == null) {
+                call.respond(HttpStatusCode.BadRequest, "Invalid ID!")
+                return@get
+            }
+
+            val account = AccountRepository.getAccountById(id)
+
+            if (account == null || (account.type != "cashier" && account.type != "carrocaboy")) {
+                call.respond(HttpStatusCode.NotFound, "This employee doesn't exist!")
+                return@get
+            }
+
+            val res = if(account.type == "cashier") {
+                val dao = AccountRepository.getCashierById(id)
+                suspendTransaction { daoToCashier(dao!!) }
+            } else {
+                val dao = AccountRepository.getCarrocaBoyById(id)
+                suspendTransaction { daoToCarrocaBoy(dao!!) }
+            }
+
+            call.respond(res)
+            return@get
+        }
+
         post("/newAdmins") {
             val (fields, files) = UtilRepository.parseMultiPart(call.receiveMultipart())
             val required = AccountRepository.reqFields["Admins"] ?: emptyList()
@@ -471,7 +498,7 @@ fun Application.configureRouting() {
                 date
             )
 
-            AccountRepository.newAdmin(account, fields["root"]!!.toBoolean())
+            AccountRepository.newAdmin(account, fields["root"]!!)
 
             call.respond(HttpStatusCode.OK, "Admin successfully added!")
             return@post
@@ -499,7 +526,7 @@ fun Application.configureRouting() {
                 return@post
             }
 
-            if(!adminEditing.root) {
+            if(adminEditing.root.lowercase() != "yes") {
                 call.respond(HttpStatusCode.Unauthorized, "The admin can only edit others if it's a root!")
                 return@post
             }
@@ -519,7 +546,7 @@ fun Application.configureRouting() {
                 fields["email"]!!,
                 date
             )
-            AccountRepository.editAdmin(admin, fields["root"]!!.toBoolean())
+            AccountRepository.editAdmin(admin, fields["root"]!!)
 
             call.respond(HttpStatusCode.OK, "Admin successfully edited!")
             return@post
@@ -667,7 +694,7 @@ fun Application.configureRouting() {
             if(toDelete.type == "admin") {
                 val admin1 = AccountRepository.getAdminById(toDeleteId)
                 val admin2 = AccountRepository.getAdminByEmail(deletingEmail)
-                if(admin1!!.root || !admin2!!.root) {
+                if(admin2!!.root.lowercase() != "yes" || admin1!!.root.lowercase() == "yes") {
                     call.respond(HttpStatusCode.Unauthorized, "You can't delete a root admin or an admin of same level!")
                     return@delete
                 }
@@ -976,8 +1003,14 @@ fun Application.configureRouting() {
                 return@delete
             }
 
-            val cart = SaleRepository.getCartByAccount(account)
-            val saleProduct = SaleProductRepository.getSaleProduct(cart.id.value, idProduct)
+            val purchase = SaleRepository.getIrlPurchaseByAccount(account)
+
+            if(purchase == null) {
+                call.respond(HttpStatusCode.NotFound, "This IRL purchase doesn't exist!")
+                return@delete
+            }
+
+            val saleProduct = SaleProductRepository.getSaleProduct(purchase.id.value, idProduct)
 
             if(saleProduct == null) {
                 call.respond(HttpStatusCode.NotFound, "This product is not in the cart!")
@@ -986,11 +1019,11 @@ fun Application.configureRouting() {
 
             val date = Date(System.currentTimeMillis()).toString()
             val delta = saleProduct.quantity
-            SaleRepository.alterTotalPrice(cart, product, saleProduct.quantity, 0, date)
-            SaleRepository.alterTotalQuantity(cart, -delta, date)
+            SaleRepository.alterTotalPrice(purchase, product, saleProduct.quantity, 0, date)
+            SaleRepository.alterTotalQuantity(purchase, -delta, date)
             SaleProductRepository.deleteSaleProduct(saleProduct)
 
-            call.respond(HttpStatusCode.OK, "PRoduct successfully altered!")
+            call.respond(HttpStatusCode.OK, "Product successfully deleted!")
             return@delete
         }
 
@@ -1114,25 +1147,6 @@ fun Application.configureRouting() {
             SaleRepository.finishSale(purchase, "Delivered!", date)
             call.respond(HttpStatusCode.OK, "Sale finished successfully!")
             return@post
-        }
-
-        get("/cartSize/{email}") {
-            val email = call.parameters["email"]
-            if(email.isNullOrBlank()) {
-                call.respond(HttpStatusCode.BadRequest, "Invalid parameters!")
-                return@get
-            }
-
-            val account = AccountRepository.getAccountByEmail(email)
-            if(account == null) {
-                call.respond(HttpStatusCode.NotFound, "This account does not exist!")
-                return@get
-            }
-
-            val cart = SaleRepository.getCartByAccount(account)
-            val cartSize = SaleProductRepository.getCartSize(cart.id.value)
-            call.respond(mapOf("size" to cartSize))
-            return@get
         }
 
         post("/addToCart/{idProduct}/{email}") {

@@ -16,7 +16,10 @@ data class Ingredient (
     override var description: String,
     override var type: String,
     override val createdAt: String,
-    override var updatedAt: String
+    override var updatedAt: String,
+    val weight: Double,
+    val magical: String,
+    val effects: String
 ) : Product() {
 
 }

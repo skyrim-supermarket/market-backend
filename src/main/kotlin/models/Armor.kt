@@ -18,10 +18,10 @@ data class Armor (
     override val createdAt: String,
     override var updatedAt: String,
     var weight: Double,
-    var magical: Boolean,
+    var magical: String,
     var craft: String,
     var protection: Double,
-    var heavy: Boolean,
+    var heavy: String,
     var category: String
 ) : Product() {
 

@@ -16,7 +16,12 @@ data class SoulGem (
     override var description: String,
     override var type: String,
     override val createdAt: String,
-    override var updatedAt: String
+    override var updatedAt: String,
+    val soulSize: String,
+    val isFilled: String,
+    val containedSoul: String,
+    val canCapture: String,
+    val reusable: String
 ) : Product() {
 
 }

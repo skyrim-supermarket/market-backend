@@ -17,7 +17,7 @@ data class Ammunition (
     override var type: String,
     override val createdAt: String,
     override var updatedAt: String,
-    var magical: Boolean,
+    var magical: String,
     var craft: String,
     var speed: Double,
     var gravity: Double,

@@ -8,12 +8,22 @@ import org.jetbrains.exposed.sql.ReferenceOption
 
 object FoodT : IntIdTable("Foods") {
     val product = reference("product_id", ProductT, onDelete = ReferenceOption.CASCADE)
+    val weight = double("weight")
+    val healthRestored = long("healthRestored")
+    val staminaRestored = long("staminaRestored")
+    val magickaRestored = long("magickaRestored")
+    val duration = long("duration")
 }
 
 class FoodDAO(id: EntityID<Int>) : IntEntity(id) {
     companion object : IntEntityClass<FoodDAO>(FoodT)
 
     var product by ProductDAO referencedOn FoodT.product
+    var weight by FoodT.weight
+    var healthRestored by FoodT.healthRestored
+    var staminaRestored by FoodT.staminaRestored
+    var magickaRestored by FoodT.magickaRestored
+    var duration by FoodT.duration
 }
 
 fun daoToFood(dao: FoodDAO): Food = Food(
@@ -25,5 +35,10 @@ fun daoToFood(dao: FoodDAO): Food = Food(
     description = dao.product.description,
     type = dao.product.type,
     createdAt = dao.product.createdAt,
-    updatedAt = dao.product.updatedAt
+    updatedAt = dao.product.updatedAt,
+    weight = dao.weight,
+    healthRestored = dao.healthRestored,
+    staminaRestored = dao.staminaRestored,
+    magickaRestored = dao.magickaRestored,
+    duration = dao.duration
 )

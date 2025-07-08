@@ -16,7 +16,12 @@ data class Clothing (
     override var description: String,
     override var type: String,
     override val createdAt: String,
-    override var updatedAt: String
+    override var updatedAt: String,
+    val protection: Long,
+    val slot: String,
+    val enchantment: String,
+    val enchanted: String,
+    val weight: Double
 ) : Product() {
 
 }

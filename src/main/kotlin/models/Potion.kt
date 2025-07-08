@@ -16,7 +16,11 @@ data class Potion (
     override var description: String,
     override var type: String,
     override val createdAt: String,
-    override var updatedAt: String
+    override var updatedAt: String,
+    val effects: String,
+    val duration: Long,
+    val magnitude: String,
+    val poisoned: String
 ) : Product() {
 
 }

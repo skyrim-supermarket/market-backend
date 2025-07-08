@@ -55,6 +55,7 @@ class SaleRepository {
                     this.totalQuantity = 0
                     this.finished = false
                     this.status = "Cart"
+                    this.address = ""
                     this.createdAt = date
                     this.updatedAt = date
                 }

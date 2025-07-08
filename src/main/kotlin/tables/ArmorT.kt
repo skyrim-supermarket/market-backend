@@ -9,10 +9,10 @@ import org.jetbrains.exposed.sql.ReferenceOption
 object ArmorT : IntIdTable("Armors") {
     val product = reference("product_id", ProductT, onDelete = ReferenceOption.CASCADE)
     val weight = double("weight")
-    val magical = bool("magical")
+    val magical = varchar("magical", 255)
     val craft = varchar("craft", 255)
     val protection = double("protection")
-    val heavy = bool("heavy")
+    val heavy = varchar("heavy", 255)
     val category = varchar("category", 255)
 }
 

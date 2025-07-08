@@ -16,7 +16,7 @@ data class Admin (
     override val createdAt: String,
     override var updatedAt: String,
     override var lastRun: String,
-    val root: Boolean
+    val root: String
 ) : Account() {
 
 }

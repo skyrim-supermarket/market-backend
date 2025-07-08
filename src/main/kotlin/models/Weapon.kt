@@ -18,7 +18,7 @@ data class Weapon (
     override val createdAt: String,
     override var updatedAt: String,
     var weight: Double,
-    var magical: Boolean,
+    var magical: String,
     var craft: String,
     var damage: Long,
     var speed: Double,

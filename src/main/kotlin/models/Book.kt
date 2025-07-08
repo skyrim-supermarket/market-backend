@@ -16,7 +16,10 @@ data class Book (
     override var description: String,
     override var type: String,
     override val createdAt: String,
-    override var updatedAt: String
+    override var updatedAt: String,
+    val skillTaught: String,
+    val magical: String,
+    val pages: Long
 ) : Product() {
 
 }

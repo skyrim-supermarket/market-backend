@@ -8,6 +8,7 @@ import org.jetbrains.exposed.sql.Op
 import org.jetbrains.exposed.sql.SortOrder
 import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.lowerCase
+import java.lang.invoke.StringConcatException
 
 class ProductRepository {
     companion object {
@@ -18,14 +19,14 @@ class ProductRepository {
         val reqFields = mapOf(
             "Ammunition" to listOf("productName", "priceGold", "stock", "description", "magical", "craft", "speed", "gravity", "category"),
             "Armor" to listOf("productName", "priceGold", "stock", "description", "weight", "magical", "craft", "protection", "heavy", "category"),
-            "Books" to listOf("productName", "priceGold", "stock", "description"),
-            "Clothing" to listOf("productName", "priceGold", "stock", "description"),
-            "Food" to listOf("productName", "priceGold", "stock", "description"),
-            "Ingredients" to listOf("productName", "priceGold", "stock", "description"),
-            "Miscellaneous" to listOf("productName", "priceGold", "stock", "description"),
-            "Ores" to listOf("productName", "priceGold", "stock", "description"),
-            "Potions" to listOf("productName", "priceGold", "stock", "description"),
-            "Soul gems" to listOf("productName", "priceGold", "stock", "description"),
+            "Books" to listOf("productName", "priceGold", "stock", "description", "skillTaught", "magical", "pages"),
+            "Clothing" to listOf("productName", "priceGold", "stock", "description", "protection", "slot", "enchantment", "enchanted", "weight"),
+            "Food" to listOf("productName", "priceGold", "stock", "description", "weight", "healthRestored", "staminaRestored", "magickaRestored", "duration"),
+            "Ingredients" to listOf("productName", "priceGold", "stock", "description", "weight", "magical", "effects"),
+            "Miscellaneous" to listOf("productName", "priceGold", "stock", "description", "questItem", "craftingUse", "modelType"),
+            "Ores" to listOf("productName", "priceGold", "stock", "description", "weight", "metalType", "smeltedInto"),
+            "Potions" to listOf("productName", "priceGold", "stock", "description", "effects", "duration", "magnitude", "poisoned"),
+            "Soul gems" to listOf("productName", "priceGold", "stock", "description", "soulSize", "isFilled", "containedSoul", "canCapture", "reusable"),
             "Weapons" to listOf("productName", "priceGold", "stock", "description", "weight", "magical", "craft", "damage", "speed", "reach", "stagger", "battleStyle", "category")
         )
 
@@ -104,7 +105,7 @@ class ProductRepository {
             productDAO.updatedAt = date
         }
 
-        suspend fun newAmmunition(product: ProductDAO, magical: Boolean, craft: String, speed: Double, gravity: Double, category: String): AmmunitionDAO = suspendTransaction {
+        suspend fun newAmmunition(product: ProductDAO, magical: String, craft: String, speed: Double, gravity: Double, category: String): AmmunitionDAO = suspendTransaction {
             AmmunitionDAO.new {
                 this.product = product
                 this.magical = magical
@@ -115,7 +116,7 @@ class ProductRepository {
             }
         }
 
-        suspend fun editAmmunition(ammunitionDAO: AmmunitionDAO, magical: Boolean, craft: String, speed: Double, gravity: Double, category: String) = suspendTransaction {
+        suspend fun editAmmunition(ammunitionDAO: AmmunitionDAO, magical: String, craft: String, speed: Double, gravity: Double, category: String) = suspendTransaction {
             ammunitionDAO.magical = magical
             ammunitionDAO.craft = craft
             ammunitionDAO.speed = speed
@@ -123,7 +124,7 @@ class ProductRepository {
             ammunitionDAO.category = category
         }
 
-        suspend fun newArmor(product: ProductDAO, weight: Double, magical: Boolean, craft: String, protection: Double, heavy: Boolean, category: String): ArmorDAO = suspendTransaction {
+        suspend fun newArmor(product: ProductDAO, weight: Double, magical: String, craft: String, protection: Double, heavy: String, category: String): ArmorDAO = suspendTransaction {
             ArmorDAO.new {
                 this.product = product
                 this.weight = weight
@@ -135,7 +136,7 @@ class ProductRepository {
             }
         }
 
-        suspend fun editArmor(armorDAO: ArmorDAO, weight: Double, magical: Boolean, craft: String, protection: Double, heavy: Boolean, category: String) = suspendTransaction {
+        suspend fun editArmor(armorDAO: ArmorDAO, weight: Double, magical: String, craft: String, protection: Double, heavy: String, category: String) = suspendTransaction {
             armorDAO.weight = weight
             armorDAO.magical = magical
             armorDAO.craft = craft
@@ -144,88 +145,142 @@ class ProductRepository {
             armorDAO.category = category
         }
 
-        suspend fun newBook(product: ProductDAO): BookDAO = suspendTransaction {
+        suspend fun newBook(product: ProductDAO, skillTaught: String, magical: String, pages: Long): BookDAO = suspendTransaction {
             BookDAO.new {
                 this.product = product
+                this.skillTaught = skillTaught
+                this.magical = magical
+                this.pages = pages
             }
         }
 
 
-        suspend fun editBook(bookDAO: BookDAO) = suspendTransaction {
-
+        suspend fun editBook(bookDAO: BookDAO, skillTaught: String, magical: String, pages: Long) = suspendTransaction {
+            bookDAO.skillTaught = skillTaught
+            bookDAO.magical = magical
+            bookDAO.pages = pages
         }
 
-        suspend fun newClothing(product: ProductDAO): ClothingDAO = suspendTransaction {
+        suspend fun newClothing(product: ProductDAO, protection: Long, slot: String, enchantment: String, enchanted: String, weight: Double): ClothingDAO = suspendTransaction {
             ClothingDAO.new {
                 this.product = product
+                this.protection = protection
+                this.slot = slot
+                this.enchantment = enchantment
+                this.enchanted = enchanted
+                this.weight = weight
             }
         }
 
-        suspend fun editClothing(clothingDAO: ClothingDAO) = suspendTransaction {
-
+        suspend fun editClothing(clothingDAO: ClothingDAO, protection: Long, slot: String, enchantment: String, enchanted: String, weight: Double) = suspendTransaction {
+            clothingDAO.protection = protection
+            clothingDAO.slot = slot
+            clothingDAO.enchantment = enchantment
+            clothingDAO.enchanted = enchanted
+            clothingDAO.weight = weight
         }
 
-        suspend fun newFood(product: ProductDAO): FoodDAO = suspendTransaction {
+        suspend fun newFood(product: ProductDAO, weight: Double, healthRestored: Long, staminaRestored: Long, magickaRestored: Long, duration: Long): FoodDAO = suspendTransaction {
             FoodDAO.new {
                 this.product = product
+                this.weight = weight
+                this.healthRestored = healthRestored
+                this.staminaRestored = staminaRestored
+                this.magickaRestored = magickaRestored
+                this.duration = duration
             }
         }
 
-        suspend fun editFood(foodDAO: FoodDAO) = suspendTransaction {
-
+        suspend fun editFood(foodDAO: FoodDAO, weight: Double, healthRestored: Long, staminaRestored: Long, magickaRestored: Long, duration: Long) = suspendTransaction {
+            foodDAO.weight = weight
+            foodDAO.healthRestored = healthRestored
+            foodDAO.staminaRestored = staminaRestored
+            foodDAO.magickaRestored = magickaRestored
+            foodDAO.duration = duration
         }
 
-        suspend fun newIngredient(product: ProductDAO): IngredientDAO = suspendTransaction {
+        suspend fun newIngredient(product: ProductDAO, weight: Double, magical: String, effects: String): IngredientDAO = suspendTransaction {
             IngredientDAO.new {
                 this.product = product
+                this.weight = weight
+                this.magical = magical
+                this.effects = effects
             }
         }
 
-        suspend fun editIngredient(ingredientDAO: IngredientDAO) = suspendTransaction {
-
+        suspend fun editIngredient(ingredientDAO: IngredientDAO, weight: Double, magical: String, effects: String) = suspendTransaction {
+            ingredientDAO.weight = weight
+            ingredientDAO.magical = magical
+            ingredientDAO.effects = effects
         }
 
-        suspend fun newMiscellany(product: ProductDAO): MiscellanyDAO = suspendTransaction {
+        suspend fun newMiscellany(product: ProductDAO, questItem: String, craftingUse: String, modelType: String): MiscellanyDAO = suspendTransaction {
             MiscellanyDAO.new {
                 this.product = product
+                this.questItem = questItem
+                this.craftingUse = craftingUse
+                this.modelType = modelType
             }
         }
 
-        suspend fun editMiscellany(miscellanyDAO: MiscellanyDAO) = suspendTransaction {
-
+        suspend fun editMiscellany(miscellanyDAO: MiscellanyDAO, questItem: String, craftingUse: String, modelType: String) = suspendTransaction {
+            miscellanyDAO.questItem = questItem
+            miscellanyDAO.craftingUse = craftingUse
+            miscellanyDAO.modelType = modelType
         }
 
-        suspend fun newOre(product: ProductDAO): OreDAO = suspendTransaction {
+        suspend fun newOre(product: ProductDAO, weight: Double, metalType: String, smeltedInto: String): OreDAO = suspendTransaction {
             OreDAO.new {
                 this.product = product
+                this.weight = weight
+                this.metalType = metalType
+                this.smeltedInto = smeltedInto
             }
         }
 
-        suspend fun editOre(oreDAO: OreDAO) = suspendTransaction {
-
+        suspend fun editOre(oreDAO: OreDAO, weight: Double, metalType: String, smeltedInto: String) = suspendTransaction {
+            oreDAO.weight = weight
+            oreDAO.metalType = metalType
+            oreDAO.smeltedInto = smeltedInto
         }
 
-        suspend fun newPotion(product: ProductDAO): PotionDAO = suspendTransaction {
+        suspend fun newPotion(product: ProductDAO, effects: String, duration: Long, magnitude: String, poisoned: String): PotionDAO = suspendTransaction {
             PotionDAO.new {
                 this.product = product
+                this.effects = effects
+                this.duration = duration
+                this.magnitude = magnitude
+                this.poisoned = poisoned
             }
         }
 
-        suspend fun editPotion(potionDAO: PotionDAO) = suspendTransaction {
-
+        suspend fun editPotion(potionDAO: PotionDAO, effects: String, duration: Long, magnitude: String, poisoned: String) = suspendTransaction {
+            potionDAO.effects = effects
+            potionDAO.duration = duration
+            potionDAO.magnitude = magnitude
+            potionDAO.poisoned = poisoned
         }
 
-        suspend fun newSoulGem(product: ProductDAO): SoulGemDAO = suspendTransaction {
+        suspend fun newSoulGem(product: ProductDAO, soulSize: String, isFilled: String, containedSoul: String, canCapture: String, reusable: String): SoulGemDAO = suspendTransaction {
             SoulGemDAO.new {
                 this.product = product
+                this.soulSize = soulSize
+                this.isFilled = isFilled
+                this.containedSoul = containedSoul
+                this.canCapture = canCapture
+                this.reusable = reusable
             }
         }
 
-        suspend fun editSoulGem(soulGemDAO: SoulGemDAO) = suspendTransaction {
-
+        suspend fun editSoulGem(soulGemDAO: SoulGemDAO, soulSize: String, isFilled: String, containedSoul: String, canCapture: String, reusable: String) = suspendTransaction {
+            soulGemDAO.soulSize = soulSize
+            soulGemDAO.isFilled = isFilled
+            soulGemDAO.containedSoul = containedSoul
+            soulGemDAO.canCapture = canCapture
+            soulGemDAO.reusable = reusable
         }
 
-        suspend fun newWeapon(product: ProductDAO, weight: Double, magical: Boolean, craft: String, damage: Long, speed: Double, reach: Long, stagger: Double, battleStyle: String, category: String): WeaponDAO = suspendTransaction {
+        suspend fun newWeapon(product: ProductDAO, weight: Double, magical: String, craft: String, damage: Long, speed: Double, reach: Long, stagger: Double, battleStyle: String, category: String): WeaponDAO = suspendTransaction {
             WeaponDAO.new {
                 this.product = product
                 this.weight = weight
@@ -240,7 +295,7 @@ class ProductRepository {
             }
         }
 
-        suspend fun editWeapon(weaponDAO: WeaponDAO, weight: Double, magical: Boolean, craft: String, damage: Long, speed: Double, reach: Long, stagger: Double, battleStyle: String, category: String) = suspendTransaction {
+        suspend fun editWeapon(weaponDAO: WeaponDAO, weight: Double, magical: String, craft: String, damage: Long, speed: Double, reach: Long, stagger: Double, battleStyle: String, category: String) = suspendTransaction {
             weaponDAO.weight = weight
             weaponDAO.magical = magical
             weaponDAO.craft = craft

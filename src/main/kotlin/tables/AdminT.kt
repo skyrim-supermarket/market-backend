@@ -8,7 +8,7 @@ import org.jetbrains.exposed.sql.ReferenceOption
 
 object AdminT : IntIdTable("Admins") {
     val account = reference("account_id", AccountT, onDelete = ReferenceOption.CASCADE)
-    val root = bool("root")
+    val root = varchar("root", 255)
 }
 
 class AdminDAO(id: EntityID<Int>) : IntEntity(id) {

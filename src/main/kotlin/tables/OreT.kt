@@ -8,12 +8,18 @@ import org.jetbrains.exposed.sql.ReferenceOption
 
 object OreT : IntIdTable("Ores") {
     val product = reference("product_id", ProductT, onDelete = ReferenceOption.CASCADE)
+    val weight = double("weight")
+    val metalType = varchar("metalType", 255)
+    val smeltedInto = varchar("smeltedInto", 255)
 }
 
 class OreDAO(id: EntityID<Int>) : IntEntity(id) {
     companion object : IntEntityClass<OreDAO>(OreT)
 
     var product by ProductDAO referencedOn OreT.product
+    var weight by OreT.weight
+    var metalType by OreT.metalType
+    var smeltedInto by OreT.smeltedInto
 }
 
 fun daoToOre(dao: OreDAO): Ore = Ore(
@@ -25,5 +31,8 @@ fun daoToOre(dao: OreDAO): Ore = Ore(
     description = dao.product.description,
     type = dao.product.type,
     createdAt = dao.product.createdAt,
-    updatedAt = dao.product.updatedAt
+    updatedAt = dao.product.updatedAt,
+    weight = dao.weight,
+    metalType = dao.metalType,
+    smeltedInto = dao.smeltedInto
 )

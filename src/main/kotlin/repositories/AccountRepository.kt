@@ -150,14 +150,14 @@ class AccountRepository {
         }
 
 
-        suspend fun newAdmin(account: AccountDAO, root: Boolean): AdminDAO = suspendTransaction {
+        suspend fun newAdmin(account: AccountDAO, root: String): AdminDAO = suspendTransaction {
             AdminDAO.new {
                 this.account = account
                 this.root = root
             }
         }
 
-        suspend fun editAdmin(admin: AdminDAO, root: Boolean) = suspendTransaction {
+        suspend fun editAdmin(admin: AdminDAO, root: String) = suspendTransaction {
             admin.root = root
         }
 

@@ -16,7 +16,10 @@ data class Miscellany (
     override var description: String,
     override var type: String,
     override val createdAt: String,
-    override var updatedAt: String
+    override var updatedAt: String,
+    val questItem: String,
+    val craftingUse: String,
+    val modelType: String
 ) : Product() {
 
 }
