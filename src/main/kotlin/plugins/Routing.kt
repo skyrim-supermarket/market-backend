@@ -1266,6 +1266,28 @@ fun Application.configureRouting() {
             return@post
         }
 
+        post("/alterCartAddress/{email}/{address}") {
+            val email = call.parameters["email"]
+            val address = call.parameters["address"]
+            if(email.isNullOrBlank() || address.isNullOrBlank()) {
+                call.respond(HttpStatusCode.BadRequest, "Invalid Parameters!")
+                return@post
+            }
+
+            val account = AccountRepository.getAccountByEmail(email)
+            if(account == null || account.type != "client") {
+                call.respond(HttpStatusCode.BadRequest, "Invalid user!")
+                return@post
+            }
+
+            val cart = SaleRepository.getCartByAccount(account)
+            val date = Date(System.currentTimeMillis()).toString()
+
+            SaleRepository.alterAddress(cart, address, date)
+            call.respond(HttpStatusCode.OK)
+            return@post
+        }
+
         post("/finishOnlineSale/{email}") {
             val email = call.parameters["email"]
             if(email.isNullOrBlank()) {
@@ -1324,6 +1346,13 @@ fun Application.configureRouting() {
                 return@post
             }
 
+            val saleToDeliver = SaleRepository.getSaleToBeDelivered(account)
+
+            if(saleToDeliver != null) {
+                call.respond(HttpStatusCode.Unauthorized, "You are already delivering an order!")
+                return@post
+            }
+
             val date = Date(System.currentTimeMillis()).toString()
 
             SaleRepository.assignCarrocaBoy(sale, account, date)
@@ -1373,7 +1402,7 @@ fun Application.configureRouting() {
             return@get
         }
 
-        get("/salesToBeDelivered/{email}") {
+        get("/saleToBeDelivered/{email}") {
             val email = call.parameters["email"]
 
             if(email.isNullOrBlank()) {
@@ -1382,11 +1411,41 @@ fun Application.configureRouting() {
             }
 
             val account = AccountRepository.getAccountByEmail(email)
-            if(account == null) {
+            if(account == null || account.type != "carrocaboy") {
                 call.respond(HttpStatusCode.NotFound, "This CarroçaBoy does not exist!")
                 return@get
             }
-            call.respond(SaleRepository.getSalesToBeDelivered(account))
+
+            val saleToDeliver = SaleRepository.getSaleToBeDelivered(account)
+
+            if(saleToDeliver == null) {
+                call.respond(mapOf("res" to "You aren't delivering an order right now!"))
+            } else {
+                val res = suspendTransaction { daoToSale(saleToDeliver) }
+                call.respond(res)
+            }
+
+            return@get
+        }
+
+        get("/saleProduct/{idSale}/{idProduct}") {
+            val idSale = call.parameters["idSale"]?.toIntOrNull()
+            val idProduct = call.parameters["idProduct"]?.toIntOrNull()
+
+            if(idSale==null || idProduct == null) {
+                call.respond(HttpStatusCode.BadRequest, "Invalid parameters!")
+                return@get
+            }
+
+            val saleProduct = SaleProductRepository.getSaleProduct(idSale, idProduct)
+            if(saleProduct == null) {
+                call.respond(HttpStatusCode.NotFound, "This sale-product doesn't exist!")
+                return@get
+            }
+
+            val res = suspendTransaction { daoToSaleProduct(saleProduct) }
+
+            call.respond(res)
             return@get
         }
     }

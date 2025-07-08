@@ -15,6 +15,7 @@ object SaleT : IntIdTable("Sales") {
     val totalQuantity = long("totalQuantity")
     val finished = bool("finished")
     val status = varchar("status", 255)
+    val address = varchar("address", 255)
     val createdAt = varchar("createdAt", 255)
     val updatedAt = varchar("updatedAt", 255)
 }
@@ -28,6 +29,7 @@ class SaleDAO(id: EntityID<Int>) : IntEntity(id) {
     var totalQuantity by SaleT.totalQuantity
     var finished by SaleT.finished
     var status by SaleT.status
+    var address by SaleT.address
     var createdAt by SaleT.createdAt
     var updatedAt by SaleT.updatedAt
 }
@@ -40,6 +42,7 @@ fun daoToSale(dao: SaleDAO): Sale = Sale(
     totalQuantity = dao.totalQuantity,
     finished = dao.finished,
     status = dao.status,
+    address = dao.address,
     createdAt = dao.createdAt,
     updatedAt = dao.updatedAt
 )

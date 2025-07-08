@@ -20,6 +20,7 @@ class SaleRepository {
                 this.totalQuantity = 0
                 this.finished = false
                 this.status = "Cart"
+                this.address = ""
                 this.createdAt = date
                 this.updatedAt = date
             }
@@ -33,6 +34,7 @@ class SaleRepository {
                 this.totalQuantity = 0
                 this.finished = false
                 this.status = "Ongoing IRL purchase"
+                this.address = "Locally"
                 this.createdAt = date
                 this.updatedAt = date
             }
@@ -103,11 +105,11 @@ class SaleRepository {
             sale.idClient = client
         }
 
-        suspend fun getSalesToBeDelivered(account: AccountDAO): List<Sale> = suspendTransaction {
+        suspend fun getSaleToBeDelivered(account: AccountDAO): SaleDAO? = suspendTransaction {
             SaleDAO.find {
                 (SaleT.status eq "To be delivered by ${account.username}") and
                         (SaleT.idEmployee eq account.id.value)
-            }.map(::daoToSale)
+            }.firstOrNull()
         }
 
         suspend fun getSaleToBeDeliveredById(saleId: Int): SaleDAO? = suspendTransaction {
@@ -134,14 +136,6 @@ class SaleRepository {
             saleDAO.status = "To be delivered by ${account.username}"
         }
 
-        /*suspend fun getSaleOnTheWayByIdAndCarrocaBoy(saleId: Int, account: AccountDAO): SaleDAO? = suspendTransaction {
-            SaleDAO.find {
-                (SaleT.id eq saleId) and
-                (SaleT.idEmployee eq account.id.value) and
-                (SaleT.status eq "To be delivered by ${account.username}")
-            }.firstOrNull()
-        }*/
-
         suspend fun alterTotalPrice(sale: SaleDAO, product: ProductDAO, previousQuantity: Long, quantity: Long, date: String) = suspendTransaction {
             sale.totalPriceGold += (quantity-previousQuantity)*product.priceGold
             sale.updatedAt = date
@@ -149,6 +143,11 @@ class SaleRepository {
 
         suspend fun alterTotalQuantity(sale: SaleDAO, delta: Long, date: String) = suspendTransaction {
             sale.totalQuantity += delta
+            sale.updatedAt = date
+        }
+
+        suspend fun alterAddress(sale: SaleDAO, address: String, date: String) = suspendTransaction {
+            sale.address = address
             sale.updatedAt = date
         }
 

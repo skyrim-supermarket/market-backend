@@ -15,6 +15,7 @@ data class Sale (
     var totalQuantity: Long,
     var finished: Boolean,
     var status: String,
+    val address: String,
     val createdAt: String,
     var updatedAt: String
 ) {
