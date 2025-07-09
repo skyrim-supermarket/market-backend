@@ -20,10 +20,6 @@ class SaleProductRepository {
                 .map(::daoToSaleProduct)
         }
 
-        suspend fun getCartSize(idSale: Int) : Long = suspendTransaction {
-            SaleProductDAO.find { SaleProductT.idSale eq idSale }.count()
-        }
-
         suspend fun newSaleProduct(cart: SaleDAO, product: ProductDAO) : SaleProductDAO = suspendTransaction {
             SaleProductDAO.new {
                 this.idSale = cart

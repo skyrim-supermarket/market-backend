@@ -26,7 +26,7 @@ object Databases {
 
     fun init() {
         val config = HikariConfig().apply {
-            jdbcUrl = "jdbc:postgresql://localhost:5432/test"
+            jdbcUrl = "jdbc:postgresql://localhost:5432/OddmentsAndPieces"
             driverClassName = "org.postgresql.Driver"
             username = "postgres"
             password = "root"

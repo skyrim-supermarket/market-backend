@@ -176,10 +176,6 @@ class AccountRepository {
             }
         }
 
-        suspend fun editCashier(cashier: CashierDAO, section: Long) = suspendTransaction {
-            cashier.section = section
-        }
-
         suspend fun newClient(account: AccountDAO, address: String): ClientDAO = suspendTransaction {
             ClientDAO.new {
                 this.account = account
